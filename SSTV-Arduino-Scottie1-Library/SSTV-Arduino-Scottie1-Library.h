@@ -42,6 +42,10 @@
 // Other stuff
 #define BUILT_IN_PIN 13
 
+bool phase = HIGH;
+int dds_period_us = 1000;
+bool dds_enable = false;
+
 volatile uint8_t phase = 0;
 
 char pic_filename[13];
