@@ -50,7 +50,8 @@ void dds_setfreq(int freq) {
   dds_duration_us = 1.0E6 / (float)freq;
 
   if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
-    Serial.print(F("Starting ITimer0 OK, f = ")); freq);
+    Serial.print(F("Starting ITimer0 OK, f = "));
+    Serial.println(freq);
   }
   else
     Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
