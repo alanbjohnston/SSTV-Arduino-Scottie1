@@ -51,8 +51,8 @@ void dds_setfreq(int freq) {
   dds_duration_us = 1.0E6 / (float)freq;
 
   if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
-//    Serial.print(F("Starting ITimer0 OK, f = "));
-//    Serial.println(freq);
+    Serial.print(F("Starting ITimer0 OK, f = "));
+    Serial.println(dds_duration_us);
   }
   else
     Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
@@ -112,6 +112,21 @@ void setup_sstv() {
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
 
   dds_begin();
+  
+  delay(5000);
+  
+  dds_set_frequency(500);
+  
+   Serial.println("500");
+  
+  delay(5000);
+  
+  dds_set_frequency(1000);
+  
+     Serial.println("1000");
+  
+  delay(5000);
+  
  /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
