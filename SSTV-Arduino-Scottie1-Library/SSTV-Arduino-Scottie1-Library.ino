@@ -6,30 +6,87 @@
 
 #include "SSTV-Arduino-Scottie1-Library.h"
 #include <Arduino.h>
+#include "RPi_Pico_TimerInterrupt.h"
 
-void timer1_interrupt(){
+RPI_PICO_Timer ITimer0(0);
+RPI_PICO_Timer ITimer1(0);
+
+void setup() {
+  
+  setup_sstv();
+  
+ 
+}
+
+void loop() {
+  
+}
+
+void dds_begin() {
+  
+  if (ITimer0.attachInterruptInterval(430, TimerHandler1))	
+    Serial.print(F("Starting ITimer0 OK, micros() = ")); Serial.println(micros());
+  else
+    Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
+  
+}
+
+void dds_down() {
+
+  
+}
+
+void dds_setfreq(int freq) {
+  
+  
+}
+
+void  transmit_mili(int freq, float duration) {
+  
+}
+
+void  transmit_micro(int freq, float duration) {
+  
+}
+
+bool TimerHandler1(struct repeating_timer *t) {
+
+//void timer1_interrupt(){
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
-        DDS.setfreq(1500 + 3.13 * buffG[tp], phase);
+//        DDS.setfreq(1500 + 3.13 * buffG[tp], phase);
+        dds_setfreq(1500 + 3.13 * buffG[tp]);
       } else if(sCol == 1){ // Transmitting color Blue
-        DDS.setfreq(1500 + 3.13 * buffB[tp], phase);
+        dds_setfreq(1500 + 3.13 * buffB[tp]);
+//        DDS.setfreq(1500 + 3.13 * buffB[tp], phase);
       } else if(sCol == 2){ // Transmitting color Red
-        DDS.setfreq(1500 + 3.13 * buffE[tp], phase);
+//        DDS.setfreq(1500 + 3.13 * buffE[tp], phase);
+        dds_setfreq(1500 + 3.13 * buffE[tp]);
       }
     } else if(tp == 320){
       if(sCol == 0){  // Separator pulse after transmit Green
-        DDS.setfreq(1500, phase);
+//        DDS.setfreq(1500, phase);
+        dds_setfreq(1500);
       } else if(sCol == 1){ // Sync porch
-        DDS.setfreq(1200, phase);
+//        DDS.setfreq(1200, phase);
+        dds_setfreq(1200);
       } else if(sCol == 2){ // // Separator pulse after transmit Red
-        DDS.setfreq(1500, phase);
+//        DDS.setfreq(1500, phase);
+        dds_setfreq(1500);
       }
       syncTime = micros();
       sEm = 2;    // State when change color
     }
     tp++;
   }
+ return(true);	
+}
+
+bool TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
+ 
+  
+  return(true);
 }
 
 void setup_sstv() {
@@ -40,8 +97,10 @@ void setup_sstv() {
   Serial.println("Starting");
 
   // AD9850 initilize
-  DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
+  //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
 
+  dds_begin();
+  
   // Sd initialize
   Serial.print("Initializing SD card...");
   if (!SD.begin(SD_SLAVE_PIN)) {
@@ -51,7 +110,13 @@ void setup_sstv() {
   Serial.println("initialization done.");
 
   // Setup Timer with the emision interval
-  Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
+  // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
+  
+  if (ITimer1.attachInterruptInterval(430, TimerHandler1))	
+    Serial.print(F("Starting ITimer1 OK, micros() = ")); Serial.println(micros());
+  else
+    Serial.println(F("Can't set ITimer1. Select another Timer, freq. or timer"));
+  
   delay(100);
 
   shot_pic();
@@ -117,7 +182,9 @@ void scottie1_calibrationHeader(){
  * @param float duration - duration in microseconds
  */
 void transmit_micro(int freq, float duration){
-  DDS.setfreq(freq, phase);
+//  DDS.setfreq(freq, phase);
+  dds_setfreq(freq);
+  
   delayMicroseconds(duration);
 }
 
@@ -127,7 +194,8 @@ void transmit_micro(int freq, float duration){
  * @param float duration - duration in milliseconds
  */
 void transmit_mili(int freq, float duration){
-  DDS.setfreq(freq, phase);
+//  DDS.setfreq(freq, phase);
+  dds_setfreq(freq);
   delay(duration);
 }
 
@@ -139,12 +207,14 @@ void scottie1_transmit_file(char* filename){
   bool head;
   Serial.println("Transmitting picture");
 
-  File myFile = SD.open(filename);
+//  File myFile = SD.open(filename);
+  myFile = true;  
   if (myFile) {
     head = true;
 
     /** TRANSMIT EACH LINE **/
-    while(myFile.available() || line == 255){
+//    while(myFile.available() || line == 255){
+    while(myFile || line == 255){
       if(head == true){ // Header
         /** VOX TONE (OPTIONAL) **/
         vox_tone();
@@ -168,7 +238,8 @@ void scottie1_transmit_file(char* filename){
         while(micros() - syncTime < 9000 - 10){}
 
         // Separator pulse
-        DDS.setfreq(1500, phase);
+ //       DDS.setfreq(1500, phase);
+        dds_setfreq(1500);
         syncTime = micros();  // Configure syncTime
 
         line = 0;
@@ -182,7 +253,8 @@ void scottie1_transmit_file(char* filename){
       while(sEm == 1){};
 
       // Separator Pulse
-      DDS.setfreq(1500, phase);
+ //     DDS.setfreq(1500, phase);
+      dds_setfreq(1500);
       while(micros() - syncTime < 1500 - 10){}
 
       // Blue Scan
@@ -210,7 +282,8 @@ void scottie1_transmit_file(char* filename){
       while(micros() - syncTime < 9000 - 10){}
 
       // Sync porch
-      DDS.setfreq(1500, phase);
+//      DDS.setfreq(1500, phase);
+      dds_setfreq(1500);
       syncTime = micros();
       while(micros() - syncTime < 1500 - 10){}
 
@@ -221,19 +294,24 @@ void scottie1_transmit_file(char* filename){
       line++;
       if(line == 256){
         Serial.println("Finish");
-        DDS.setfreq(2, phase);
+//        DDS.setfreq(2, phase);
+        dds_etfreq(2);
         DDS.down();
+        
+        dds_down();
+        
         sEm = 0;
       }
       else {
         // Separator pulse
-        DDS.setfreq(1500, phase);
+ //       DDS.setfreq(1500, phase);
+        dds_setfreq(1500);
         syncTime = micros();
         sEm = 2;
       }
     }
     // close the file:
-    myFile.close();
+//    myFile.close();
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening test.txt");
@@ -358,6 +436,9 @@ void jpeg_decode(char* filename, char* fileout){
 }
 
 void shot_pic(){
+  
+  return;
+/*  
   // Try to locate the camera
   if (cam.begin()) {
     Serial.println("Camera Found:");
@@ -420,6 +501,8 @@ void shot_pic(){
   time = millis() - time;
   Serial.println("done!");
   Serial.print(time); Serial.println(" ms elapsed");
+  
+*/  
 }
 
 /**     Write on a file with 11 lines the values of the GPS
