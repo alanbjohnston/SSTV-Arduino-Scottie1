@@ -11,6 +11,8 @@
 RPI_PICO_Timer ITimer0(0);
 RPI_PICO_Timer ITimer1(0);
 
+#define AUDIO_OUT_PIN 26
+
 void setup() {
   
   Serial.begin(9600);
