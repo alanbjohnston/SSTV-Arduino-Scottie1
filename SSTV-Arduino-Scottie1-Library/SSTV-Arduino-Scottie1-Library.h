@@ -43,7 +43,7 @@
 #define BUILT_IN_PIN 13
 
 bool dds_phase = HIGH;
-int dds_period_us = 1000;
+int dds_duration_us = 1000;
 bool dds_enable = false;
 
 volatile uint8_t phase = 0;
