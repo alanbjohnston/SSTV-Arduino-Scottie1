@@ -50,8 +50,8 @@ void dds_setfreq(int freq) {
   dds_duration_us = 1.0E6 / (float)freq;
 
   if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
-    Serial.print(F("Starting ITimer0 OK, f = "));
-    Serial.println(freq);
+//    Serial.print(F("Starting ITimer0 OK, f = "));
+//    Serial.println(freq);
   }
   else
     Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
@@ -242,8 +242,8 @@ void scottie1_transmit_file(char* filename){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
           buffR[i] =  0; // myFile.read();
-          buffG[i] =  0; // myFile.read();
-          buffB[i] =  0; // myFile.read();
+          buffG[i] =  100; // myFile.read();
+          buffB[i] =  200; // myFile.read();
         }
 
         //Serial.println("++");
@@ -283,9 +283,9 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] = 0; // myFile.read();
+          buffR[i] = 200; // myFile.read();
           buffG[i] = 0; // myFile.read();
-          buffB[i] = 0; // myFile.read();
+          buffB[i] = 100; // myFile.read();
         }
       }
 
