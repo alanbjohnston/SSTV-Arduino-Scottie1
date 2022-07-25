@@ -13,9 +13,14 @@ RPI_PICO_Timer ITimer1(0);
 
 void setup() {
   
+  Serial.begin(9600);
+  
+  delay(5000);
+  
+  Serial.println("Starting");
+  
   setup_sstv();
   
- 
 }
 
 void loop() {
@@ -24,22 +29,30 @@ void loop() {
 
 void dds_begin() {
   
-  if (ITimer0.attachInterruptInterval(430, TimerHandler1))	{
+  if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
     Serial.print(F("Starting ITimer0 OK, micros() = ")); Serial.println(micros());
   }
   else
     Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
   
+  dds_enable = true;
 }
 
 void dds_down() {
-
   
+  dds_enable = false;
 }
 
 void dds_setfreq(int freq) {
   
-  
+  dds_duration_us = 1.0E6 / (float)freq;
+
+  if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
+    Serial.print(F("Starting ITimer0 OK, micros() = ")); Serial.println(micros());
+  }
+  else
+    Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
+   
 }
 
 bool TimerHandler1(struct repeating_timer *t) {
@@ -77,8 +90,10 @@ bool TimerHandler1(struct repeating_timer *t) {
 }
 
 bool TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
- 
-  
+  if (dds_enable) {
+    phase = !phase;	  
+    digitalWrite(AUDIO_OUT_PIN, phase);    // ToDo: if no TXC, just turn on PWM carrier
+  }
   return(true);
 }
 
