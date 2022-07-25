@@ -204,7 +204,7 @@ void scottie1_transmit_file(char* filename){
   Serial.println("Transmitting picture");
 
 //  File myFile = SD.open(filename);
-  myFile = true;  
+  int myFile = true;  
   if (myFile) {
     head = true;
 
@@ -291,8 +291,8 @@ void scottie1_transmit_file(char* filename){
       if(line == 256){
         Serial.println("Finish");
 //        DDS.setfreq(2, phase);
-        dds_etfreq(2);
-        DDS.down();
+        dds_setfreq(2);
+//        DDS.down();
         
         dds_down();
         
