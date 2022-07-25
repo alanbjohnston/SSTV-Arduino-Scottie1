@@ -101,7 +101,7 @@ void setup_sstv() {
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
 
   dds_begin();
-  
+ /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
   if (!SD.begin(SD_SLAVE_PIN)) {
@@ -109,7 +109,7 @@ void setup_sstv() {
     while (1);
   }
   Serial.println("initialization done.");
-
+*/
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
   
