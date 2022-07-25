@@ -21,6 +21,8 @@ void setup() {
   
   Serial.println("Starting");
   
+  pinMode(AUDIO_OUT_PIN, OUTPUT);
+  
   setup_sstv();
   
 }
