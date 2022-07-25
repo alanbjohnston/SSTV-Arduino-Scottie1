@@ -115,15 +115,15 @@ void setup_sstv() {
   
   delay(5000);
   
-  dds_set_frequency(500);
+  dds_set_freq(100);
   
-   Serial.println("500");
+  Serial.println("100");
   
   delay(5000);
   
-  dds_set_frequency(1000);
+  dds_set_freq(500);
   
-     Serial.println("1000");
+     Serial.println("500");
   
   delay(5000);
   
