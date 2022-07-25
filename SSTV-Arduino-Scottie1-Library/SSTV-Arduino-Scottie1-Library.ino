@@ -91,8 +91,8 @@ bool TimerHandler1(struct repeating_timer *t) {
 
 bool TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
-    phase = !phase;	  
-    digitalWrite(AUDIO_OUT_PIN, phase);    // ToDo: if no TXC, just turn on PWM carrier
+    dds_phase = !dds_phase;	  
+    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
   }
   return(true);
 }
