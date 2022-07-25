@@ -8,13 +8,13 @@
 **/
 
 #include <Arduino.h>
-#include <SPI.h>
-#include <SD.h>
-#include <AD9850.h>
-#include <JPEGDecoder.h>
-#include <Adafruit_VC0706.h>
-#include <DueTimer.h>
-#include <Adafruit_GPS.h>
+//#include <SPI.h>
+//#include <SD.h>
+//#include <AD9850.h>
+//#include <JPEGDecoder.h>
+//#include <Adafruit_VC0706.h>
+//#include <DueTimer.h>
+//#include <Adafruit_GPS.h>
 
 // Scottie 1 properties
 #define COLORCORRECTION 3.1372549
@@ -67,7 +67,7 @@ volatile int tp = 0;     // Index of pixel while transmitting with timer
 volatile int line;
 
 // Camera stuff
-Adafruit_VC0706 cam = Adafruit_VC0706(&Serial1);
+//Adafruit_VC0706 cam = Adafruit_VC0706(&Serial1);
 
 
 uint16_t playPixel(long pixel);
