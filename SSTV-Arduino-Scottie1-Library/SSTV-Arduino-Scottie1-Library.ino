@@ -42,14 +42,6 @@ void dds_setfreq(int freq) {
   
 }
 
-void  transmit_mili(int freq, float duration) {
-  
-}
-
-void  transmit_micro(int freq, float duration) {
-  
-}
-
 bool TimerHandler1(struct repeating_timer *t) {
 
 //void timer1_interrupt(){
