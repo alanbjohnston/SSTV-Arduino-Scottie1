@@ -52,13 +52,7 @@ void dds_setfreq(int freq) {
   
   dds_duration_us = 1.0E6 / (float)freq;
 
-  if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler1))	{
-    Serial.print(F("Starting ITimer0 OK, f = "));
-    Serial.println(dds_duration_us);
-  }
-  else
-    Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
-   
+  ITimer0.setInterval(dds_duration_us, TimerHandler0);       
 }
 
 bool TimerHandler1(struct repeating_timer *t) {
