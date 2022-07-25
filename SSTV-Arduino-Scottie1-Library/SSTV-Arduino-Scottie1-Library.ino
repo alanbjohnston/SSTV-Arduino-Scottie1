@@ -43,6 +43,7 @@ void dds_begin() {
 void dds_down() {
   
   dds_enable = false;
+  Serial.println("Stopping");
 }
 
 void dds_setfreq(int freq) {
