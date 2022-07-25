@@ -110,20 +110,19 @@ void setup_sstv() {
 
   dds_begin();
   
-  delay(5000);
-  
-  dds_setfreq(100);
-  
-  Serial.println("100");
-  
-  delay(5000);
-  
-  dds_setfreq(500);
-  
-     Serial.println("500");
-  
-  delay(5000);
-  
+  delay(2000);
+  dds_setfreq(1200);
+  Serial.println("1200");
+  delay(2000); 
+  dds_setfreq(1500);  
+  Serial.println("1500");  
+  delay(2000);
+   dds_setfreq(500);  
+  Serial.println("1500");  
+  delay(2000);
+    dds_setfreq(500);  
+  Serial.println("600");  
+  delay(600);
  /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
