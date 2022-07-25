@@ -225,7 +225,7 @@ void scottie1_transmit_file(char* filename){
         for(uint16_t i = 0; i < 320; i++){
           buffR[i] =  0; // myFile.read();
           buffG[i] =  0; // myFile.read();
-          buffB[i] =  0 // myFile.read();
+          buffB[i] =  0; // myFile.read();
         }
 
         //Serial.println("++");
