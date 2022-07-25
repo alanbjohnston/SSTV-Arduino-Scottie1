@@ -24,8 +24,9 @@ void loop() {
 
 void dds_begin() {
   
-  if (ITimer0.attachInterruptInterval(430, TimerHandler1))	
+  if (ITimer0.attachInterruptInterval(430, TimerHandler1))	{
     Serial.print(F("Starting ITimer0 OK, micros() = ")); Serial.println(micros());
+  }
   else
     Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
   
@@ -112,8 +113,9 @@ void setup_sstv() {
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
   
-  if (ITimer1.attachInterruptInterval(430, TimerHandler1))	
+  if (ITimer1.attachInterruptInterval(430, TimerHandler1)) {	
     Serial.print(F("Starting ITimer1 OK, micros() = ")); Serial.println(micros());
+  }
   else
     Serial.println(F("Can't set ITimer1. Select another Timer, freq. or timer"));
   
