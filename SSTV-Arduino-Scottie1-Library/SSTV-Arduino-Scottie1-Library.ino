@@ -119,6 +119,7 @@ void setup_sstv() {
   
   delay(100);
 
+/*  
   shot_pic();
 
   Serial.print("Picture taken saved on:");
@@ -133,6 +134,7 @@ void setup_sstv() {
   Serial.println(pic_decoded_filename);
 
   jpeg_decode(pic_filename, pic_decoded_filename);
+  */
 
   scottie1_transmit_file(pic_decoded_filename);
 }
@@ -318,6 +320,7 @@ void scottie1_transmit_file(char* filename){
   }
 }
 
+/*
 void jpeg_decode(char* filename, char* fileout){
   uint8 *pImg;
   int x,y,bx,by;
@@ -435,6 +438,8 @@ void jpeg_decode(char* filename, char* fileout){
   imgFile.close();
 }
 
+*/
+
 void shot_pic(){
   
   return;
@@ -514,6 +519,7 @@ void shot_pic(){
  * @param altitude Altitude in meters above MSL
  */
 
+/*
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
 void writeFooter(File* dst){
   int x,y;
@@ -561,3 +567,4 @@ void writeFooter(File* dst){
     dst->write(sortBuf[k]);
   }
 }
+*/
