@@ -42,6 +42,8 @@ volatile int line;
 char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
 volatile long syncTime;
 
+short output_pin;
+
 // #define AUDIO_OUT_PIN 26
 
 void set_sstv_pin(byte pin) {
