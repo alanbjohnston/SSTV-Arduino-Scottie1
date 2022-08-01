@@ -46,7 +46,7 @@ bool dds_phase = HIGH;
 int dds_duration_us = 1000;
 bool dds_enable = false;
 
-volatile uint8_t phase = 0;
+//volatile uint8_t phase = 0;
 
 char pic_filename[13];
 char pic_decoded_filename[13];
