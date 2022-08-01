@@ -11,6 +11,37 @@
 RPI_PICO_Timer dds_ITimer0(0);
 RPI_PICO_Timer sstv_ITimer1(0);
 
+bool dds_phase = HIGH;
+int dds_duration_us = 1000;
+bool dds_enable = false;
+
+//volatile uint8_t phase = 0;
+
+char pic_filename[13];
+char pic_decoded_filename[13];
+
+uint8_t frameBuf[81920]; //320*256
+
+volatile byte buffE[320]; // Buffer conintating Red values after torch
+volatile byte buffR[320]; // Buffer conintating Red values of the line
+volatile byte buffG[320]; // Buffer conintating Green values of the line
+volatile byte buffB[320]; // Buffer conintating Blue values of the line
+
+volatile byte sEm = 0;    // State of Emition
+                    // 0 not emitting
+                    // 1 emitting line (NOT HEADER OR VOX)
+                    // 2 Change Color
+
+volatile byte sCol = 0;   // Transmitting color Green
+                    // Transmitting color Blue
+                    // Transmitting color Red
+
+volatile int tp = 0;     // Index of pixel while transmitting with timer
+volatile int line;
+
+char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
+volatile long syncTime;
+
 #define AUDIO_OUT_PIN 26
 
 /*
