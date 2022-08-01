@@ -13,6 +13,7 @@ RPI_PICO_Timer ITimer1(0);
 
 #define AUDIO_OUT_PIN 26
 
+/*
 void setup() {
   
   Serial.begin(9600);
@@ -30,6 +31,7 @@ void setup() {
 void loop() {
   
 }
+*/
 
 void dds_begin() {
   
@@ -98,7 +100,8 @@ bool TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   return(true);
 }
 
-void setup_sstv() {
+//void setup_sstv() {
+void send_sstv() {
   delay(5000);
   pinMode(BUILT_IN_PIN, OUTPUT);
   pinMode(SD_SLAVE_PIN, OUTPUT);
