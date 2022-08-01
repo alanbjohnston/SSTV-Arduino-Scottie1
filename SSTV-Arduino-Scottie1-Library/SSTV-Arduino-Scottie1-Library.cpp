@@ -295,16 +295,18 @@ void scottie1_transmit_file(char* filename){
 
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] =  0; // myFile.read();
+          buffR[i] =  50; // myFile.read();
           buffG[i] =  100; // myFile.read();
           buffB[i] =  200; // myFile.read();
         }
 
-        //Serial.println("++");
-        //Serial.println(micros() - syncTime); //Cheak reading time
+        Serial.println("++");
+        Serial.println(micros() - syncTime); //Cheak reading time
 
         while(micros() - syncTime < 9000 - 10){}
 
+        Serial.println("Start separator pulse");
+        
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
@@ -315,20 +317,23 @@ void scottie1_transmit_file(char* filename){
       }
 
       while(micros() - syncTime < 1500 - 10){} // Separator pulse
-
+      Serial.println("Start green scan"); 
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
       while(sEm == 1){};
 
+      Serial.println("Start separator pulse");
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while(micros() - syncTime < 1500 - 10){}
 
+      Serial.println("Start blue scan");
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while(sEm == 1){};
 
+      Serial.println("Start evacuate");
       //Evacuate
       for(uint16_t i = 0; i < 320; i++){
         buffE[i] = buffR[i];
@@ -343,22 +348,26 @@ void scottie1_transmit_file(char* filename){
         }
       }
 
-      //Serial.println("--");
-      //Serial.println(micros() - syncTime); //Cheak reading time
+      Serial.println("--");
+      Serial.println(micros() - syncTime); //Cheak reading time
 
       //Sync pulse
-      while(micros() - syncTime < 9000 - 10){}
-
-      // Sync porch
+      while(micros() - syncTime < 9000 - 10){
+      
+      Serial.println("Starting sync porch");  
+        
+ // Sync porch
 //      DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       syncTime = micros();
       while(micros() - syncTime < 1500 - 10){}
 
+      Serial.println("Start red scan");  
       // Red Scan
       tp = 0; sCol = 2; sEm = 1;
       while(sEm == 1){};
 
+      Serial.println("increment line");
       line++;
       if(line == 256){
         Serial.println("Finish");
@@ -371,6 +380,7 @@ void scottie1_transmit_file(char* filename){
         sEm = 0;
       }
       else {
+        Serial.println("Start separator pulse");
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
