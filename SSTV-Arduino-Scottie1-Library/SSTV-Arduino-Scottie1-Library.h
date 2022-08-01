@@ -42,37 +42,8 @@
 // Other stuff
 #define BUILT_IN_PIN 13
 
-bool dds_phase = HIGH;
-int dds_duration_us = 1000;
-bool dds_enable = false;
-
-//volatile uint8_t phase = 0;
-
-char pic_filename[13];
-char pic_decoded_filename[13];
-
-uint8_t frameBuf[81920]; //320*256
-
-volatile byte buffE[320]; // Buffer conintating Red values after torch
-volatile byte buffR[320]; // Buffer conintating Red values of the line
-volatile byte buffG[320]; // Buffer conintating Green values of the line
-volatile byte buffB[320]; // Buffer conintating Blue values of the line
-
-volatile byte sEm = 0;    // State of Emition
-                    // 0 not emitting
-                    // 1 emitting line (NOT HEADER OR VOX)
-                    // 2 Change Color
-
-volatile byte sCol = 0;   // Transmitting color Green
-                    // Transmitting color Blue
-                    // Transmitting color Red
-
-volatile int tp = 0;     // Index of pixel while transmitting with timer
-volatile int line;
-
 // Camera stuff
 //Adafruit_VC0706 cam = Adafruit_VC0706(&Serial1);
-
 
 uint16_t playPixel(long pixel);
 uint16_t scottie_freq(uint8_t c);
@@ -89,9 +60,6 @@ void dds_begin();
 void dds_down();
 void dds_setfreq(int freq);
 void send_sstv();
-
-char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
-volatile long syncTime;
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
