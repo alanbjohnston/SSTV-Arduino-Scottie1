@@ -5,7 +5,7 @@
 **/
 
 #include "SSTV-Arduino-Scottie1-Library.h"
-#include <Arduino.h>
+//#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 
 RPI_PICO_Timer dds_ITimer0(0);
