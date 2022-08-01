@@ -8,8 +8,8 @@
 #include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 
-RPI_PICO_Timer ITimer0(0);
-RPI_PICO_Timer ITimer1(0);
+RPI_PICO_Timer dds_ITimer0(0);
+RPI_PICO_Timer sstv_ITimer1(0);
 
 #define AUDIO_OUT_PIN 26
 
@@ -35,11 +35,11 @@ void loop() {
 
 void dds_begin() {
   
-  if (ITimer0.attachInterruptInterval(dds_duration_us, TimerHandler0))	{
-    Serial.print(F("Starting ITimer0 OK, micros() = ")); Serial.println(micros());
+  if (ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
+    Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
   }
   else
-    Serial.println(F("Can't set ITimer0. Select another Timer, freq. or timer"));
+    Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
   
   dds_enable = true;
 }
@@ -55,10 +55,10 @@ void dds_setfreq(int freq) {
   dds_duration_us = 1.0E6 / (float)freq;
 //  Serial.println(dds_duration_us);
 
-  ITimer0.setInterval(dds_duration_us, TimerHandler0);       
+  dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);       
 }
 
-bool TimerHandler1(struct repeating_timer *t) {
+bool sstv_TimerHandler1(struct repeating_timer *t) {
 
 //void timer1_interrupt(){
   if (sEm == 1){
@@ -92,7 +92,7 @@ bool TimerHandler1(struct repeating_timer *t) {
  return(true);	
 }
 
-bool TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
+bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
     dds_phase = !dds_phase;	  
     digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
@@ -138,11 +138,11 @@ void send_sstv() {
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
   
-  if (ITimer1.attachInterruptInterval(430, TimerHandler1)) {	
-    Serial.print(F("Starting ITimer1 OK, micros() = ")); Serial.println(micros());
+  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
+    Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
   }
   else
-    Serial.println(F("Can't set ITimer1. Select another Timer, freq. or timer"));
+    Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
   
   delay(100);
 
