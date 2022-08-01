@@ -42,13 +42,13 @@ volatile int line;
 char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
 volatile long syncTime;
 
-short output_pin;
+short sstv_output_pin;
 
 // #define AUDIO_OUT_PIN 26
 
 void set_sstv_pin(byte pin) {
-  output_pin = pin;
-  pinMode(output_pin, OUTPUT);
+  sstv_output_pin = pin;
+  pinMode(sstv_output_pin, OUTPUT);
 }
 
 /*
@@ -75,7 +75,7 @@ bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
     dds_phase = !dds_phase;	  
 //    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
-    digitalWrite(output_pin, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
+    digitalWrite(sstv_output_pin, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
   }
   return(true);
 }
