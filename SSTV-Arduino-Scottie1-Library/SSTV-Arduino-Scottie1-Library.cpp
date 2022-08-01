@@ -33,6 +33,14 @@ void loop() {
 }
 */
 
+bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
+  if (dds_enable) {
+    dds_phase = !dds_phase;	  
+    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
+  }
+  return(true);
+}
+
 void dds_begin() {
   
   if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
@@ -90,14 +98,6 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
     tp++;
   }
  return(true);	
-}
-
-bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
-  if (dds_enable) {
-    dds_phase = !dds_phase;	  
-    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
-  }
-  return(true);
 }
 
 //void setup_sstv() {
