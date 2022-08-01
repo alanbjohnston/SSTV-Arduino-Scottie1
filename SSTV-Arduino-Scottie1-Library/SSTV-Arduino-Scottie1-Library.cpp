@@ -42,7 +42,12 @@ volatile int line;
 char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
 volatile long syncTime;
 
-#define AUDIO_OUT_PIN 26
+// #define AUDIO_OUT_PIN 26
+
+void set_sstv_pin(byte pin) {
+  output_pin = pin;
+  pinMode(output_pin, OUTPUT);
+}
 
 /*
 void setup() {
@@ -67,7 +72,8 @@ void loop() {
 bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
     dds_phase = !dds_phase;	  
-    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
+//    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
+    digitalWrite(output_pin, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
   }
   return(true);
 }
@@ -134,8 +140,8 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //void setup_sstv() {
 void send_sstv() {
   delay(5000);
-  pinMode(BUILT_IN_PIN, OUTPUT);
-  pinMode(SD_SLAVE_PIN, OUTPUT);
+//  pinMode(BUILT_IN_PIN, OUTPUT);
+//  pinMode(SD_SLAVE_PIN, OUTPUT);
   Serial.begin(9600);
   Serial.println("Starting");
 
