@@ -40,7 +40,7 @@
 #define SD_MISO_PIN 12
 
 // Other stuff
-#define BUILT_IN_PIN 13
+//#define BUILT_IN_PIN 13
 
 // Camera stuff
 //Adafruit_VC0706 cam = Adafruit_VC0706(&Serial1);
@@ -60,6 +60,7 @@ void dds_begin();
 void dds_down();
 void dds_setfreq(int freq);
 void send_sstv();
+void set_sstv_pin(byte pin);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
