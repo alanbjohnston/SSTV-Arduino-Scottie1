@@ -35,7 +35,7 @@ void loop() {
 
 void dds_begin() {
   
-  if (ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
+  if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
     Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
   }
   else
