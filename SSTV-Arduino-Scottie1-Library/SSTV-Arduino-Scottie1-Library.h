@@ -85,6 +85,10 @@ void shot_pic();
 //void jpeg_decode(char* filename, char* fileout);
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude);    //Write 16 lines with values
 //void writeFooter(File* dst);
+void dds_begin();
+void dds_down();
+void dds_setfreq(int freq);
+void send_sstv();
 
 char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
 volatile long syncTime;
