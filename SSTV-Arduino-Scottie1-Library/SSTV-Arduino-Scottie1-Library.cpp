@@ -99,7 +99,7 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
   
-  dds_duration_us = 1.0E6 / (float)freq;
+  dds_duration_us = 0.5E6 / (float)freq;
 //  Serial.println(dds_duration_us);
 
   dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);       
