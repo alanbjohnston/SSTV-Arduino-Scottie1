@@ -206,7 +206,7 @@ void send_sstv() {
   else
     Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
 */
-  ITimer0.setInterval(421);
+  ITimer0.setInterval(421, TimerHandler0);
   
   delay(100);
 
