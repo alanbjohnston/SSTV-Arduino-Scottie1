@@ -105,14 +105,14 @@ void dds_setfreq(int freq) {
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
-/*    
+/**/    
     if (dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0)) {
       Serial.println(dds_duration_us);
     }
     else
       Serial.println(F("Can't set dds interval"));
-*/   
-    dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);
+/**/   
+//    dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);
     dds_duration_previous_us = dds_duration_us;
   }   
 }
