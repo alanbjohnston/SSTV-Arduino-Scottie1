@@ -53,6 +53,10 @@ void set_sstv_pin(byte pin) {
   pinMode(sstv_output_pin, OUTPUT);
 }
 
+void sstv_end() {
+  sstv_stop = true;
+}
+
 /*
 void setup() {
   
