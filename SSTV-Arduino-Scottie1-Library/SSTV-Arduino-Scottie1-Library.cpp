@@ -9,7 +9,7 @@
 #include "RPi_Pico_TimerInterrupt.h"
 
 RPI_PICO_Timer dds_ITimer0(0);
-RPI_PICO_Timer sstv_ITimer1(0);
+RPI_PICO_Timer sstv_ITimer1(2);
 
 bool dds_phase = HIGH;
 int dds_duration_us = 1000;
@@ -312,12 +312,12 @@ void scottie1_transmit_file(char* filename){
           buffB[i] =  0; // myFile.read();
         }
 
-        Serial.println("++");
+        Serial.println("+ +");
         Serial.println(micros() - syncTime); //Cheak reading time
 
         while(micros() - syncTime < 9000 - 10){delayMicroseconds(100);}
 
-//        Serial.println("Start separator pulse");
+        Serial.println("Start separator pulse");
         
         // Separator pulse
  //       DDS.setfreq(1500, phase);
@@ -329,18 +329,18 @@ void scottie1_transmit_file(char* filename){
       }
 
       while(micros() - syncTime < 1500 - 10){delayMicroseconds(100);} // Separator pulse
-//      Serial.println("Start green scan"); 
+      Serial.println("Start green scan"); 
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
-      while(sEm == 1){};
+      while(sEm == 1){delayMicroseconds(100);};
 
-//      Serial.println("Start separator pulse");
+      Serial.println("Start separator pulse");
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while(micros() - syncTime < 1500 - 10){delayMicroseconds(100);}
 
-//      Serial.println("Start blue scan");
+      Serial.println("Start blue scan");
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while(sEm == 1){};
