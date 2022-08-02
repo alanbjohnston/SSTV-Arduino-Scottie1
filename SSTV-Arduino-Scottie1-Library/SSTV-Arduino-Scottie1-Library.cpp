@@ -315,7 +315,7 @@ void scottie1_transmit_file(char* filename){
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
 
-        while(micros() - syncTime < 9000 - 10){}
+        while(micros() - syncTime < 9000 - 10){delayMicroseconds(100);}
 
 //        Serial.println("Start separator pulse");
         
