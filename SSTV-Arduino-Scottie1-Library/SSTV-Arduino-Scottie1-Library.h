@@ -45,6 +45,8 @@
 // Camera stuff
 //Adafruit_VC0706 cam = Adafruit_VC0706(&Serial1);
 
+extern RPI_PICO_Timer ITimer0(0);
+
 uint16_t playPixel(long pixel);
 uint16_t scottie_freq(uint8_t c);
 void vox_tone();
