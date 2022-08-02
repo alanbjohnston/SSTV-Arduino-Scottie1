@@ -8,8 +8,8 @@
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 
-RPI_PICO_Timer dds_ITimer0(0);
-RPI_PICO_Timer sstv_ITimer1(2);
+RPI_PICO_Timer dds_ITimer0(2);
+RPI_PICO_Timer sstv_ITimer1(3);
 
 bool dds_phase = HIGH;
 int dds_duration_us = 1000;
