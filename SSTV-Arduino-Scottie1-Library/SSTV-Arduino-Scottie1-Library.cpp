@@ -194,6 +194,8 @@ void send_sstv() {
   }
   Serial.println("initialization done.");
 */
+  
+/*  
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
@@ -202,6 +204,8 @@ void send_sstv() {
   }
   else
     Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
+*/
+  ITimer0.setInterval(421);
   
   delay(100);
 
@@ -415,7 +419,7 @@ void scottie1_transmit_file(char* filename){
     Serial.println("error opening test.txt");
   }
   Serial.println("Ending SSTV");
-  sstv_ITimer1.stopTimer();
+//  sstv_ITimer1.stopTimer();
   Serial.println("SSTV timer stopped");  
 }
 
