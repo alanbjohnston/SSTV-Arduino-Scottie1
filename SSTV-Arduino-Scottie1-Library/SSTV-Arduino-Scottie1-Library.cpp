@@ -100,7 +100,7 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
   
-  dds_duration_us = 0.5E6 / (float)freq - 2;  // subtract 2 us of processing delay
+  dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
 //  Serial.println(dds_duration_us);
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
@@ -167,16 +167,13 @@ void send_sstv() {
   delay(2000);
   dds_setfreq(1200);
   Serial.println("1200");
-  delay(10000); 
+  delay(2000); 
   dds_setfreq(1500);  
   Serial.println("1500");  
   delay(2000);
-   dds_setfreq(500);  
-  Serial.println("1500");  
+  dds_setfreq(500);  
+  Serial.println("500");  
   delay(2000);
-    dds_setfreq(500);  
-  Serial.println("600");  
-  delay(600);
  /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
@@ -307,9 +304,9 @@ void scottie1_transmit_file(char* filename){
 
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] =  50; // myFile.read();
-          buffG[i] =  100; // myFile.read();
-          buffB[i] =  200; // myFile.read();
+          buffR[i] =  128; // myFile.read();
+          buffG[i] =  128; // myFile.read();
+          buffB[i] =  128; // myFile.read();
         }
 
         Serial.println("++");
@@ -354,9 +351,9 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] = 200; // myFile.read();
-          buffG[i] = 0; // myFile.read();
-          buffB[i] = 100; // myFile.read();
+          buffR[i] = 128; // myFile.read();
+          buffG[i] = 128; // myFile.read();
+          buffB[i] = 128; // myFile.read();
         }
       }
 
@@ -379,7 +376,7 @@ void scottie1_transmit_file(char* filename){
       tp = 0; sCol = 2; sEm = 1;
       while(sEm == 1){};
 
-      Serial.println("increment line");
+//      Serial.println("increment line");
       line++;
       if(line == 256){
         Serial.println("Finish");
