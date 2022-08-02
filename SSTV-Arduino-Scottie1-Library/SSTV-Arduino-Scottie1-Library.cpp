@@ -122,7 +122,8 @@ void dds_setfreq(int freq) {
   }   
 }
 
-bool sstv_TimerHandler1(struct repeating_timer *t) {
+// bool sstv_TimerHandler1(struct repeating_timer *t) {
+bool sstv_TimerHandler1() {
 
 //void timer1_interrupt(){
 //  Serial.println("sstv_TimerHandler1");
