@@ -109,7 +109,7 @@ void dds_setfreq(int freq) {
     }
     else
       Serial.println(F("Can't set dds interval"));
-    dds_duration_us_ previous = dds_duration_us;
+    dds_duration_us_previous = dds_duration_us;
   }   
 }
 
