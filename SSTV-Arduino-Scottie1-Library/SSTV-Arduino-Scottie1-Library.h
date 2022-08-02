@@ -8,7 +8,6 @@
 **/
 
 #include <Arduino.h>
-#include "RPi_Pico_TimerInterrupt.h"
 //#include <SPI.h>
 //#include <SD.h>
 //#include <AD9850.h>
@@ -63,8 +62,6 @@ void dds_setfreq(int freq);
 void send_sstv();
 void set_sstv_pin(byte pin);
 void sstv_end();
-bool sstv_TimerHandler1();
-bool TimerHandler0(struct repeating_timer *t);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
