@@ -100,7 +100,7 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
   
-  dds_duration_us = 0.5E6 / (float)freq;
+  dds_duration_us = 0.5E6 / (float)freq - 6;  // subtract 6 us of processing delay
 //  Serial.println(dds_duration_us);
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
