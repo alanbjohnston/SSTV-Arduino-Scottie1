@@ -13,6 +13,7 @@ RPI_PICO_Timer sstv_ITimer1(0);
 
 bool dds_phase = HIGH;
 int dds_duration_us = 1000;
+int dds_duration_previous_us = 1000;
 bool dds_enable = false;
 
 //volatile uint8_t phase = 0;
@@ -102,12 +103,14 @@ void dds_setfreq(int freq) {
   dds_duration_us = 0.5E6 / (float)freq;
 //  Serial.println(dds_duration_us);
 
-  if (dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0)) {
-    Serial.println(dds_duration_us);
-  }
-  else
-    Serial.println(F("Can't set dds interval"));
-      
+  if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
+    if (dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0)) {
+      Serial.println(dds_duration_us);
+    }
+    else
+      Serial.println(F("Can't set dds interval"));
+    dds_duration_us_ previous = dds_duration_us;
+  }   
 }
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
