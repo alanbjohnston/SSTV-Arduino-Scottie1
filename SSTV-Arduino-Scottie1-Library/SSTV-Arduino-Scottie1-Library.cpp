@@ -352,7 +352,7 @@ void scottie1_transmit_file(char* filename){
       Serial.println(micros() - syncTime); //Cheak reading time
 
       //Sync pulse
-      while(micros() - syncTime < 9000 - 10){
+      while(micros() - syncTime < 9000 - 10){}
       
       Serial.println("Starting sync porch");  
         
