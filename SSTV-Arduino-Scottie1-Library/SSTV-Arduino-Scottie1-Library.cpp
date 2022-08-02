@@ -186,7 +186,7 @@ void send_sstv() {
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
-  if (sstv_ITimer1.attachInterruptInterval(400, sstv_TimerHandler1)) {	
+  if (sstv_ITimer1.attachInterruptInterval(440, sstv_TimerHandler1)) {	
     Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
   }
   else
