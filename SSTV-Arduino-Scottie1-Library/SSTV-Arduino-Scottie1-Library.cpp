@@ -186,7 +186,7 @@ void send_sstv() {
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
-  if (sstv_ITimer1.attachInterruptInterval(422, sstv_TimerHandler1)) {	
+  if (sstv_ITimer1.attachInterruptInterval(421, sstv_TimerHandler1)) {	
     Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
   }
   else
@@ -304,8 +304,8 @@ void scottie1_transmit_file(char* filename){
 
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] =  128; // myFile.read();
-          buffG[i] =  128; // myFile.read();
+          buffR[i] =  0; // myFile.read();
+          buffG[i] =  0; // myFile.read();
           buffB[i] =  128; // myFile.read();
         }
 
@@ -351,8 +351,8 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] = 128; // myFile.read();
-          buffG[i] = 128; // myFile.read();
+          buffR[i] = 0; // myFile.read();
+          buffG[i] = 0; // myFile.read();
           buffB[i] = 128; // myFile.read();
         }
       }
