@@ -102,7 +102,12 @@ void dds_setfreq(int freq) {
   dds_duration_us = 0.5E6 / (float)freq;
 //  Serial.println(dds_duration_us);
 
-  dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);       
+  if (dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0)) {
+    Serial.println(dds_duration_us);
+  }
+  else
+    Serial.println(F("Can't set dds interval"));
+      
 }
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
