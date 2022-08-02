@@ -120,7 +120,7 @@ void dds_setfreq(int freq) {
 bool sstv_TimerHandler1(struct repeating_timer *t) {
 
 //void timer1_interrupt(){
-  Serial.println("sstv_TimerHandler1");
+//  Serial.println("sstv_TimerHandler1");
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
