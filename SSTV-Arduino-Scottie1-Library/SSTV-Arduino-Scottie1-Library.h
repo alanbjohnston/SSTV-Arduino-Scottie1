@@ -8,6 +8,7 @@
 **/
 
 #include <Arduino.h>
+#include "RPi_Pico_TimerInterrupt.h"
 //#include <SPI.h>
 //#include <SD.h>
 //#include <AD9850.h>
