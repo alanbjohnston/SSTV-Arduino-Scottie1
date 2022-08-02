@@ -163,7 +163,7 @@ void send_sstv() {
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
 
   dds_begin();
-  
+/*  
   delay(2000);
   dds_setfreq(1200);
   Serial.println("1200");
@@ -174,6 +174,8 @@ void send_sstv() {
   dds_setfreq(500);  
   Serial.println("500");  
   delay(2000);
+*/  
+  
  /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
@@ -305,8 +307,8 @@ void scottie1_transmit_file(char* filename){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
           buffR[i] =  0; // myFile.read();
-          buffG[i] =  0; // myFile.read();
-          buffB[i] =  128; // myFile.read();
+          buffG[i] =  128; // myFile.read();
+          buffB[i] =  0; // myFile.read();
         }
 
         Serial.println("++");
@@ -352,8 +354,8 @@ void scottie1_transmit_file(char* filename){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
           buffR[i] = 0; // myFile.read();
-          buffG[i] = 0; // myFile.read();
-          buffB[i] = 128; // myFile.read();
+          buffG[i] = 128; // myFile.read();
+          buffB[i] = 0; // myFile.read();
         }
       }
 
