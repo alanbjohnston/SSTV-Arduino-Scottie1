@@ -8,8 +8,6 @@
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 
-
-RPI_PICO_Timer ITimer0(0);
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
 
@@ -124,8 +122,7 @@ void dds_setfreq(int freq) {
   }   
 }
 
-// bool sstv_TimerHandler1(struct repeating_timer *t) {
-bool sstv_TimerHandler1() {
+bool sstv_TimerHandler1(struct repeating_timer *t) {
 
 //void timer1_interrupt(){
 //  Serial.println("sstv_TimerHandler1");
@@ -197,8 +194,6 @@ void send_sstv() {
   }
   Serial.println("initialization done.");
 */
-  
-/*  
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
@@ -207,8 +202,6 @@ void send_sstv() {
   }
   else
     Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
-*/
-  ITimer0.setInterval(421, TimerHandler0);
   
   delay(100);
 
@@ -422,7 +415,7 @@ void scottie1_transmit_file(char* filename){
     Serial.println("error opening test.txt");
   }
   Serial.println("Ending SSTV");
-//  sstv_ITimer1.stopTimer();
+  sstv_ITimer1.stopTimer();
   Serial.println("SSTV timer stopped");  
 }
 
