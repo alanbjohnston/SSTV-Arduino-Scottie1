@@ -7,6 +7,7 @@
 #include "SSTV-Arduino-Scottie1-Library.h"
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
+#include <LittleFS.h>
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
@@ -19,8 +20,8 @@ bool sstv_stop;
 
 //volatile uint8_t phase = 0;
 
-char pic_filename[13];
-char pic_decoded_filename[13];
+char pic_filename[] = "cam.jpg";
+char pic_decoded_filename[] = "cam.bin";
 
 uint8_t frameBuf[81920]; //320*256
 
@@ -185,6 +186,7 @@ void send_sstv() {
   delay(2000);
 */  
   
+  LittleFS.begin();
  /* 
   // Sd initialize
   Serial.print("Initializing SD card...");
@@ -207,21 +209,20 @@ void send_sstv() {
 
 /*  
   shot_pic();
-
+*/
   Serial.print("Picture taken saved on:");
   Serial.println(pic_filename);
 
-  strcpy(pic_decoded_filename, pic_filename);
-  pic_decoded_filename[8] = 'B';
-  pic_decoded_filename[9] = 'I';
-  pic_decoded_filename[10] = 'N';
+//  strcpy(pic_decoded_filename, pic_filename);
+//  pic_decoded_filename[8] = 'B';
+//  pic_decoded_filename[9] = 'I';
+//  pic_decoded_filename[10] = 'N';
 
   Serial.print("Writting on: ");
   Serial.println(pic_decoded_filename);
 
   jpeg_decode(pic_filename, pic_decoded_filename);
-  */
-
+  
   scottie1_transmit_file(pic_decoded_filename);
 }
 
@@ -419,7 +420,7 @@ void scottie1_transmit_file(char* filename){
   Serial.println("SSTV timer stopped");  
 }
 
-/*
+
 void jpeg_decode(char* filename, char* fileout){
   uint8 *pImg;
   int x,y,bx,by;
@@ -428,8 +429,9 @@ void jpeg_decode(char* filename, char* fileout){
   int pxSkip;
 
   // Open the file for writing
-  File imgFile = SD.open(fileout, FILE_WRITE);
-
+//  File imgFile = SD.open(fileout, FILE_WRITE);
+  File imgFile = LittleFS.open(fileout, "w+");
+  
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
   }
@@ -469,9 +471,9 @@ void jpeg_decode(char* filename, char* fileout){
     }
   }
 
-  for(k = 0; k < 15360; k++){  // Adding header to the binary file
-    imgFile.write(sortBuf[k]);
-  }
+//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
+    imgFile.write(sortBuf[k], sizeof(softBuf));
+//  }
 
   writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
@@ -509,7 +511,7 @@ void jpeg_decode(char* filename, char* fileout){
         if(x<JpegDec.width && y<JpegDec.height){
           if(JpegDec.comps == 1){ // Grayscale
             //sprintf(str,"%u", pImg[0]);
-            imgFile.write(pImg, 1);
+            imgFile.write(pImg, sizeof(pImg));
           }else{ // RGB
             // When saving to the SD, write 16 lines on one time
             // First we write on the array 16 lines and then we save to SD
@@ -520,9 +522,9 @@ void jpeg_decode(char* filename, char* fileout){
 
             i++;
             if(i == 5120){ //320(px)x16(lines)
-              for(k = 0; k < 15360; k++){
-                imgFile.write(sortBuf[k]);
-              }
+//              for(k = 0; k < 15360; k++){
+                imgFile.write(sortBuf[k], sizeof(sortBuf));
+//              }
               i = 0;
               j++; //15(sections)
             }
@@ -533,7 +535,7 @@ void jpeg_decode(char* filename, char* fileout){
     }
   }
 
-  Serial.println("Bin has been written on SD");
+  Serial.println("Bin has been written to FS");
   imgFile.close();
 }
 
