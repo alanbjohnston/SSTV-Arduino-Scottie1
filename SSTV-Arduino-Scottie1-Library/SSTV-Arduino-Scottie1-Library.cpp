@@ -539,9 +539,8 @@ void jpeg_decode(char* filename, char* fileout){
         pImg += JpegDec.comps ;
       }
     }
-    */
   }
-
+*/
   Serial.println("Bin has been written to FS");
   imgFile.close();
 }
