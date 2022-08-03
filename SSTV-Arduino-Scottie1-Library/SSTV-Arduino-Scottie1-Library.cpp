@@ -472,7 +472,8 @@ void jpeg_decode(char* filename, char* fileout){
   }
 
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
-    imgFile.write(sortBuf[k], sizeof(sortBuf));
+//    imgFile.write(sortBuf[k], sizeof(sortBuf));
+    imgFile.write(sortBuf, sizeof(sortBuf));
 //  }
 
   writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
@@ -523,7 +524,8 @@ void jpeg_decode(char* filename, char* fileout){
             i++;
             if(i == 5120){ //320(px)x16(lines)
 //              for(k = 0; k < 15360; k++){
-                imgFile.write(sortBuf[k], sizeof(sortBuf));
+//                imgFile.write(sortBuf[k], sizeof(sortBuf));
+                imgFile.write(sortBuf, sizeof(sortBuf));
 //              }
               i = 0;
               j++; //15(sections)
@@ -664,7 +666,8 @@ void writeFooter(File* dst){
     }
   }
 
-  for(k = 0; k < 10560; k++){  // Adding header to the binary file
-    dst->write(sortBuf[k]);
-  }
+//  for(k = 0; k < 10560; k++){  // Adding header to the binary file
+//    dst->write(sortBuf[k]);
+    dst->write(sortBuf, sizeof(sortBuf));
+//  }
 }
