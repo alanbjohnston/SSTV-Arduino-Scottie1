@@ -422,7 +422,7 @@ void scottie1_transmit_file(char* filename){
 
 
 void jpeg_decode(char* filename, char* fileout){
-  uint8 *pImg;
+  uint8_t *pImg;
   int x,y,bx,by;
   byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
   int i,j,k;
