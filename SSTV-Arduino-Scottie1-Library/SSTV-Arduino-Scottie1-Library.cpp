@@ -477,7 +477,7 @@ void jpeg_decode(char* filename, char* fileout){
     imgFile.write(sortBuf, sizeof(sortBuf));
 //  }
 
-  writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
+  //writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
   JpegDec.decodeFile(filename);
@@ -621,7 +621,7 @@ void shot_pic(){
  * @param altitude Altitude in meters above MSL
  */
 
-
+/*
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
 void writeFooter(File* dst){
   int x,y;
@@ -670,3 +670,4 @@ void writeFooter(File* dst){
     dst->write(sortBuf, sizeof(sortBuf));
 //  }
 }
+*/
