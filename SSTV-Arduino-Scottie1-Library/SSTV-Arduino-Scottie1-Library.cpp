@@ -620,7 +620,7 @@ void shot_pic(){
  * @param altitude Altitude in meters above MSL
  */
 
-/*
+
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
 void writeFooter(File* dst){
   int x,y;
@@ -668,4 +668,3 @@ void writeFooter(File* dst){
     dst->write(sortBuf[k]);
   }
 }
-*/
