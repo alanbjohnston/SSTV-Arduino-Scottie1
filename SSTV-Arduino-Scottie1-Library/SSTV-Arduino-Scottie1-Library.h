@@ -12,7 +12,7 @@
 //#include <SPI.h>
 //#include <SD.h>
 //#include <AD9850.h>
-//#include <JPEGDecoder.h>
+#include <JPEGDecoder.h>
 //#include <Adafruit_VC0706.h>
 //#include <DueTimer.h>
 //#include <Adafruit_GPS.h>
