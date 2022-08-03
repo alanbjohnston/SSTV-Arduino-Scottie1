@@ -20,8 +20,8 @@ bool sstv_stop;
 
 //volatile uint8_t phase = 0;
 
-char pic_filename[] = "cam.jpg";
-char pic_decoded_filename[] = "cam.bin";
+char pic_filename[] = "/cam.jpg";
+char pic_decoded_filename[] = "/cam.bin";
 
 uint8_t frameBuf[81920]; //320*256
 
