@@ -433,6 +433,11 @@ void jpeg_decode(char* filename, char* fileout){
 //  File imgFile = SD.open(fileout, FILE_WRITE);
   File imgFile = LittleFS.open(fileout, "w+");
   
+  if (imgFile)
+    Serial.println("Output opened");
+  else
+    Serial.println("Failed to open output");
+  
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
   }
