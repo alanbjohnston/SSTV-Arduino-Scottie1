@@ -541,8 +541,6 @@ void jpeg_decode(char* filename, char* fileout){
   imgFile.close();
 }
 
-*/
-
 void shot_pic(){
   
   return;
