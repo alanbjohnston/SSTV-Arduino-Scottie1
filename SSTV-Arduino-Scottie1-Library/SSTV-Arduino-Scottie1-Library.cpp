@@ -479,7 +479,7 @@ void jpeg_decode(char* filename, char* fileout){
   writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
-  JpegDec.decode_mcu(filename,0);
+  JpegDec.decode_mcu(filename);
   // Image Information
   Serial.print("Width     :");
   Serial.println(JpegDec.width);
