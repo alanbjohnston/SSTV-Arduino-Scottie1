@@ -502,7 +502,7 @@ void jpeg_decode(char* filename, char* fileout){
 
   Serial.println("Writting bin to SD");
 
-  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
+//  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
   
 /*  
   i = 0;
