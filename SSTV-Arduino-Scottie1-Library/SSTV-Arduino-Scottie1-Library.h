@@ -8,6 +8,7 @@
 **/
 
 #include <Arduino.h>
+#include <LittleFS.h>
 //#include <SPI.h>
 //#include <SD.h>
 //#include <AD9850.h>
