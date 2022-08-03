@@ -502,6 +502,9 @@ void jpeg_decode(char* filename, char* fileout){
 
   Serial.println("Writting bin to SD");
 
+  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
+  
+/*  
   i = 0;
   j = 0;
   while(JpegDec.read()){
@@ -536,6 +539,7 @@ void jpeg_decode(char* filename, char* fileout){
         pImg += JpegDec.comps ;
       }
     }
+    */
   }
 
   Serial.println("Bin has been written to FS");
