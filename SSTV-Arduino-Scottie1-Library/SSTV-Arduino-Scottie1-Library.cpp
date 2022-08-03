@@ -8,6 +8,7 @@
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
+#include <TJpg_Decoder.h>
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
@@ -485,6 +486,12 @@ void jpeg_decode(char* filename, char* fileout){
   //writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
+  
+  uint16_t w = 0, h = 0;
+  TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
+  Serial.print("Width = "); Serial.print(w); Serial.print(", height = "); Serial.println(h);
+
+/*  
   JpegDec.decodeFile(filename);
   // Image Information
   Serial.print("Width     :");
@@ -504,7 +511,7 @@ void jpeg_decode(char* filename, char* fileout){
   Serial.print("MCU height:");
   Serial.println(JpegDec.MCUHeight);
   Serial.println("");
-
+*/
   Serial.println("Writting bin to SD");
 
 //  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
