@@ -484,12 +484,13 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
       sprintf(hexValue, "%02X", buffer[i]);
       Serial.print(hexValue);
     }
- */   
+ */ 
+/*    
     Serial.print("\n\n Size: ");
     Serial.println(counter);
     counter = 0;
   }
-
+*/
 //  delay(1000);
 
   blocks++;
