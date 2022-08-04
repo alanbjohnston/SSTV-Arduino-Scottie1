@@ -421,6 +421,12 @@ void scottie1_transmit_file(char* filename){
   Serial.println("SSTV timer stopped");  
 }
 
+void print_hex(byte octet) {
+      char hexValue[5];
+      sprintf(hexValue, "%02X", octet);
+      Serial.print(hexValue); 
+}
+
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
 //  Serial.println("\nBlock callback");
