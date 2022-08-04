@@ -48,7 +48,7 @@ volatile long syncTime;
 
 short sstv_output_pin;
 int blocks = 0;
-int counter = 0;
+//int counter = 0;
 bool write_complete = false;
 File imgFile;
 
@@ -440,13 +440,14 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   Serial.println(h);
   Serial.println(sizeof(*bitmap));
 
-  return 1;
+//  return 1;
 
   uint16_t pixel_value;
   uint16_t *pixel;
   bool last_block = ((x == (320 - w)) & (y == (240 - h)));
-  char buffer[w * h * 3];
-
+  char buffer[16 * 8 * 3];
+  int counter = 0;
+  
 /*  
   if (((y % h) == 0) && ((x % w) == 0)) {
     Serial.print("\nStart of row! x = ");
@@ -514,7 +515,6 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     
     Serial.print("\n\n Size: ");
     Serial.println(counter);
-    counter = 0;
     
     write_complete = true;
   }
