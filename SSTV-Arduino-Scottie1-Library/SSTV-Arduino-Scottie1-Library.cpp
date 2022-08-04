@@ -164,7 +164,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 }
 
 //void setup_sstv() {
-void send_sstv() {
+void send_sstv(char* filename) {
 //  delay(5000);
 //  pinMode(BUILT_IN_PIN, OUTPUT);
 //  pinMode(SD_SLAVE_PIN, OUTPUT);
@@ -215,7 +215,9 @@ void send_sstv() {
 /*  
   shot_pic();
 */
-  Serial.print("Picture taken saved on:");
+  strcpy(pic_filename, filename);
+  
+  Serial.print("Sending image ");
   Serial.println(pic_filename);
 
 //  strcpy(pic_decoded_filename, pic_filename);
