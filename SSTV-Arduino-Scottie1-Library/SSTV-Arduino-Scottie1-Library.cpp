@@ -333,7 +333,13 @@ void scottie1_transmit_file(char* filename){
           buffR[i] =  buff[0];
           buffG[i] =  buff[1];
           buffB[i] =  buff[2];
-        }
+          
+          Serialprint(buff[0], HEX);
+          Serial.print(" ");
+          Serialprint(buff[1], HEX);
+          Serial.print(" ");
+          Serialprint(buff[2], HEX);
+          Serial.println(" ");}
 
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
