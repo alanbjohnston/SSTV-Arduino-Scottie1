@@ -435,13 +435,15 @@ void print_hex(byte octet) {
 
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
+/*  
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
   Serial.println(sizeof(*bitmap));
-
+*/
+  
 //  return 1;
 
   uint16_t pixel_value;
@@ -483,9 +485,9 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     buffer[counter++] = green;
     buffer[counter++] = blue;
     
-    print_hex(red);
-    print_hex(green);
-    print_hex(blue);
+//    print_hex(red);
+//    print_hex(green);
+//    print_hex(blue);
     
  /*
     if (counter >= 155000) {
