@@ -433,14 +433,14 @@ void print_hex(byte octet) {
 
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-//  Serial.println("\nBlock callback");
-//  Serial.println(x);
-//  Serial.println(y);
-//  Serial.println(w);
-//  Serial.println(h);
-//  Serial.println(sizeof(*bitmap));
+  Serial.println("\nBlock callback");
+  Serial.println(x);
+  Serial.println(y);
+  Serial.println(w);
+  Serial.println(h);
+  Serial.println(sizeof(*bitmap));
 
-//  return 1;
+  return 1;
 
   uint16_t pixel_value;
   uint16_t *pixel;
@@ -603,6 +603,8 @@ void jpeg_decode(char* filename, char* fileout){
   TJpgDec.setCallback(get_block);
   
   TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
+  
+  Serial.println("Draw complete");
   
   while (!write_complete) { Serial.println("Waiting..."); }
 
