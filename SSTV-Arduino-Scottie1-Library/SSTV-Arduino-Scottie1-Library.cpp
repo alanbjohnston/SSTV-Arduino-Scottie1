@@ -443,7 +443,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   uint16_t *pixel;
   bool last_block = ((x == (320 - w)) & (y == (240 - h)));
   
-  if (((y % h) == 0) && ((x % w) == 0) {
+  if (((y % h) == 0) && ((x % w) == 0)) {
     Serial.print("\nStart of row! x = ");
     Serial.print(x);
     Serial.print(" y = ");
