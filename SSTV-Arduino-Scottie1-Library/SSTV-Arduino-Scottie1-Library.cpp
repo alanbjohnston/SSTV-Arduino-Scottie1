@@ -450,8 +450,8 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
       Serial.print(" ");
     }
 */    
-    buffer[counter++] = pixel_value >> 8;
-    buffer[counter++] = pixel_value;
+//    buffer[counter++] = pixel_value >> 8;
+//    buffer[counter++] = pixel_value;
 
     byte red = (pixel_value & 0b1111100000000000) >> 8;
     byte green = (pixel_value & 0b0000011111100000) >> 3;
