@@ -384,9 +384,12 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-         if (myFile.readBytes(buff, 3) == 0)
-           Serial.println("Problem reading from file");
-          
+         if (myFile.readBytes(buff, 3) == 0) {
+//           Serial.println("Problem reading from file");
+           buff[0] = 0;
+           buff[1] = 255;
+           buff[2] = 0;
+         } 
           buffR[i] =  buff[0];
           buffG[i] =  buff[1];
           buffB[i] =  buff[2];
