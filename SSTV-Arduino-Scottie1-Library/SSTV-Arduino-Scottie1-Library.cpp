@@ -641,6 +641,10 @@ void jpeg_decode(char* filename, char* fileout){
 //  counter = 0;
 //  write_complete = false;
   
+  TJpgDec.setJpgScale(1);
+
+  TJpgDec.setSwapBytes(false);
+  
   TJpgDec.setCallback(get_block);
   
   TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
