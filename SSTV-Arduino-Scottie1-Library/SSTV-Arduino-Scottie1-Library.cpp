@@ -384,7 +384,8 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          myFile.readBytes(buff, 3);
+         if (myFile.readBytes(buff, 3) == 0)
+           Serial.println("Problem reading from file");
           
           buffR[i] =  buff[0];
           buffG[i] =  buff[1];
@@ -523,8 +524,8 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   }
   
 //  Serial.println("\nWriting block to file");
-  Serial.print("Sizeof buffer: ");
-  Serial.println(sizeof(buffer));
+//  Serial.print("Sizeof buffer: ");
+//  Serial.println(sizeof(buffer));
   
   if (imgFile)
     imgFile.write(buffer, sizeof(buffer));  
