@@ -47,6 +47,7 @@ char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS
 volatile long syncTime;
 
 short sstv_output_pin;
+int blocks = 0;
 
 // #define AUDIO_OUT_PIN 26
 
