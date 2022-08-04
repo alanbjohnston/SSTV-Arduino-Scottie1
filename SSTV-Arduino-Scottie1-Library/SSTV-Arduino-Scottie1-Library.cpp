@@ -302,12 +302,13 @@ void scottie1_transmit_file(char* filename){
   Serial.println("Transmitting picture");
 
 //  File myFile = SD.open(filename);
-  int myFile = true;  
+File myFile = LittleFS.open(pic_decoded_filename, "r");  
+//  int myFile = true;  
   if (myFile) {
     head = true;
 
     /** TRANSMIT EACH LINE **/
-//    while(myFile.available() || line == 255){
+    while(myFile.available() || line == 255){
     while ((myFile || line == 255) && !sstv_stop) {
       if(head == true){ // Header
         /** VOX TONE (OPTIONAL) **/
@@ -321,9 +322,9 @@ void scottie1_transmit_file(char* filename){
 
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] =  0; // myFile.read();
-          buffG[i] =  128; // myFile.read();
-          buffB[i] =  0; // myFile.read();
+          buffR[i] =  myFile.read();
+          buffG[i] =  myFile.read();
+          buffB[i] =  myFile.read();
         }
 
         Serial.println("+ +");
@@ -368,9 +369,9 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] = 0; // myFile.read();
-          buffG[i] = 128; // myFile.read();
-          buffB[i] = 0; // myFile.read();
+          buffR[i] = myFile.read();
+          buffG[i] = myFile.read();
+          buffB[i] = myFile.read();
         }
       }
 
@@ -415,7 +416,7 @@ void scottie1_transmit_file(char* filename){
       }
     }
     // close the file:
-//    myFile.close();
+    myFile.close();
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening test.txt");
