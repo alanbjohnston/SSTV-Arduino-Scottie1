@@ -495,11 +495,12 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   
   Serial.println("\nWriting block to file");
   
+/*  
   if (imgFile)
     imgFile.write(buffer, sizeof(buffer));  
   else
     Serial.println("Problem writing block");
-  
+*/  
   if (last_block) {
     Serial.println("Complete!\n\n");
 /*
