@@ -310,7 +310,7 @@ File myFile = LittleFS.open(pic_decoded_filename, "r");
     /** TRANSMIT EACH LINE **/
     while(myFile.available() || line == 255){
     while ((myFile || line == 255) && !sstv_stop) {
-      if(head == true){ // Header
+      if(head == true) { // Header
         /** VOX TONE (OPTIONAL) **/
         vox_tone();
 
@@ -327,7 +327,7 @@ File myFile = LittleFS.open(pic_decoded_filename, "r");
           buffB[i] =  myFile.read();
         }
 
-        Serial.println("+ +");
+        Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
 
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {delayMicroseconds(100);}
@@ -417,9 +417,10 @@ File myFile = LittleFS.open(pic_decoded_filename, "r");
     }
     // close the file:
     myFile.close();
+  }
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");
+    Serial.println("error opening test.txt");      
   }
   Serial.println("Ending SSTV");
   sstv_ITimer1.stopTimer();
