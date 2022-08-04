@@ -50,6 +50,7 @@ short sstv_output_pin;
 int blocks = 0;
 int counter = 0;
 bool write_complete = false;
+File imgFile;
 
 // #define AUDIO_OUT_PIN 26
 
@@ -529,7 +530,7 @@ void jpeg_decode(char* filename, char* fileout){
 
   // Open the file for writing
 //  File imgFile = SD.open(fileout, FILE_WRITE);
-  File imgFile = LittleFS.open(fileout, "w+");
+  imgFile = LittleFS.open(fileout, "w+");
   
   if (imgFile)
     Serial.println("Output opened");
