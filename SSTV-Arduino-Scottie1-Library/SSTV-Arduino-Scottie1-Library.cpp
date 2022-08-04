@@ -606,7 +606,7 @@ void jpeg_decode(char* filename, char* fileout){
   
   Serial.println("Draw complete");
   
-  while (!write_complete) { Serial.println("Waiting..."); }
+  while (!write_complete) { Serial.println("Waiting..."); delay(500);}
 
 /*  
   JpegDec.decodeFile(filename);
