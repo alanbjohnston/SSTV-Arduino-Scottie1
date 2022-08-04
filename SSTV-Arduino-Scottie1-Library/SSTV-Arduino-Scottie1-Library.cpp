@@ -229,8 +229,10 @@ void send_sstv(char* filename) {
 
   Serial.print("Writting on: ");
   Serial.println(pic_decoded_filename);
-
-  jpeg_decode(pic_filename, pic_decoded_filename);
+  
+//  jpeg_decode(pic_filename, pic_decoded_filename);
+  
+  decode(pic_filename, pic_decoded_filename);
   
   scottie1_transmit_file(pic_decoded_filename);
 }
@@ -848,3 +850,52 @@ void writeFooter(File* dst){
 //  }
 }
 */
+
+void decode(char* filename, char* fileout){  // used to decode .raw files in RGB565 format
+
+// Open the input file for reading
+  inFile = LittleFS.open(filename, "r");
+  
+  if (inFile)
+    Serial.println("Input opened");
+  else
+    Serial.println("Failed to open intput");
+ 
+// Open the output file for writing
+  outFile = LittleFS.open(fileout, "w+");
+  
+  if (outFile)
+    Serial.println("Output opened");
+  else
+    Serial.println("Failed to open output");
+  
+  char buff[2];
+  char buffer[3];
+  
+  int i = 0;
+  
+  while (i++ < (320 * 240 * 3)) {
+    inFile.readBytes(buff, 2);
+
+    int pixel_value = buff[1] >> 8 + buff[0];
+
+    byte red = (pixel_value & 0b1111100000000000) >> 8;
+    byte green = (pixel_value & 0b0000011111100000) >> 3;
+    byte blue = (pixel_value & 0b0000000000011111) << 3;
+
+    buffer[0] = red;
+    buffer[1] = green;
+    buffer[2] = blue;
+    
+    outFile.writeBytes(buffer, 3);
+
+  #ifdef DEBUG    
+    print_hex(red);
+    print_hex(green);
+    print_hex(blue);
+  #endif    
+  }
+  imFile.close();
+  outFile.close();
+}
+
