@@ -478,6 +478,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   }
   if (last_block) {
     Serial.println("Complete!\n\n");
+  }
 /*
     for (int i = 0; i < counter; i++) {
 //      Serial.print(buffer[i], HEX);
