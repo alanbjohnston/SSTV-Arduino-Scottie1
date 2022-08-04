@@ -298,6 +298,7 @@ void scottie1_transmit_file(char* filename){
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
 
+  char buff[3];
   bool head;
   Serial.println("Transmitting picture");
 
@@ -323,12 +324,15 @@ void scottie1_transmit_file(char* filename){
 
         // Configure syncTime
         syncTime = micros();
-
+        
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] =  myFile.read();
-          buffG[i] =  myFile.read();
-          buffB[i] =  myFile.read();
+          
+          myFile.readBytes(buff, 3);
+          
+          buffR[i] =  buff[0];
+          buffG[i] =  buff[1];
+          buffB[i] =  buff[2];
         }
 
         Serial.println("++");
@@ -373,9 +377,11 @@ void scottie1_transmit_file(char* filename){
       if(line != 255){
         // Read line and store color values in the buffer
         for(uint16_t i = 0; i < 320; i++){
-          buffR[i] = myFile.read();
-          buffG[i] = myFile.read();
-          buffB[i] = myFile.read();
+          myFile.readBytes(buff, 3);
+          
+          buffR[i] =  buff[0];
+          buffG[i] =  buff[1];
+          buffB[i] =  buff[2];
         }
       }
 
