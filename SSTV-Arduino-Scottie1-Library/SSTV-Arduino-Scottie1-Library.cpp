@@ -342,12 +342,12 @@ void scottie1_transmit_file(char* filename){
           Serial.println(" ");
 */        }
 
-        Serial.println("++");
-        Serial.println(micros() - syncTime); //Cheak reading time
+//        Serial.println("++");
+//        Serial.println(micros() - syncTime); //Cheak reading time
 
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {delayMicroseconds(100);}
 
-        Serial.println("Start separator pulse");
+//        Serial.println("Start separator pulse");
         
         // Separator pulse
  //       DDS.setfreq(1500, phase);
@@ -359,18 +359,18 @@ void scottie1_transmit_file(char* filename){
       }
 
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {delayMicroseconds(100);} // Separator pulse
-      Serial.println("Start green scan"); 
+//      Serial.println("Start green scan"); 
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
       while((sEm == 1) && !sstv_stop) {delayMicroseconds(100);};
 
-      Serial.println("Start separator pulse");
+//      Serial.println("Start separator pulse");
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {delayMicroseconds(100);}
 
-      Serial.println("Start blue scan");
+//      Serial.println("Start blue scan");
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {delayMicroseconds(100);};
@@ -399,8 +399,8 @@ void scottie1_transmit_file(char* filename){
 */        }
       }
 
-      Serial.println("--");
-      Serial.println(micros() - syncTime); //Cheak reading time
+//      Serial.println("--");
+//      Serial.println(micros() - syncTime); //Cheak reading time
 
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {delayMicroseconds(100);}
