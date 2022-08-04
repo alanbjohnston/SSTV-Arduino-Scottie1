@@ -601,12 +601,13 @@ void jpeg_decode(char* filename, char* fileout){
       }
     }
   }
-  Serial.println("Wriring header");
+/*  
+  Serial.println("Writing header");
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
 //    imgFile.write(sortBuf[k], sizeof(sortBuf));
     imgFile.write(sortBuf, sizeof(sortBuf));
 //  }
-
+*/
   //writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
