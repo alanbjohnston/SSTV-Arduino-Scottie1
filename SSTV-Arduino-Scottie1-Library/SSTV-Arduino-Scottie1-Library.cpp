@@ -302,7 +302,9 @@ void scottie1_transmit_file(char* filename){
   Serial.println("Transmitting picture");
 
 //  File myFile = SD.open(filename);
-File myFile = LittleFS.open(pic_decoded_filename, "r");  
+  File myFile = LittleFS.open(pic_decoded_filename, "r");  
+  
+  Serial.println(myFile);
 //  int myFile = true;  
   if (myFile) {
     head = true;
