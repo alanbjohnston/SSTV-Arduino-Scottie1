@@ -308,7 +308,8 @@ void scottie1_transmit_file(char* filename){
 //  int myFile = true;  
   if (myFile) {
     head = true;
-
+    Serial.println("Sending header");
+    
     /** TRANSMIT EACH LINE **/
     while(myFile.available() || line == 255){
     while ((myFile || line == 255) && !sstv_stop) {
