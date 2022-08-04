@@ -48,6 +48,8 @@ volatile long syncTime;
 
 short sstv_output_pin;
 int blocks = 0;
+int counter = 0;
+bool write_complete = false;
 
 // #define AUDIO_OUT_PIN 26
 
@@ -442,14 +444,16 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   uint16_t pixel_value;
   uint16_t *pixel;
   bool last_block = ((x == (320 - w)) & (y == (240 - h)));
-  
+  char buffer[w * h * 3];
+
+/*  
   if (((y % h) == 0) && ((x % w) == 0)) {
     Serial.print("\nStart of row! x = ");
     Serial.print(x);
     Serial.print(" y = ");
     Serial.println(y);
   }
-
+*/
   pixel = bitmap;
 
   uint32_t total_pixels = w * h;
@@ -470,7 +474,11 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     byte red = (pixel_value & 0b1111100000000000) >> 8;
     byte green = (pixel_value & 0b0000011111100000) >> 3;
     byte blue = (pixel_value & 0b0000000000011111) << 3;
-
+    
+    buffer[counter++] = red;
+    buffer[counter++] = green;
+    buffer[counter++] = blue;
+    
     print_hex(red);
     print_hex(green);
     print_hex(blue);
@@ -483,9 +491,11 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 */
     pixel++;
   }
+  
+  imgFile.write(buffer, sizeof(buffer));  
+  
   if (last_block) {
     Serial.println("Complete!\n\n");
-  }
 /*
     for (int i = 0; i < counter; i++) {
 //      Serial.print(buffer[i], HEX);
@@ -494,12 +504,14 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
       Serial.print(hexValue);
     }
  */ 
-/*    
+    
     Serial.print("\n\n Size: ");
     Serial.println(counter);
     counter = 0;
+    
+    write_complete = true;
   }
-*/
+
 //  delay(1000);
 
   blocks++;
@@ -575,6 +587,9 @@ void jpeg_decode(char* filename, char* fileout){
   uint16_t w = 0, h = 0;
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   Serial.print("Width = "); Serial.print(w); Serial.print(", height = "); Serial.println(h);
+  
+  counter = 0;
+  write_complete = false;
   
   TJpgDec.setCallback(get_block);
   
