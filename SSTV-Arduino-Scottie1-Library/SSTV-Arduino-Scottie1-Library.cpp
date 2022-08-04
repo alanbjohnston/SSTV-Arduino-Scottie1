@@ -508,9 +508,9 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     buffer[counter++] = green;
     buffer[counter++] = blue;
     
-//    print_hex(red);
-//    print_hex(green);
-//    print_hex(blue);
+    print_hex(red);
+    print_hex(green);
+    print_hex(blue);
     
  /*
     if (counter >= 155000) {
@@ -522,6 +522,8 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   }
   
 //  Serial.println("\nWriting block to file");
+  Serial.print("Sizeof buffer: ");
+  Serial.println(sizeof(buffer));
   
   if (imgFile)
     imgFile.write(buffer, sizeof(buffer));  
