@@ -421,6 +421,74 @@ void scottie1_transmit_file(char* filename){
   Serial.println("SSTV timer stopped");  
 }
 
+bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
+{
+//  Serial.println("\nBlock callback");
+//  Serial.println(x);
+//  Serial.println(y);
+//  Serial.println(w);
+//  Serial.println(h);
+//  Serial.println(sizeof(*bitmap));
+
+//  return 1;
+
+  uint16_t pixel_value;
+  uint16_t *pixel;
+  bool last_block = ((x == (320 - w)) & (y == (240 - h)));
+
+  pixel = bitmap;
+
+  uint32_t total_pixels = w * h;
+
+  while (total_pixels--) {
+
+    pixel_value = *pixel;
+/*
+    if ((x == 0) && (y == 0)) {
+      Serial.print(" ");
+      Serial.print(pixel_value, HEX);
+      Serial.print(" ");
+    }
+*/    
+    buffer[counter++] = pixel_value >> 8;
+    buffer[counter++] = pixel_value;
+
+    byte red = (pixel_value & 0b1111100000000000) >> 8;
+    byte green = (pixel_value & 0b0000011111100000) >> 3;
+    byte blue = (pixel_value & 0b0000000000011111) << 3;
+
+    print_hex(red);
+    print_hex(green);
+    print_hex(blue);
+    
+    if (counter >= 155000) {
+      Serial.println("Resetting counter****************************************\n");
+      counter = 0;
+    }
+
+    pixel++;
+  }
+  if (last_block) {
+    Serial.println("Complete!\n\n");
+/*
+    for (int i = 0; i < counter; i++) {
+//      Serial.print(buffer[i], HEX);
+      char hexValue[5];
+      sprintf(hexValue, "%02X", buffer[i]);
+      Serial.print(hexValue);
+    }
+ */   
+    Serial.print("\n\n Size: ");
+    Serial.println(counter);
+    counter = 0;
+  }
+
+//  delay(1000);
+
+  blocks++;
+
+  return 1;
+}
 
 void jpeg_decode(char* filename, char* fileout){
   uint8_t *pImg;
@@ -490,6 +558,10 @@ void jpeg_decode(char* filename, char* fileout){
   uint16_t w = 0, h = 0;
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   Serial.print("Width = "); Serial.print(w); Serial.print(", height = "); Serial.println(h);
+  
+  TJpgDec.setCallback(get_block);
+  
+  TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
 
 /*  
   JpegDec.decodeFile(filename);
@@ -512,7 +584,7 @@ void jpeg_decode(char* filename, char* fileout){
   Serial.println(JpegDec.MCUHeight);
   Serial.println("");
 */
-  Serial.println("Writting bin to SD");
+  Serial.println("Writing bin to FS");
 
 //  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
   
