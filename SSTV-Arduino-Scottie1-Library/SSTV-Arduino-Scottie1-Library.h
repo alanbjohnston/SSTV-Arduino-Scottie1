@@ -60,7 +60,7 @@ void writeFooter(File* dst);
 void dds_begin();
 void dds_down();
 void dds_setfreq(int freq);
-void send_sstv();
+void send_sstv(char* filename);
 void set_sstv_pin(byte pin);
 void sstv_end();
 
