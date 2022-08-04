@@ -493,7 +493,12 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     pixel++;
   }
   
-  imgFile.write(buffer, sizeof(buffer));  
+  Serial.println("\nWriting block to file);
+  
+  if (imgFile)
+    imgFile.write(buffer, sizeof(buffer));  
+  else
+    Serial.println("Problem writing block");
   
   if (last_block) {
     Serial.println("Complete!\n\n");
@@ -575,7 +580,7 @@ void jpeg_decode(char* filename, char* fileout){
       }
     }
   }
-
+  Serial.println("Wriring header");
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
 //    imgFile.write(sortBuf[k], sizeof(sortBuf));
     imgFile.write(sortBuf, sizeof(sortBuf));
@@ -584,6 +589,8 @@ void jpeg_decode(char* filename, char* fileout){
   //writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
+  
+  Serial.println("Starting jpeg decode");
   
   uint16_t w = 0, h = 0;
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
