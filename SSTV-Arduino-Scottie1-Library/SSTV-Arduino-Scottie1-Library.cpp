@@ -493,7 +493,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     pixel++;
   }
   
-  Serial.println("\nWriting block to file);
+  Serial.println("\nWriting block to file");
   
   if (imgFile)
     imgFile.write(buffer, sizeof(buffer));  
