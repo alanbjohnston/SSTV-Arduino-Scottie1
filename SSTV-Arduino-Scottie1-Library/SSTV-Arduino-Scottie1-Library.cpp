@@ -467,11 +467,12 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     print_hex(green);
     print_hex(blue);
     
+ /*
     if (counter >= 155000) {
       Serial.println("Resetting counter****************************************\n");
       counter = 0;
     }
-
+*/
     pixel++;
   }
   if (last_block) {
