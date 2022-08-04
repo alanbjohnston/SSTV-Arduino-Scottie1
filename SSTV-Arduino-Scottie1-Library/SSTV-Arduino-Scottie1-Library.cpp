@@ -311,7 +311,8 @@ void scottie1_transmit_file(char* filename){
     Serial.println("Sending header");
     
     /** TRANSMIT EACH LINE **/
-    while(myFile.available() || line == 255){
+//    while(myFile.available() || line == 255){
+    while(myFile || line == 255){
     while ((myFile || line == 255) && !sstv_stop) {
       if(head == true) { // Header
         /** VOX TONE (OPTIONAL) **/
