@@ -63,6 +63,7 @@ void dds_setfreq(int freq);
 void send_sstv(char* filename);
 void set_sstv_pin(byte pin);
 void sstv_end();
+void decode(char* filename, char* fileout);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
