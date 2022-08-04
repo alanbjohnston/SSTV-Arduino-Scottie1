@@ -496,14 +496,15 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   
   Serial.println("\nWriting block to file");
   
-/*  
+ 
   if (imgFile)
     imgFile.write(buffer, sizeof(buffer));  
   else
     Serial.println("Problem writing block");
-*/  
+ 
   if (last_block) {
     Serial.println("Complete!\n\n");
+  }
 /*
     for (int i = 0; i < counter; i++) {
 //      Serial.print(buffer[i], HEX);
@@ -513,11 +514,11 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     }
  */ 
     
-    Serial.print("\n\n Size: ");
-    Serial.println(counter);
+//    Serial.print("\n\n Size: ");
+//    Serial.println(counter);
     
-    write_complete = true;
-  }
+//    write_complete = true;
+//  }
 
 //  delay(1000);
 
@@ -597,8 +598,8 @@ void jpeg_decode(char* filename, char* fileout){
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   Serial.print("Width = "); Serial.print(w); Serial.print(", height = "); Serial.println(h);
   
-  counter = 0;
-  write_complete = false;
+//  counter = 0;
+//  write_complete = false;
   
   TJpgDec.setCallback(get_block);
   
