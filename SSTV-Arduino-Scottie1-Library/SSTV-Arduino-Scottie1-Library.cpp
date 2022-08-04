@@ -420,7 +420,7 @@ File myFile = LittleFS.open(pic_decoded_filename, "r");
   }
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");      
+    Serial.println("error opening cam.bin");          
   }
   Serial.println("Ending SSTV");
   sstv_ITimer1.stopTimer();
