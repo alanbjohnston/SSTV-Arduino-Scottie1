@@ -602,6 +602,8 @@ void jpeg_decode(char* filename, char* fileout){
   TJpgDec.setCallback(get_block);
   
   TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
+  
+  while (!write_complete) { Serial.println("Waiting..."); }
 
 /*  
   JpegDec.decodeFile(filename);
