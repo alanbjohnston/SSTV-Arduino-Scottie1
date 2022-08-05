@@ -220,7 +220,7 @@ void send_sstv(char* filename) {
 */
   strcpy(pic_filename, filename);
   
-  Serial.print("Sending image ");
+  Serial.print("Sending the image ");
   Serial.println(pic_filename);
 
 //  strcpy(pic_decoded_filename, pic_filename);
