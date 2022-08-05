@@ -906,7 +906,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     print_hex(green);
     print_hex(blue);
     
-    delay(100);
+//    delay(100);
   #endif    
   }
   inFile.close();
