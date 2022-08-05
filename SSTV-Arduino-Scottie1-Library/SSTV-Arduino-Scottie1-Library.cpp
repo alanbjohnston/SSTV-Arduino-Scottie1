@@ -905,10 +905,18 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       blue = 0;
     }
     else if ( box == ( (int)(box / 2) * 2)) {
+      Serial.println(x);
+      Serial.println(y);
+      Serial.println(box);
+      Serial.println(" ");
       red = 255;
       green = 0;
       blue = 0;    
     } else  {
+      Serial.println(x);
+      Serial.println(y);
+      Serial.println(box);
+      Serial.println(" ");
       red = 0;
       green = 0;
       blue = 255;
