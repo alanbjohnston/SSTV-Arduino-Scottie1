@@ -887,7 +887,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     print_hex(buff[0]);
     print_hex(buff[1]);
 
-    int pixel_value = buff[1] >> 8 + buff[0];
+    int pixel_value = (buff[1] << 8) + buff[0];
 
     byte red = (pixel_value & 0b1111100000000000) >> 8;
     byte green = (pixel_value & 0b0000011111100000) >> 3;
