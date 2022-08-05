@@ -228,7 +228,7 @@ void send_sstv(char* filename) {
 //  pic_decoded_filename[9] = 'I';
 //  pic_decoded_filename[10] = 'N';
 
-  Serial.print("Writting on: ");
+  Serial.print("Writing to: ");
   Serial.println(pic_decoded_filename);
   
 //  jpeg_decode(pic_filename, pic_decoded_filename);
@@ -899,7 +899,8 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     buffer[1] = green;
     buffer[2] = blue;
     
-    outFile.write(buffer, 3);
+    if (!outFile.write(buffer, 3))
+      Serial.println("Error writing output file");
 
   #ifdef DEBUG    
     print_hex(red);
