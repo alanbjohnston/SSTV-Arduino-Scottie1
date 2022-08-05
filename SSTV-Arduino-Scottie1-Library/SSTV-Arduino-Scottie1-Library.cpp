@@ -910,7 +910,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       if (greenx > 255) {
         greenx -= 255;
         bluex += 50;
-        if (bluex > 255 {
+        if (bluex > 255) {
           bluex -= 255;
         }
       }
