@@ -898,7 +898,9 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     buffer[1] = green;
     buffer[2] = blue;
     
-    if (outFile.write(buffer, 3) < 3)
+    int bytes = outFile.write(buffer, 3);
+    Serial.println(bytes);
+    if (bytes < 3) 
       Serial.println("Error writing output file");
 
   #ifdef DEBUG    
