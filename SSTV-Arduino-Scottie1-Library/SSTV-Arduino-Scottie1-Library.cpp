@@ -233,7 +233,7 @@ void send_sstv(char* filename) {
   
 //  jpeg_decode(pic_filename, pic_decoded_filename);
   
-  decode(pic_filename, pic_decoded_filename);
+  raw_decode(pic_filename, pic_decoded_filename);
   
   scottie1_transmit_file(pic_decoded_filename);
 }
@@ -852,7 +852,7 @@ void writeFooter(File* dst){
 }
 */
 
-void decode(char* filename, char* fileout){  // used to decode .raw files in RGB565 format
+void raw_decode(char* filename, char* fileout){  // used to decode .raw files in RGB565 format
 
 // Open the input file for reading
   inFile = LittleFS.open(filename, "r");
