@@ -709,7 +709,6 @@ void jpeg_decode(char* filename, char* fileout){
             i++;
             if(i == 5120){ //320(px)x16(lines)
 //              for(k = 0; k < 15360; k++){
-//                imgFile.write(sortBuf[k], sizeof(sortBuf));
                 imgFile.write(sortBuf, sizeof(sortBuf));
 //              }
               i = 0;
@@ -899,7 +898,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     buffer[1] = green;
     buffer[2] = blue;
     
-    if (!outFile.write(buffer, 3))
+    if (outFile.write(buffer, 3) == -1)
       Serial.println("Error writing output file");
 
   #ifdef DEBUG    
