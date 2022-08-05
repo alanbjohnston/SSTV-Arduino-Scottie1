@@ -349,8 +349,8 @@ void scottie1_transmit_file(char* filename){
           Serial.println(" ");
 */        }
 
-//        Serial.println("++");
-//        Serial.println(micros() - syncTime); //Cheak reading time
+        Serial.println("++");
+        Serial.println(micros() - syncTime); //Cheak reading time
 
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
 
@@ -411,8 +411,8 @@ void scottie1_transmit_file(char* filename){
         }
       }
 
-//      Serial.println("--");
-//      Serial.println(micros() - syncTime); //Cheak reading time
+      Serial.println("--");
+      Serial.println(micros() - syncTime); //Cheak reading time
 
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
@@ -879,9 +879,9 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   char buffer[3];
   
   int i = 0;
-  int redx = 8;
-  int greenx = 8;
-  int bluex = 8;
+  int redx = 128;
+  int greenx = 128;
+  int bluex = 128;
   
   while (i++ < (320 * 240 * 3)) {
     inFile.readBytes(buff, 2);
