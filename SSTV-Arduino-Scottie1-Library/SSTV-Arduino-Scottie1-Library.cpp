@@ -909,7 +909,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       Serial.println(y);
       Serial.println(box);
       Serial.println(" ");
-      red = 255;
+      red = (100 + x) % 256;
       green = 0;
       blue = 0;    
     } else  {
@@ -919,7 +919,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       Serial.println(" ");
       red = 0;
       green = 0;
-      blue = 255;
+      blue = (100 + y) % 256;
     }   
     
     buffer[0] = red;
