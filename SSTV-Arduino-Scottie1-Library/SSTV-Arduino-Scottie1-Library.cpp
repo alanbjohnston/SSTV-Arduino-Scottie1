@@ -897,7 +897,8 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     int size = 80;
     int y = (int)( i / 320 );
     int x = (int)( i - x * 320 );
-    int box = (int)(x/size) + (int)(y/size); 
+//    int box = (int)(x/size) + (int)(y/size); 
+    int box = (int)(y/size); 
     if ( box == ( (int)(box / 2) * 2)) {
       red = 255;
       green = 0;
