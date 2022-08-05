@@ -916,13 +916,13 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       }
     }
     
-/*   
-    if (y < 0) { // 20) {
-      redx = 0;
-      greenx = 255;
-      bluex = 0;
+/* */  
+    if (y < 20) { // 20) {
+      red = 0;
+      green = 255;
+      blue = 0;
     }
-*/
+/**/
 /**/    
     else if ( box == ( (int)(box / 2) * 2)) {
 //      Serial.println(x);
