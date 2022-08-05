@@ -894,7 +894,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     byte green = (pixel_value & 0b0000011111100000) >> 3;
     byte blue = (pixel_value & 0b0000000000011111) << 3;
 
-    int size = 5; // 46;
+    int size = 3; // 46;
     int y = (int)( i / 320 );
     int x = (int)( i - y * 320 );
     int box = (int)(x/size) + (int)(y/size); 
@@ -905,21 +905,21 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       blue = 0;
     }
     else if ( box == ( (int)(box / 2) * 2)) {
-      Serial.println(x);
-      Serial.println(y);
-      Serial.println(box);
-      Serial.println(" ");
-      red = (100 + x) % 256;
-      green = 0;
+//      Serial.println(x);
+//      Serial.println(y);
+//      Serial.println(box);
+//      Serial.println(" ");
+      red = 128; //(100 + x) % 256;
+      green = 128; // ;
       blue = 0;    
     } else  {
-      Serial.println(x);
-      Serial.println(y);
-      Serial.println(box);
-      Serial.println(" ");
+//      Serial.println(x);
+//      Serial.println(y);
+//      Serial.println(box);
+//      Serial.println(" ");
       red = 0;
-      green = 0;
-      blue = (100 + y) % 256;
+      green = 100;
+      blue = 128; //(100 + y) % 256;
     }   
     
     buffer[0] = red;
