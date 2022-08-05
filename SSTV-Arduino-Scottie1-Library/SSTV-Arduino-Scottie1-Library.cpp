@@ -960,6 +960,8 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 //    Serial.println(bytes);
     if (bytes < 3) 
       Serial.println("Error writing output file");
+    
+    outFile.write(buffer, 3);  // write it a 2nd time
 
   #ifdef DEBUG    
     print_hex(red);
