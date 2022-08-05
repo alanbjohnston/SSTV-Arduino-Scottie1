@@ -579,9 +579,9 @@ void jpeg_decode(char* filename, char* fileout){
 
   // Open the file for writing
 //  File imgFile = SD.open(fileout, FILE_WRITE);
-  inFile = LittleFS.open(fileout, "w+");
+  outFile = LittleFS.open(fileout, "w+");
   
-  if (inFile)
+  if (outFile)
     Serial.println("Output opened");
   else
     Serial.println("Failed to open output");
@@ -639,17 +639,21 @@ void jpeg_decode(char* filename, char* fileout){
   
   uint16_t w = 0, h = 0;
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
-  Serial.print("Width = "); Serial.print(w); Serial.print(", height = "); Serial.println(h);
+  Serial.print("Width = "); 
+  Serial.print(w); 
+  Serial.print(", height = "); 
+  Serial.println(h);
   
+  if ((w == 0) && (h == 0)) {
+    Serial.println("Failed to open jpeg input");
+    return;
+  }
 //  counter = 0;
 //  write_complete = false;
   
   TJpgDec.setJpgScale(1);
-
-  TJpgDec.setSwapBytes(false);
-  
-  TJpgDec.setCallback(get_block);
-  
+  TJpgDec.setSwapBytes(false);  
+  TJpgDec.setCallback(get_block);  
   TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
   
   Serial.println("Draw complete");
@@ -719,7 +723,7 @@ void jpeg_decode(char* filename, char* fileout){
   }
 */
   Serial.println("Bin has been written to FS");
-  inFile.close();
+  outFile.close();
 }
 
 void shot_pic(){
@@ -859,17 +863,19 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   
   if (inFile)
     Serial.println("Input opened");
-  else
-    Serial.println("Failed to open intput");
- 
+  else {
+    Serial.println("Failed to open input");
+    return;
+  }
 // Open the output file for writing
   outFile = LittleFS.open(fileout, "w+");
   
   if (outFile)
     Serial.println("Output opened");
-  else
+  else {
     Serial.println("Failed to open output");
-  
+    return;
+  }
   char buff[2];
   char buffer[3];
   
