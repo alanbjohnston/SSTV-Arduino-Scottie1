@@ -883,7 +883,8 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   int greenx = 128;
   int bluex = 128;
   
-  while (i++ < (320 * 240 * 3)) {
+//  while (i++ < (320 * 240 * 3)) {
+  while (i++ < (320 * 240 * 1.49)) {
     inFile.readBytes(buff, 2);
     
 #ifdef DEBUG    
