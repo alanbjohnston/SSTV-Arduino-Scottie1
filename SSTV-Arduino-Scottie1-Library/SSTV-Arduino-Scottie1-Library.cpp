@@ -931,13 +931,13 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 //      Serial.println(" ");
       red = 255; //(100 + x) % 256;
       green = 255; // ;
-      blue = 0;    
+      blue = 100;    
     } else  {
 //      Serial.println(x);
 //      Serial.println(y);
 //      Serial.println(box);
 //      Serial.println(" ");
-      red = 0;
+      red = 100;
       green = 255;
       blue = 255; //(100 + y) % 256;
     }  
