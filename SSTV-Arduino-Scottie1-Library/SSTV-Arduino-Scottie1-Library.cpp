@@ -888,7 +888,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     buffer[1] = green;
     buffer[2] = blue;
     
-    outFile.writeBytes(buffer, 3);
+    outFile.write(buffer, 3);
 
   #ifdef DEBUG    
     print_hex(red);
@@ -896,7 +896,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     print_hex(blue);
   #endif    
   }
-  imFile.close();
+  inFile.close();
   outFile.close();
 }
 
