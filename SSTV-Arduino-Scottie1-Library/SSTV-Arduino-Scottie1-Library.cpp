@@ -52,7 +52,8 @@ short sstv_output_pin;
 int blocks = 0;
 //int counter = 0;
 bool write_complete = false;
-File imgFile;
+File inFile;
+File outFile;
 
 // #define AUDIO_OUT_PIN 26
 
@@ -538,8 +539,8 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 //  Serial.print("Sizeof buffer: ");
 //  Serial.println(sizeof(buffer));
   
-  if (imgFile)
-    imgFile.write(buffer, sizeof(buffer));  
+  if (inFile)
+    inFile.write(buffer, sizeof(buffer));  
   else
     Serial.println("Problem writing block");
  
@@ -578,9 +579,9 @@ void jpeg_decode(char* filename, char* fileout){
 
   // Open the file for writing
 //  File imgFile = SD.open(fileout, FILE_WRITE);
-  imgFile = LittleFS.open(fileout, "w+");
+  inFile = LittleFS.open(fileout, "w+");
   
-  if (imgFile)
+  if (inFile)
     Serial.println("Output opened");
   else
     Serial.println("Failed to open output");
