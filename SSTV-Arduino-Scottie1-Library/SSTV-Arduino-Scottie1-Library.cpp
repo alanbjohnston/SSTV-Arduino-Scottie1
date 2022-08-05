@@ -884,9 +884,11 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   while (i++ < (320 * 240 * 3)) {
     inFile.readBytes(buff, 2);
     
+#ifdef DEBUG    
     print_hex(buff[0]);
     print_hex(buff[1]);
-
+#endif
+    
     int pixel_value = (buff[1] << 8) + buff[0];
 
     byte red = (pixel_value & 0b1111100000000000) >> 8;
