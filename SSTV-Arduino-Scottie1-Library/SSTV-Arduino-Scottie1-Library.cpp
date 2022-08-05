@@ -15,10 +15,10 @@
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
 
-bool dds_phase = HIGH;
+volatile bool dds_phase = HIGH;
 int dds_duration_us = 1000;
 int dds_duration_previous_us = 1000;
-bool dds_enable = false;
+volatile bool dds_enable = false;
 bool sstv_stop;
 
 //volatile uint8_t phase = 0;
@@ -352,7 +352,7 @@ void scottie1_transmit_file(char* filename){
 //        Serial.println("++");
 //        Serial.println(micros() - syncTime); //Cheak reading time
 
-        while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {delayMicroseconds(100);}
+        while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
 
 //        Serial.println("Start separator pulse");
         
@@ -365,22 +365,22 @@ void scottie1_transmit_file(char* filename){
         head = false;
       }
 
-      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {delayMicroseconds(100);} // Separator pulse
+      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {} // Separator pulse
 //      Serial.println("Start green scan"); 
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
-      while((sEm == 1) && !sstv_stop) {delayMicroseconds(100);};
+      while((sEm == 1) && !sstv_stop) {};
 
 //      Serial.println("Start separator pulse");
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
-      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {delayMicroseconds(100);}
+      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
 
 //      Serial.println("Start blue scan");
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
-      while ((sEm == 1) && !sstv_stop) {delayMicroseconds(100);};
+      while ((sEm == 1) && !sstv_stop) {}
 
 //      Serial.println("Start evacuate");
       //Evacuate
@@ -415,7 +415,7 @@ void scottie1_transmit_file(char* filename){
 //      Serial.println(micros() - syncTime); //Cheak reading time
 
       //Sync pulse
-      while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {delayMicroseconds(100);}
+      while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
       
 //      Serial.println("Starting sync porch");  
         
@@ -423,7 +423,7 @@ void scottie1_transmit_file(char* filename){
 //      DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       syncTime = micros();
-      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {delayMicroseconds(100);}
+      while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
 
 //      Serial.println("Start red scan");  
       // Red Scan
