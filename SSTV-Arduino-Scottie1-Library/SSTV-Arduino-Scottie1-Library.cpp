@@ -314,14 +314,14 @@ void scottie1_transmit_file(char* filename){
   
   Serial.println(myFile);
 //  int myFile = true;  
-  if (myFile) {
+  if (myFile.available()) {
     head = true;
     Serial.println("Sending header");
     
     /** TRANSMIT EACH LINE **/
 //    while(myFile.available() || line == 255){
-    while(myFile || line == 255){
-    while ((myFile || line == 255) && !sstv_stop) {
+    while(myFile.available() || line == 255){
+    while ((myFile.available() || line == 255) && !sstv_stop) {
       if(head == true) { // Header
         /** VOX TONE (OPTIONAL) **/
         vox_tone();
@@ -940,7 +940,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
       green = 25;
       blue = 255; //(100 + y) % 256;
     }  
-*/
+    
       buffer[0] = red;
       buffer[1] = green;
       buffer[2] = blue;    
