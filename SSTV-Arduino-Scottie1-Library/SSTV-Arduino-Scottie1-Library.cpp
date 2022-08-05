@@ -719,7 +719,7 @@ void jpeg_decode(char* filename, char* fileout){
   }
 */
   Serial.println("Bin has been written to FS");
-  imgFile.close();
+  inFile.close();
 }
 
 void shot_pic(){
