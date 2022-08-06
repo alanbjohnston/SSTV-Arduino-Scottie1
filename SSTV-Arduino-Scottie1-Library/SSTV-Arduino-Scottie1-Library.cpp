@@ -18,6 +18,7 @@ RPI_PICO_Timer sstv_ITimer1(3);
 
 volatile bool dds_phase = HIGH;
 volatile int dds_duration_us = 1000;
+volatile int dds_duration = 100;  // 10 us
 int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
 volatile long dds_counter = 0;
@@ -108,7 +109,7 @@ bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
 void dds_begin() {
 #ifdef DDS_ALT
   dds_counter = 0;
-  if (dds_ITimer0.attachInterruptInterval(1, dds_TimerHandler0))	{
+  if (dds_ITimer0.attachInterruptInterval(10, dds_TimerHandler0))	{
 #else
   if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
 #endif
@@ -128,7 +129,7 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
 #ifdef DDS_ALT  
-  dds_duration_us = 0.5E6 / (float)freq - 3;  // ToDo: calibration of alt method
+  dds_duration_us = 0.5E5 / (float)freq;  // 10 us ToDo: calibration of alt method
 #else
   dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
 #endif
