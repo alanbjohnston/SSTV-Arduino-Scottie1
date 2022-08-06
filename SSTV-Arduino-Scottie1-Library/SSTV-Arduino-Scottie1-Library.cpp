@@ -11,7 +11,7 @@
 #include <TJpg_Decoder.h>
 
 //#define DEBUG
-//#define DDS_ALT
+#define DDS_ALT
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
@@ -129,8 +129,8 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
 #ifdef DDS_ALT  
-//  dds_duration_us = 0.5E5 / (float)freq;  // 10 us ToDo: calibration of alt method
-  dds_duration_us = 0.375E5 / (float)freq;  // 10 us calibrated
+  dds_duration_us = 0.5E5 / (float)freq;  // 10 us ToDo: calibration of alt method
+//  dds_duration_us = 0.375E5 / (float)freq;  // 10 us calibrated
 #else
   dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
 #endif
@@ -919,7 +919,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     byte green = (pixel_value & 0b0000011111100000) >> 3;
     byte blue = (pixel_value & 0b0000000000011111) << 3;
 
-    int size = 2; // 46;
+    int size = 3; // 46;
     int y = (int)( i / 320 );
     int x = (int)( i - y * 320 );
     int box = (int)(x/size) + (int)(y/size); 
