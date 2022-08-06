@@ -346,7 +346,7 @@ void scottie1_transmit_file(char* filename){
     
     /** TRANSMIT EACH LINE **/
 //    while(myFile.available() || line == 255){
-    while(myFile.available() || line == 255){
+//    while ((myFile.available() || line == 255) && !sstv_stop) {
     while ((myFile.available() || line == 255) && !sstv_stop) {
       if(head == true) { // Header
         /** VOX TONE (OPTIONAL) **/
@@ -459,12 +459,14 @@ void scottie1_transmit_file(char* filename){
 //      Serial.println("increment line");
       line++;
       if(line == 256){
-        Serial.println("Finish");
+        Serial.println("Finished");
 //        DDS.setfreq(2, phase);
         dds_setfreq(2);
 //        DDS.down();
         
         dds_down();
+        
+        sstv_stop = true;
         
         sEm = 0;
       }
@@ -479,7 +481,7 @@ void scottie1_transmit_file(char* filename){
     }
     // close the file:
     myFile.close();
-  }
+//  }
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening cam.bin");          
