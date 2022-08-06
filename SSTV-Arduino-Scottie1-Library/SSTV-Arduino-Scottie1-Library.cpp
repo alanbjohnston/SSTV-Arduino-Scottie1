@@ -205,7 +205,7 @@ void send_sstv(char* filename) {
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
 
   dds_begin();
-/**/  
+/*  
   delay(2000);
   dds_setfreq(1200);
   Serial.println("1200");
@@ -216,7 +216,7 @@ void send_sstv(char* filename) {
   dds_setfreq(2300);  
   Serial.println("2400");  
   delay(2000);
-/**/  
+*/  
   
   LittleFS.begin();
  /* 
