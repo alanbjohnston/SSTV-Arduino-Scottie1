@@ -14,8 +14,8 @@
 #define DDS_ALT
 #define TEST_PATTERN
 
-RPI_PICO_Timer dds_ITimer2(2);
-RPI_PICO_Timer sstv_ITimer3(3);
+//RPI_PICO_Timer dds_ITimer2(2);
+//RPI_PICO_Timer sstv_ITimer3(3);
 
 volatile bool dds_phase = HIGH;
 volatile int dds_duration_us = 1000;
