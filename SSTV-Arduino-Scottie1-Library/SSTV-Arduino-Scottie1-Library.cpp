@@ -210,8 +210,8 @@ void send_sstv(char* filename) {
   dds_setfreq(1500);  
   Serial.println("1500");  
   delay(2000);
-  dds_setfreq(500);  
-  Serial.println("500");  
+  dds_setfreq(2300);  
+  Serial.println("2400");  
   delay(2000);
 /**/  
   
