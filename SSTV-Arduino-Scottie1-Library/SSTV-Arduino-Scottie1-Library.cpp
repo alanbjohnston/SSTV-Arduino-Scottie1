@@ -12,6 +12,7 @@
 
 //#define DEBUG
 #define DDS_ALT
+//#define TEST_PATTERN
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
