@@ -563,8 +563,8 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 //  Serial.print("Sizeof buffer: ");
 //  Serial.println(sizeof(buffer));
   
-  if (inFile)
-    inFile.write(buffer, sizeof(buffer));  
+  if (outFile)
+    outFile.write(buffer, sizeof(buffer));  
   else
     Serial.println("Problem writing block");
  
