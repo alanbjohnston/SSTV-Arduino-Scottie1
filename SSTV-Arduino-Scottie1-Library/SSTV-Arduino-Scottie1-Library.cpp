@@ -14,8 +14,8 @@
 #define DDS_ALT
 #define TEST_PATTERN
 
-RPI_PICO_Timer dds_ITimer0(2);
-RPI_PICO_Timer sstv_ITimer1(3);
+RPI_PICO_Timer dds_ITimer2(2);
+RPI_PICO_Timer sstv_ITimer3(3);
 
 volatile bool dds_phase = HIGH;
 volatile int dds_duration_us = 1000;
@@ -71,7 +71,7 @@ void set_sstv_pin(byte pin) {
 void sstv_end() {
   sstv_stop = true;
 //  delay(100);
-//  sstv_ITimer1.stopTimer();
+//  sstv_ITimer3.stopTimer();
 //  delay(100);
 //  dds_down();
 }
@@ -117,24 +117,24 @@ void dds_begin() {
   if (!dds_timer_started) {  
   #ifdef DDS_ALT
     dds_counter = 0;
-    if (dds_ITimer0.attachInterruptInterval(10, dds_TimerHandler0))	{
+    if (dds_ITimer2.attachInterruptInterval(10, dds_TimerHandler0))	{
   #else
-    if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
+    if (dds_ITimer2.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
   #endif
-      Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
+      Serial.print(F("Starting dds_ITimer2 OK, micros() = ")); Serial.println(micros());
       dds_timer_started = true;
     }
     else
-      Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
+      Serial.println(F("Can't set dds_ITimer2. Select another Timer, freq. or timer"));
   } else  {
-//      dds_ITimer0.restartTimer();
-//      Serial.println("Restaarting dds_ITimer0");
+//      dds_ITimer2.restartTimer();
+//      Serial.println("Restaarting dds_ITimer2");
   } 
   dds_enable = true;
 }
 
 void dds_down() {
-//  dds_ITimer0.stopTimer();
+//  dds_ITimer2.stopTimer();
   dds_enable = false;
   Serial.println("Stopping DDS");
 }
@@ -153,14 +153,14 @@ void dds_setfreq(int freq) {
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
 /*    
-    if (dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0)) {
+    if (dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0)) {
       Serial.println(dds_duration_us);
     }
     else
       Serial.println(F("Can't set dds interval"));
 */   
 #ifndef DDS_ALT
-    dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);
+    dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0);
 #endif
     dds_duration_previous_us = dds_duration_us;
   }   
@@ -241,14 +241,14 @@ void send_sstv(char* filename) {
 */
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
-//  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
+//  if (sstv_ITimer3.attachInterruptInterval(430, sstv_TimerHandler1)) {	
   if (!sstv_timer_started) {
-    if (sstv_ITimer1.attachInterruptInterval(421, sstv_TimerHandler1)) {	
-      Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
+    if (sstv_ITimer3.attachInterruptInterval(421, sstv_TimerHandler1)) {	
+      Serial.print(F("Starting sstv_ITimer3 OK, micros() = ")); Serial.println(micros());
       sstv_timer_started = true;
     }
     else
-      Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
+      Serial.println(F("Can't set sstv_ITimer3. Select another Timer, freq. or timer"));
   }
   delay(100);
 
