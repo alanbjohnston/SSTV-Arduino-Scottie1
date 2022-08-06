@@ -129,7 +129,7 @@ void dds_down() {
 
 void dds_setfreq(int freq) {
 #ifdef DDS_ALT  
-  dds_duration_us = 0.5E5 / (float)freq;  // 10 us ToDo: calibration of alt method
+  dds_duration_us = (0.5E5 / (float)freq) * 1.064 - 17.8;  // 10 us with calibration
 //  dds_duration_us = 0.375E5 / (float)freq;  // 10 us calibrated
 #else
   dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
