@@ -255,9 +255,9 @@ void send_sstv(char* filename) {
   Serial.print("Writing to: ");
   Serial.println(pic_decoded_filename);
   
-  jpeg_decode(pic_filename, pic_decoded_filename);
+//  jpeg_decode(pic_filename, pic_decoded_filename);
   
-//  raw_decode(pic_filename, pic_decoded_filename);
+  raw_decode(pic_filename, pic_decoded_filename);
   
   scottie1_transmit_file(pic_decoded_filename);
 }
