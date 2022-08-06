@@ -68,6 +68,7 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
+  delay(200);
   dds_down();
   sstv_ITimer1.stopTimer();
 }
