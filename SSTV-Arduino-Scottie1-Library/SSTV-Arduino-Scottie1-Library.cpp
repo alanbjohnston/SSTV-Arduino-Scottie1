@@ -12,7 +12,7 @@
 
 //#define DEBUG
 #define DDS_ALT
-//#define TEST_PATTERN
+#define TEST_PATTERN
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
@@ -923,7 +923,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     byte blue = (pixel_value & 0b0000000000011111) << 3;
 
 #ifdef TEST_PATTERN    
-    int size = 1; // 46;
+    int size = 5; // 46;
     int y = (int)( i / 320 );
     int x = (int)( i - y * 320 );
     int box = (int)(x/size) + (int)(y/size);  
@@ -939,16 +939,16 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 //      Serial.println(box);
 //      Serial.println(" ");
       red = 255; //(100 + x) % 256;
-      green = 100; // ;
-      blue = 255;    
+      green = 0; // ;
+      blue = 0;    
     } else  {
 //      Serial.println(x);
 //      Serial.println(y);
 //      Serial.println(box);
 //      Serial.println(" ");
-      red = 100;
-      green = 25;
-      blue = 80; //(100 + y) % 256;
+      red = 0;
+      green = 0;
+      blue = 255; //(100 + y) % 256;
     }  
 #endif    
     
