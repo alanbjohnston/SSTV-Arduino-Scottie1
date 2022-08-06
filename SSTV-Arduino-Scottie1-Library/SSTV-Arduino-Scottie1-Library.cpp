@@ -11,14 +11,16 @@
 #include <TJpg_Decoder.h>
 
 //#define DEBUG
+#define DDS_ALT
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
 
 volatile bool dds_phase = HIGH;
-int dds_duration_us = 1000;
+volatile int dds_duration_us = 1000;
 int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
+volatile long dds_counter = 0;
 bool sstv_stop;
 
 //volatile uint8_t phase = 0;
@@ -88,16 +90,28 @@ void loop() {
 
 bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
+#ifdef DDS_ALT
+    if (dds_counter++ > dds_duration_us) {
+      dds_counter = 0;
+      dds_phase = !dds_phase;	  
+      digitalWrite(sstv_output_pin, dds_phase);    // ToDo: use PWM to approximate sin wave
+    }
+#else    
     dds_phase = !dds_phase;	  
-//    digitalWrite(AUDIO_OUT_PIN, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
-    digitalWrite(sstv_output_pin, dds_phase);    // ToDo: if no TXC, just turn on PWM carrier
+//    digitalWrite(AUDIO_OUT_PIN, dds_phase);    
+    digitalWrite(sstv_output_pin, dds_phase);    
+#endif    
   }
   return(true);
 }
 
 void dds_begin() {
-  
+#ifdef DDS_ALT
+  dds_counter = 0;
+  if (dds_ITimer0.attachInterruptInterval(1, dds_TimerHandler0))	{
+#else
   if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
+#endif
     Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
   }
   else
@@ -113,9 +127,12 @@ void dds_down() {
 }
 
 void dds_setfreq(int freq) {
-  
+#ifdef DDS_ALT  
+  dds_duration_us = 0.5E6 / (float)freq - 3;  // ToDo: calibration of alt method
+#else
   dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
-//  Serial.println(dds_duration_us);
+#endif
+  //  Serial.println(dds_duration_us);
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
@@ -126,7 +143,9 @@ void dds_setfreq(int freq) {
     else
       Serial.println(F("Can't set dds interval"));
 */   
+#ifndef DDS_ALT
     dds_ITimer0.setInterval(dds_duration_us, dds_TimerHandler0);
+#endif
     dds_duration_previous_us = dds_duration_us;
   }   
 }
