@@ -126,14 +126,15 @@ void dds_begin() {
     }
     else
       Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
-  } else
-      dds_ITimer0.restartTimer();
-    
+  } else  {
+//      dds_ITimer0.restartTimer();
+//      Serial.println("Restaarting dds_ITimer0");
+  } 
   dds_enable = true;
 }
 
 void dds_down() {
-  dds_ITimer0.stopTimer();
+//  dds_ITimer0.stopTimer();
   dds_enable = false;
   Serial.println("Stopping DDS");
 }
