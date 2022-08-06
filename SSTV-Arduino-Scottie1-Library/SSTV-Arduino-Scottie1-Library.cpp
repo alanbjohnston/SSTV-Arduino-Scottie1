@@ -24,6 +24,7 @@ int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
 volatile long dds_counter = 0;
 bool sstv_stop;
+bool dds_timer_started = false;
 
 //volatile uint8_t phase = 0;
 
@@ -112,17 +113,21 @@ bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
 }
 
 void dds_begin() {
-#ifdef DDS_ALT
-  dds_counter = 0;
-  if (dds_ITimer0.attachInterruptInterval(10, dds_TimerHandler0))	{
-#else
-  if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
-#endif
-    Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
-  }
-  else
-    Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
-  
+  if (!dds_timer_started) {  
+  #ifdef DDS_ALT
+    dds_counter = 0;
+    if (dds_ITimer0.attachInterruptInterval(10, dds_TimerHandler0))	{
+  #else
+    if (dds_ITimer0.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
+  #endif
+      Serial.print(F("Starting dds_ITimer0 OK, micros() = ")); Serial.println(micros());
+      dds_timer_started = true;
+    }
+    else
+      Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
+  } else
+      dds_Timer0.restartTimer();
+    
   dds_enable = true;
 }
 
