@@ -11,7 +11,7 @@
 #include <TJpg_Decoder.h>
 
 //#define DEBUG
-#define DDS_ALT
+//#define DDS_ALT
 
 RPI_PICO_Timer dds_ITimer0(2);
 RPI_PICO_Timer sstv_ITimer1(3);
