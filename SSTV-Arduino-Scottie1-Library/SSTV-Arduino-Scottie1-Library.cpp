@@ -68,6 +68,8 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
+  dds_down();
+  sstv_ITimer1.stopTimer();
 }
 
 /*
@@ -123,9 +125,9 @@ void dds_begin() {
 }
 
 void dds_down() {
-  
+  dds_ITimer0.stopTimer();
   dds_enable = false;
-  Serial.println("Stopping");
+  Serial.println("Stopping DDS");
 }
 
 void dds_setfreq(int freq) {
@@ -483,8 +485,7 @@ void scottie1_transmit_file(char* filename){
     Serial.println("error opening cam.bin");          
   }
   Serial.println("Ending SSTV");
-  sstv_ITimer1.stopTimer();
-  Serial.println("SSTV timer stopped");  
+  sstv_end();
 }
 
 void print_hex(byte octet) {
