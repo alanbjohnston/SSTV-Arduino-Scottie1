@@ -459,8 +459,8 @@ void scottie1_transmit_file(char* filename){
 
 //      Serial.println("increment line");
       line++;
-      if(line == 256){
-        Serial.println("Finished");
+      if (line == 256) || sstv_stop) {
+        Serial.println("SSTV Finished");
 //        DDS.setfreq(2, phase);
         dds_setfreq(2);
 //        DDS.down();
