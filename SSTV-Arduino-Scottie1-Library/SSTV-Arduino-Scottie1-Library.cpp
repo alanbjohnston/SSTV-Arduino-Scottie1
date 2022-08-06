@@ -25,6 +25,7 @@ volatile bool dds_enable = false;
 volatile long dds_counter = 0;
 bool sstv_stop;
 bool dds_timer_started = false;
+bool sstv_timer_started = false;
 
 //volatile uint8_t phase = 0;
 
@@ -240,12 +241,14 @@ void send_sstv(char* filename) {
   // Setup Timer with the emision interval
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer1.attachInterruptInterval(430, sstv_TimerHandler1)) {	
-  if (sstv_ITimer1.attachInterruptInterval(421, sstv_TimerHandler1)) {	
-    Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
+  if (!sstv_timer_started) {
+    if (sstv_ITimer1.attachInterruptInterval(421, sstv_TimerHandler1)) {	
+      Serial.print(F("Starting sstv_ITimer1 OK, micros() = ")); Serial.println(micros());
+      sstv_timer_started = true;
+    }
+    else
+      Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
   }
-  else
-    Serial.println(F("Can't set sstv_ITimer1. Select another Timer, freq. or timer"));
-  
   delay(100);
 
 /*  
