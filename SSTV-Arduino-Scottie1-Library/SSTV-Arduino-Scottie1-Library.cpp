@@ -126,7 +126,7 @@ void dds_begin() {
     else
       Serial.println(F("Can't set dds_ITimer0. Select another Timer, freq. or timer"));
   } else
-      dds_Timer0.restartTimer();
+      dds_ITimer0.restartTimer();
     
   dds_enable = true;
 }
