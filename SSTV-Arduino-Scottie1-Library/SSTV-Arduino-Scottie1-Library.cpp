@@ -4,7 +4,7 @@
  *
 **/
 
-#include "SSTV-Arduino-Scottie1-h.h"
+#include "SSTV-Arduino-Scottie1-Library.h"
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
