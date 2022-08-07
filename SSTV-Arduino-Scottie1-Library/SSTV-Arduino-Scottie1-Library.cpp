@@ -4,7 +4,7 @@
  *
 **/
 
-#include "SSTV-Arduino-Scottie1-Library.h"
+#include "SSTV-Arduino-Scottie1.h"
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
@@ -60,6 +60,8 @@ int blocks = 0;
 bool write_complete = false;
 File inFile;
 File outFile;
+
+byte blue_led_counter = 0;
 
 // #define AUDIO_OUT_PIN 26
 
@@ -130,7 +132,7 @@ void dds_begin() {
 //      dds_ITimer2.restartTimer();
 //      Serial.println("Restaarting dds_ITimer2");
   } 
-  dds_enable = true;
+//  dds_enable = true;
 }
 
 void dds_down() {
@@ -167,9 +169,10 @@ void dds_setfreq(int freq) {
 }
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
-
 //void timer1_interrupt(){
+     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
+//   Serial.println("~");
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
@@ -201,13 +204,13 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
  return(true);	
 }
 
-//void setup_sstv() {
-void send_sstv(char* filename) {
+void setup_sstv() {
+//void send_sstv(char* filename) {
 //  delay(5000);
 //  pinMode(BUILT_IN_PIN, OUTPUT);
 //  pinMode(SD_SLAVE_PIN, OUTPUT);
   
-  sstv_stop = false;
+//  sstv_stop = false;
   
   Serial.begin(9600);
   Serial.println("Starting");
@@ -244,14 +247,16 @@ void send_sstv(char* filename) {
 //  if (sstv_ITimer3.attachInterruptInterval(430, sstv_TimerHandler1)) {	
   if (!sstv_timer_started) {
     if (sstv_ITimer3.attachInterruptInterval(421, sstv_TimerHandler1)) {	
-      Serial.print(F("Starting sstv_ITimer3 OK, micros() = ")); Serial.println(micros());
       sstv_timer_started = true;
     }
     else
       Serial.println(F("Can't set sstv_ITimer3. Select another Timer, freq. or timer"));
   }
   delay(100);
-
+}
+void send_sstv(char* filename) {
+  sstv_stop = false;
+  dds_enable = true;
 /*  
   shot_pic();
 */
@@ -391,7 +396,7 @@ void scottie1_transmit_file(char* filename){
 
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
 
-//        Serial.println("Start separator pulse");
+        Serial.println("Start separator pulse");
         
         // Separator pulse
  //       DDS.setfreq(1500, phase);
@@ -403,23 +408,23 @@ void scottie1_transmit_file(char* filename){
       }
 
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {} // Separator pulse
-//      Serial.println("Start green scan"); 
+      Serial.println("Start green scan"); 
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
       while((sEm == 1) && !sstv_stop) {};
 
-//      Serial.println("Start separator pulse");
+      Serial.println("Start separator pulse");
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
 
-//      Serial.println("Start blue scan");
+      Serial.println("Start blue scan");
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {}
 
-//      Serial.println("Start evacuate");
+      Serial.println("Start evacuate");
       //Evacuate
       for(uint16_t i = 0; i < 320; i++){
         buffE[i] = buffR[i];
@@ -454,7 +459,7 @@ void scottie1_transmit_file(char* filename){
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
       
-//      Serial.println("Starting sync porch");  
+      Serial.println("Starting sync porch");  
         
  // Sync porch
 //      DDS.setfreq(1500, phase);
@@ -998,4 +1003,3 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   inFile.close();
   outFile.close();
 }
-
