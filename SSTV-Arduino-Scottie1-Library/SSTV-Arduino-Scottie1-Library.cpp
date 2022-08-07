@@ -72,6 +72,7 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
+  dds_enable = false;
 //  delay(100);
 //  sstv_ITimer3.stopTimer();
 //  delay(100);
@@ -170,7 +171,7 @@ void dds_setfreq(int freq) {
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
 //void timer1_interrupt(){
-     digitalWrite(19, !blue_led_counter++);
+//     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
   if (sEm == 1){
