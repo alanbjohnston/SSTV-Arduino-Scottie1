@@ -274,9 +274,9 @@ void send_sstv(char* filename) {
   Serial.print("Writing to: ");
   Serial.println(pic_decoded_filename);
   
-//  jpeg_decode(pic_filename, pic_decoded_filename);
+  jpeg_decode(pic_filename, pic_decoded_filename);
   
-  raw_decode(pic_filename, pic_decoded_filename);
+//  raw_decode(pic_filename, pic_decoded_filename);
   
   scottie1_transmit_file(pic_decoded_filename);
 }
@@ -513,24 +513,28 @@ void print_hex(byte octet) {
       Serial.print(hexValue); 
 }
 
+char img_block[320][8][3];   // 320 pixels per row, 8 rows, 3 values (RGB) per.
+  
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-/*  
+/**/  
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-  Serial.println(sizeof(*bitmap));
-*/
+  Serial.println(counter);
+/**/
   
 //  return 1;
 
   uint16_t pixel_value;
   uint16_t *pixel;
   bool last_block = ((x == (320 - w)) & (y == (240 - h)));
-  char buffer[16 * 8 * 3];
+//  char buffer[16 * 8 * 3];
   int counter = 0;
+  //int x_block = (x / w) % w;
+  //int y_block = (y / h) % h;
   
 /*  
   if (((y % h) == 0) && ((x % w) == 0)) {
@@ -544,10 +548,19 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 
   uint32_t total_pixels = w * h;
 
-  while (total_pixels--) {
-
+//  while (total_pixels--) {
+    while (counter < total_pixels);
     pixel_value = *pixel;
+    
+    int y_rel = counter % w;
+    int x_rel = counter - y_rel * w;
+  
+    Serial.print("Relative x = ");
+    Serial.print(x_rel);
+    Serial.print(" y = ");
+    Serial.print(y_rel);
 /*
+  /*
     if ((x == 0) && (y == 0)) {
       Serial.print(" ");
       Serial.print(pixel_value, HEX);
@@ -561,10 +574,14 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     byte green = (pixel_value & 0b0000011111100000) >> 3;
     byte blue = (pixel_value & 0b0000000000011111) << 3;
     
-    buffer[counter++] = red;
-    buffer[counter++] = green;
-    buffer[counter++] = blue;
+//    buffer[counter++] = red;
+//    buffer[counter++] = green;
+//    buffer[counter++] = blue;
     
+    img_block[x_rel][y_rel][0] = red;
+    img_block[x_rel][y_rel][1] = red;
+    img_block[x_rel][y_rel][2] = red;  
+  
 #ifdef DEBUG    
     print_hex(red);
     print_hex(green);
@@ -576,18 +593,20 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
       counter = 0;
     }
 */
-    pixel++;
+    counter++;
+    pixel_value++;
   }
   
 //  Serial.println("\nWriting block to file");
 //  Serial.print("Sizeof buffer: ");
 //  Serial.println(sizeof(buffer));
-  
-  if (outFile)
-    outFile.write(buffer, sizeof(buffer));  
-  else
-    Serial.println("Problem writing block");
- 
+  if (x == 304) {
+    if (outFile)
+      outFile.write(img_block, sizeof(img_block));  
+    else
+      Serial.println("Problem writing block");
+    counter = 0;
+  }
   if (last_block) {
     Serial.println("Complete!\n\n");
   }
