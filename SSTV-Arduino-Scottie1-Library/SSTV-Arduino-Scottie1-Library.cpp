@@ -700,9 +700,9 @@ void jpeg_decode(char* filename, char* fileout){
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
 //    imgFile.write(sortBuf[k]);
 //  }
-  myFile.write(sortBuf, sizeof(sortBuf));
+  outFile.write(sortBuf, sizeof(sortBuf));
 
-  writeFooter(&myFile);  //Writing first 10560 bytes (11*320*3)
+  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)
   
   // Decoding start
   
