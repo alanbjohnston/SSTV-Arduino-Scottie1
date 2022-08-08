@@ -646,12 +646,10 @@ int JpegDec_j;
 int JpegDec_height = 240;
 int JpegDec_width = 320;
 byte  JpegDec_sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
-int JpegDec_i, JpegDec_j, JpegDec_k;
 int JpegDec_pxSkip;
 uint8_t *JpegDec_pImg;
 int JpegDec_x, JpegDec_y, JpegDec_bx, JpegDec_by;
 int JpegDec_comps = 3;
-int JpegDec_pxSkip;
   
 bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
@@ -673,14 +671,14 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
   
   
     JpegDec_pImg = JpegDec_pImage;
-    for(by=0; by<JpegDec_MCUHeight; by++){
-      for(bx=0; bx<JpegDec_MCUWidth; bx++){
+    for(JpegDec_by=0; by<JpegDec_MCUHeight; JpegDec_by++){
+      for(JpegDec_bx=0; bx<JpegDec_MCUWidth; JpegDec_bx++){
         JpegDec_x = JpegDec_MCUx * JpegDec_MCUWidth + JpegDec_bx;
         JpegDec_y = JpegDec_MCUy * JpegDec_MCUHeight + JpegDec_by;
         if(x<JpegDec_width && y<JpegDec_height){
           if(JpegDec_comps == 1){ // Grayscale
             //sprintf(str,"%u", pImg[0]);
-            myFile.write(JpegDec_pImg, 1);
+            outFile.write(JpegDec_pImg, 1);
           }else{ // RGB
             // When saving to the SD, write 16 lines on one time
             // First we write on the array 16 lines and then we save to SD
@@ -694,7 +692,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
 //              for(k = 0; k < 15360; k++){
 //                imgFile.write(sortBuf[k]);
 //              }
-              myFile.write(JpegDec_sortBuf, sizeof(JpegDec_sortBuf));
+              outFile.write(JpegDec_sortBuf, sizeof(JpegDec_sortBuf));
               JpegDec_i = 0;
               JpegDec_j++; //15(sections)
             }
@@ -709,7 +707,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
 
 void jpeg_decode(char* filename, char* fileout){
   uint8_t *pImg;
-  uint16_t *pImg;
+//  uint16_t *pImg;
   int x,y, bx,by;
   byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
   int i,j,k;
