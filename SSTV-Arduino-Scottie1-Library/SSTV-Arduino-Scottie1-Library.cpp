@@ -523,7 +523,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-  Serial.println(counter);
+//  Serial.println(counter);
 /**/
   
 //  return 1;
@@ -545,20 +545,20 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
   }
 */
   pixel = bitmap;
-
+  int counter = 0;
   uint32_t total_pixels = w * h;
 
 //  while (total_pixels--) {
-    while (counter < total_pixels);
+    while (counter < total_pixels) {
     pixel_value = *pixel;
     
-    int y_rel = counter % w;
-    int x_rel = counter - y_rel * w;
+    int y_rel = counter / w;
+    int x_rel = counter % w; //  - y_rel * w;
   
     Serial.print("Relative x = ");
     Serial.print(x_rel);
     Serial.print(" y = ");
-    Serial.print(y_rel);
+    Serial.println(y_rel);
 /*
   /*
     if ((x == 0) && (y == 0)) {
@@ -578,9 +578,9 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 //    buffer[counter++] = green;
 //    buffer[counter++] = blue;
     
-    img_block[x_rel][y_rel][0] = red;
-    img_block[x_rel][y_rel][1] = red;
-    img_block[x_rel][y_rel][2] = red;  
+    img_block[x_rel + x][y_rel + y][0] = red;
+    img_block[x_rel + x][y_rel + y][1] = green;
+    img_block[x_rel + x][y_rel + y][2] = blue;  
   
 #ifdef DEBUG    
     print_hex(red);
