@@ -525,14 +525,13 @@ char img_block[320][8][3];   // 320 pixels per row, 8 rows, 3 values (RGB) per.
   
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-/**/  
+#ifdef DEBUG  
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-//  Serial.println(counter);
-/**/
+#endif
   
 //  return 1;
 
@@ -661,14 +660,13 @@ int JpegDec_comps = 3;
   
 bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-/**/  
+#ifdef DEBUG
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-//  Serial.println(counter);
-/**/
+#endif
   int JpegDec_MCUx = x;
   int JpegDec_MCUy = y;
   int JpegDec_MCUHeight = h;
@@ -724,7 +722,9 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
         bitmap++;
       }
     }
+#ifdef DEBUG  
   Serial.println("Block processed!");
+#endif
   return 1;
 }
 
