@@ -1125,7 +1125,7 @@ void jpeg_decode(char* filename, char* fileout){
         if(x<JpegDec.width && y<JpegDec.height){
           if(JpegDec.comps == 1){ // Grayscale
             //sprintf(str,"%u", pImg[0]);
-            imgFile.write(pImg, 1);
+            myFile.write(pImg, 1);
           }else{ // RGB
             // When saving to the SD, write 16 lines on one time
             // First we write on the array 16 lines and then we save to SD
