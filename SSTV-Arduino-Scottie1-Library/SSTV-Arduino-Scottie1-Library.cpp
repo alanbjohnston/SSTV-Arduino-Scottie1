@@ -553,14 +553,14 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     
     int y_rel = counter / w;
     int x_rel = counter % w; //  - y_rel * w;
-  
+/*  
     Serial.print("Relative x + x = ");
     Serial.print(x_rel + x);
     Serial.print(" y + y = ");
     Serial.print(y_rel);
     Serial.print(" counter = ");
     Serial.println(counter);
-/*
+*/
   /*
     if ((x == 0) && (y == 0)) {
       Serial.print(" ");
@@ -583,10 +583,17 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     img_block[x_rel + x][y_rel][1] = green;
     img_block[x_rel + x][y_rel][2] = blue;  
   
-#ifdef DEBUG    
+#ifdef DEBUG   
+    Serial.print("\npixel_value: ");  
+    Serial.print(pixel_value);  
+    Serial.print("\nRGB: ");  
     print_hex(red);
     print_hex(green);
     print_hex(blue);
+      
+    Serial.println("\n img_block: ")
+    for (int k = 0; k < 3; i ++;)  
+      print_hex(*(&img_block[x_rel + x][y_rel][0] + k));      
 #endif    
  /*
     if (counter >= 155000) {
