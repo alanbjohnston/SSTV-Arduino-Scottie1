@@ -666,26 +666,32 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
   int JpegDec_MCUHeight = h;
   int JpegDec_MCUWidth = w;
 
-
-  JpegDec_pImg = bitmap;
+//  JpegDec_pImg = bitmap;
   
-  
-    JpegDec_pImg = JpegDec_pImage;
-    for(JpegDec_by=0; by<JpegDec_MCUHeight; JpegDec_by++){
-      for(JpegDec_bx=0; bx<JpegDec_MCUWidth; JpegDec_bx++){
+//    JpegDec_pImg = JpegDec_pImage;
+    for(JpegDec_by=0; JpegDec_by<JpegDec_MCUHeight; JpegDec_by++){
+      for(JpegDec_bx=0; JpegDec_bx<JpegDec_MCUWidth; JpegDec_bx++){
         JpegDec_x = JpegDec_MCUx * JpegDec_MCUWidth + JpegDec_bx;
         JpegDec_y = JpegDec_MCUy * JpegDec_MCUHeight + JpegDec_by;
         if(x<JpegDec_width && y<JpegDec_height){
-          if(JpegDec_comps == 1){ // Grayscale
-            //sprintf(str,"%u", pImg[0]);
-            outFile.write(JpegDec_pImg, 1);
-          }else{ // RGB
+//          if(JpegDec_comps == 1){ // Grayscale
+//            //sprintf(str,"%u", pImg[0]);
+//            outFile.write(JpegDec_pImg, 1);
+//          }else
+        { // RGB
             // When saving to the SD, write 16 lines on one time
             // First we write on the array 16 lines and then we save to SD
             JpegDec_pxSkip = ((JpegDec_y - (16 * JpegDec_j)) * 320) + JpegDec_x;
-            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = JpegDec_pImg[0];
-            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = JpegDec_pImg[1];
-            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 2] = JpegDec_pImg[2];
+          
+            int pixel_value = *bitmap;
+            
+            byte red = (pixel_value & 0b1111100000000000) >> 8;
+            byte green = (pixel_value & 0b0000011111100000) >> 3;
+            byte blue = (pixel_value & 0b0000000000011111) << 3;            
+            
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 2] = blue; // JpegDec_pImg[2];
 
             JpegDec_i++;
             if(JpegDec_i == 5120){ //320(px)x16(lines)
@@ -698,7 +704,8 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             }
           }
         }
-        JpegDec_pImg += JpegDec_comps ;
+//        JpegDec_pImg += JpegDec_comps ;
+        bitmap++;
       }
     }
   
