@@ -671,8 +671,10 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
 //    JpegDec_pImg = JpegDec_pImage;
     for(JpegDec_by=0; JpegDec_by<JpegDec_MCUHeight; JpegDec_by++){
       for(JpegDec_bx=0; JpegDec_bx<JpegDec_MCUWidth; JpegDec_bx++){
-        JpegDec_x = JpegDec_MCUx * JpegDec_MCUWidth + JpegDec_bx;
-        JpegDec_y = JpegDec_MCUy * JpegDec_MCUHeight + JpegDec_by;
+//        JpegDec_x = JpegDec_MCUx * JpegDec_MCUWidth + JpegDec_bx;
+//        JpegDec_y = JpegDec_MCUy * JpegDec_MCUHeight + JpegDec_by;
+        JpegDec_x = JpegDec_MCUx + JpegDec_bx;
+        JpegDec_y = JpegDec_MCUy + JpegDec_by;
         if(JpegDec_x<JpegDec_width && JpegDec_y<JpegDec_height){
 //          if(JpegDec_comps == 1){ // Grayscale
 //            //sprintf(str,"%u", pImg[0]);
