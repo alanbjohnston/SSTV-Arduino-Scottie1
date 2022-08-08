@@ -696,7 +696,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             Serial.print("sortBuf index = ");
             Serial.println((3 * JpegDec_pxSkip));
 
-            JpegDec_i
+            JpegDec_i++;
             if(JpegDec_i == 5120){ //320(px)x16(lines)
               Serial.println("Writing lines!");
 //              for(k = 0; k < 15360; k++){
