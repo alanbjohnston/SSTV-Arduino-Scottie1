@@ -592,7 +592,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     print_hex(blue);
       
     Serial.println("\n img_block: ")
-    for (int k = 0; k < 3; k ++;)  
+    for (int k = 0; k < 3; k ++)  
       print_hex(*(&img_block[x_rel + x][y_rel][0] + k));      
 #endif    
  /*
