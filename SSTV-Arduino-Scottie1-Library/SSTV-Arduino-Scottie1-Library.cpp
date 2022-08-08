@@ -557,7 +557,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     Serial.print("Relative x + x = ");
     Serial.print(x_rel + x);
     Serial.print(" y + y = ");
-    Serial.print(y_rel + y);
+    Serial.print(y_rel);
     Serial.print(" counter = ");
     Serial.println(counter);
 /*
@@ -579,9 +579,9 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 //    buffer[counter++] = green;
 //    buffer[counter++] = blue;
     
-    img_block[x_rel + x][y_rel + y][0] = red;
-    img_block[x_rel + x][y_rel + y][1] = green;
-    img_block[x_rel + x][y_rel + y][2] = blue;  
+    img_block[x_rel + x][y_rel][0] = red;
+    img_block[x_rel + x][y_rel][1] = green;
+    img_block[x_rel + x][y_rel][2] = blue;  
   
 #ifdef DEBUG    
     print_hex(red);
