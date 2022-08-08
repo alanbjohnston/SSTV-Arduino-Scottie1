@@ -1043,8 +1043,8 @@ void jpeg_decode(char* filename, char* fileout){
   int pxSkip;
 
   // Open the file for writing
-  File imgFile = SD.open(fileout, FILE_WRITE);
-
+//  File imgFile = SD.open(fileout, FILE_WRITE);
+  File myFile = LittleFS.open(fileout, "w+");  
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
   }
@@ -1153,6 +1153,10 @@ void jpeg_decode(char* filename, char* fileout){
 }
 
 void shot_pic(){
+  
+  return;
+  
+ /* 
   // Try to locate the camera
   if (cam.begin()) {
     Serial.println("Camera Found:");
@@ -1211,10 +1215,11 @@ void shot_pic(){
     jpglen -= bytesToRead;
   }
   imgFile.close();
-
+  
   time = millis() - time;
   Serial.println("done!");
   Serial.print(time); Serial.println(" ms elapsed");
+  */
 }
 
 /**     Write on a file with 11 lines the values of the GPS
