@@ -554,10 +554,12 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     int y_rel = counter / w;
     int x_rel = counter % w; //  - y_rel * w;
   
-    Serial.print("Relative x = ");
-    Serial.print(x_rel);
-    Serial.print(" y = ");
-    Serial.println(y_rel);
+    Serial.print("Relative x + x = ");
+    Serial.print(x_rel + x);
+    Serial.print(" y + y = ");
+    Serial.print(y_rel + y);
+    Serial.print(" counter = ");
+    Serial.println(counter);
 /*
   /*
     if ((x == 0) && (y == 0)) {
@@ -600,9 +602,10 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 //  Serial.print("Sizeof buffer: ");
 //  Serial.println(sizeof(buffer));
   if (x == 304) {
-    if (outFile)
+    if (outFile) {
+      Serial.println("********************************************* Writing block!");
       outFile.write(&img_block[0][0][0], sizeof(img_block));  
-    else
+    } else
       Serial.println("Problem writing block");
     counter = 0;
   }
