@@ -10,7 +10,7 @@
 #include <LittleFS.h>
 #include <TJpg_Decoder.h>
 
-#define DEBUG
+//#define DEBUG
 #define DDS_ALT
 #define TEST_PATTERN
 
@@ -602,7 +602,7 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
     }
 */
     counter++;
-    pixel_value++;
+    pixel++;
   }
   
 //  Serial.println("\nWriting block to file");
