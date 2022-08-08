@@ -1084,11 +1084,12 @@ void jpeg_decode(char* filename, char* fileout){
     }
   }
 
-  for(k = 0; k < 15360; k++){  // Adding header to the binary file
-    imgFile.write(sortBuf[k]);
-  }
+//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
+//    imgFile.write(sortBuf[k]);
+//  }
+   myFile.write(sortBuf, sizeof(sortBuf));
 
-  writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
+  writeFooter(&myFile);  //Writing first 10560 bytes (11*320*3)
 
   // Decoding start
   JpegDec.decode(filename,0);
@@ -1135,9 +1136,10 @@ void jpeg_decode(char* filename, char* fileout){
 
             i++;
             if(i == 5120){ //320(px)x16(lines)
-              for(k = 0; k < 15360; k++){
-                imgFile.write(sortBuf[k]);
-              }
+//              for(k = 0; k < 15360; k++){
+//                imgFile.write(sortBuf[k]);
+//              }
+              myFile.write(sortBuf, sizeof(sortBuf));
               i = 0;
               j++; //15(sections)
             }
@@ -1149,7 +1151,7 @@ void jpeg_decode(char* filename, char* fileout){
   }
 
   Serial.println("Bin has been written on SD");
-  imgFile.close();
+  myFile.close();
 }
 
 void shot_pic(){
