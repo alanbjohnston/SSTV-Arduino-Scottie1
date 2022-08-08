@@ -695,6 +695,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
 
             JpegDec_i++;
             if(JpegDec_i == 5120){ //320(px)x16(lines)
+              Serial.println("Writing lines!");
 //              for(k = 0; k < 15360; k++){
 //                imgFile.write(sortBuf[k]);
 //              }
@@ -708,7 +709,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
         bitmap++;
       }
     }
-  
+  Serial.println("Block processed!");
   return 1;
 }
 
