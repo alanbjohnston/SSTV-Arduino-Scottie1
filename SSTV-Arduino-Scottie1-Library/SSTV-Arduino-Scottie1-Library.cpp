@@ -696,15 +696,14 @@ void jpeg_decode(char* filename, char* fileout){
       }
     }
   }
-/*  
-  Serial.println("Writing header");
-//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
-//    imgFile.write(sortBuf[k], sizeof(sortBuf));
-    imgFile.write(sortBuf, sizeof(sortBuf));
-//  }
-*/
-  //writeFooter(&imgFile);  //Writing first 10560 bytes (11*320*3)
 
+//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
+//    imgFile.write(sortBuf[k]);
+//  }
+  myFile.write(sortBuf, sizeof(sortBuf));
+
+  writeFooter(&myFile);  //Writing first 10560 bytes (11*320*3)
+  
   // Decoding start
   
   Serial.println("Starting jpeg decode");
@@ -1032,3 +1031,53 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
   inFile.close();
   outFile.close();
 }
+
+  
+//void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
+void writeFooter(File* dst){
+  int x,y;
+  byte sortBuf[10560]; //320(px)*11(lines)*3(bytes) // Header buffer
+  int i,j,k;
+  int pxSkip;
+
+  char res[51] = "LAT: 1234.1234N     LONG: 1234.1234W     ALT:10000";
+
+  for(i = 0; i < 10560; i++){ // Cleaning Header Buffer array
+    sortBuf[i] = 0xFF;
+  }
+
+  for(i = 0; i < sizeof(res); i++){
+    byte fontNumber;
+    char ch;
+    ch = res[i];
+    for(y = 0; y < 5; y++){
+      for(x = 0; x < 4; x++){
+        //pxSkip = HORIZONTALOFFSET + VERSTICALOFFSET + (BITSPERWORD * i);
+        //pxSkip = 16 + (320 * (y + 3)) + (4 * 2 * i) + (2 * x); Width: x2
+        pxSkip = 16 + (320 * (y + 3)) + (4 * i) + x;
+
+        // If ch is pair mask is: 11110000, if no 00001111
+        uint8_t sl = (ch % 2)? 3 : 7 ;
+        uint8_t mask = pow(2, sl - x);
+
+        if(ch >= 48 && ch <=91){
+          fontNumber = (ch-48)/2;
+        }
+        else {
+          fontNumber = 22;
+        }
+
+        if((l_fonts[fontNumber][y] & mask) != 0){
+          for(j = 0; j < 3; j++){
+                  sortBuf[(3 * pxSkip) + j] = 0x00;
+          }
+        }
+      }
+    }
+  }
+
+  for(k = 0; k < 10560; k++){  // Adding header to the binary file
+    dst->write(sortBuf[k]);
+  }
+}  
+    
