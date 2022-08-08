@@ -391,14 +391,14 @@ void scottie1_transmit_file(char* filename){
           Serial.print(buff[2], HEX);
           Serial.println(" ");
 */        }
-
+#ifdef DEBUG  
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
-
+#endif
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
-
+#ifdef DEBUG  
         Serial.println("Start separator pulse");
-        
+#endif        
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
@@ -409,23 +409,28 @@ void scottie1_transmit_file(char* filename){
       }
 
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {} // Separator pulse
+#ifdef DEBUG  
       Serial.println("Start green scan"); 
+#endif
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
       while((sEm == 1) && !sstv_stop) {};
-
+#ifdef DEBUG  
       Serial.println("Start separator pulse");
+#endif
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
-
+#ifdef DEBUG  
       Serial.println("Start blue scan");
+#endif 
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {}
-
+#ifdef DEBUG  
       Serial.println("Start evacuate");
+#endif
       //Evacuate
       for(uint16_t i = 0; i < 320; i++){
         buffE[i] = buffR[i];
@@ -453,22 +458,23 @@ void scottie1_transmit_file(char* filename){
 #endif
         }
       }
-
+#ifdef DEBUG  
       Serial.println("--");
       Serial.println(micros() - syncTime); //Cheak reading time
-
+#endif
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
-      
+#ifdef DEBUG        
       Serial.println("Starting sync porch");  
-        
+#endif        
  // Sync porch
 //      DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       syncTime = micros();
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
-
-//      Serial.println("Start red scan");  
+#ifdef DEBUG  
+      Serial.println("Start red scan");  
+#endif
       // Red Scan
       tp = 0; sCol = 2; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {};
@@ -488,7 +494,9 @@ void scottie1_transmit_file(char* filename){
         sEm = 0;
       }
       else {
-//        Serial.println("Start separator pulse");
+#ifdef DEBUG  
+        Serial.println("Start separator pulse");
+#endif
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
