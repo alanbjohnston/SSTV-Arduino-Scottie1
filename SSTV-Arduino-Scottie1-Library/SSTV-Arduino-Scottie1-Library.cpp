@@ -9,7 +9,7 @@
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
 #include <TJpg_Decoder.h>
-
+#include <JPEGDecoder.h> // use https://github.com/MakotoKurauchi/JPEGDecoder/tree/884524fca4d43cfe005dcf9a3196172353fb3746
 //#define DEBUG
 #define DDS_ALT
 #define TEST_PATTERN
