@@ -640,11 +640,77 @@ bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 
   return 1;
 }
+ 
+int JpegDec_i;
+int JpegDec_j;
+int JpegDec_height = 240;
+int JpegDec_width = 320;
+byte  JpegDec_sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
+int JpegDec_i, JpegDec_j, JpegDec_k;
+int JpegDec_pxSkip;
+uint8_t *JpegDec_pImg;
+int JpegDec_x, JpegDec_y, JpegDec_bx, JpegDec_by;
+int JpegDec_comps = 3;
+int JpegDec_pxSkip;
+  
+bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
+{
+/**/  
+  Serial.println("\nBlock callback");
+  Serial.println(x);
+  Serial.println(y);
+  Serial.println(w);
+  Serial.println(h);
+//  Serial.println(counter);
+/**/
+  int JpegDec_MCUx = x;
+  int JpegDec_MCUy = y;
+  int JpegDec_MCUHeight = h;
+  int JpegDec_MCUWidth = w;
+
+
+  JpegDec_pImg = bitmap;
+  
+  
+    JpegDec_pImg = JpegDec_pImage;
+    for(by=0; by<JpegDec_MCUHeight; by++){
+      for(bx=0; bx<JpegDec_MCUWidth; bx++){
+        JpegDec_x = JpegDec_MCUx * JpegDec_MCUWidth + JpegDec_bx;
+        JpegDec_y = JpegDec_MCUy * JpegDec_MCUHeight + JpegDec_by;
+        if(x<JpegDec_width && y<JpegDec_height){
+          if(JpegDec_comps == 1){ // Grayscale
+            //sprintf(str,"%u", pImg[0]);
+            myFile.write(JpegDec_pImg, 1);
+          }else{ // RGB
+            // When saving to the SD, write 16 lines on one time
+            // First we write on the array 16 lines and then we save to SD
+            JpegDec_pxSkip = ((JpegDec_y - (16 * JpegDec_j)) * 320) + JpegDec_x;
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = JpegDec_pImg[0];
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = JpegDec_pImg[1];
+            JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 2] = JpegDec_pImg[2];
+
+            JpegDec_i++;
+            if(JpegDec_i == 5120){ //320(px)x16(lines)
+//              for(k = 0; k < 15360; k++){
+//                imgFile.write(sortBuf[k]);
+//              }
+              myFile.write(JpegDec_sortBuf, sizeof(JpegDec_sortBuf));
+              JpegDec_i = 0;
+              JpegDec_j++; //15(sections)
+            }
+          }
+        }
+        JpegDec_pImg += JpegDec_comps ;
+      }
+    }
+  
+  return 1;
+}
 
 void jpeg_decode(char* filename, char* fileout){
   uint8_t *pImg;
-//  uint16_t *pImg;
-  int x,y,bx,by;
+  uint16_t *pImg;
+  int x,y, bx,by;
   byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
   int i,j,k;
   int pxSkip;
@@ -708,6 +774,9 @@ void jpeg_decode(char* filename, char* fileout){
   
   Serial.println("Starting jpeg decode");
   
+  JpegDec_i = 0;
+  JpegDec_j = 0;
+  
   uint16_t w = 0, h = 0;
   TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   Serial.print("Width = "); 
@@ -724,7 +793,8 @@ void jpeg_decode(char* filename, char* fileout){
   
   TJpgDec.setJpgScale(1);
   TJpgDec.setSwapBytes(false);    // was true
-  TJpgDec.setCallback(get_block);  
+//  TJpgDec.setCallback(get_block);  
+  TJpgDec.setCallback(merged_get_block);  
   TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
   
   Serial.println("Draw complete");
