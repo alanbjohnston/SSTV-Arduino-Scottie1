@@ -789,7 +789,8 @@ void jpeg_decode(char* filename, char* fileout){
   JpegDec_j = 0;
   
   uint16_t w = 0, h = 0;
-  TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
+  // TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
+  TJpgDec.getFsJpgSize(&w, &h, filename, LittleFS); // Note name preceded with "/"
   Serial.print("Width = "); 
   Serial.print(w); 
   Serial.print(", height = "); 
@@ -806,7 +807,8 @@ void jpeg_decode(char* filename, char* fileout){
   TJpgDec.setSwapBytes(false);    // was true
 //  TJpgDec.setCallback(get_block);  
   TJpgDec.setCallback(merged_get_block);  
-  TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
+  //TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
+  TJpgDec.drawFsJpg(0, 0, filename, LittleFS);
   
   Serial.println("Draw complete");
   
