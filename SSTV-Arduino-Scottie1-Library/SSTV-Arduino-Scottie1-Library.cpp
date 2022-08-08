@@ -702,14 +702,16 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 2] = blue; // JpegDec_pImg[2];
-          
+#ifdef DEBUG          
             Serial.print("sortBuf index = ");
             Serial.println((3 * JpegDec_pxSkip));
-
+#endif
             JpegDec_i++;
             if(JpegDec_i == 5120){ //320(px)x16(lines)
+#ifdef DEBUG
               Serial.println("Writing lines!");
-//              for(k = 0; k < 15360; k++){
+#endif
+              //              for(k = 0; k < 15360; k++){
 //                imgFile.write(sortBuf[k]);
 //              }
               outFile.write(JpegDec_sortBuf, sizeof(JpegDec_sortBuf));
