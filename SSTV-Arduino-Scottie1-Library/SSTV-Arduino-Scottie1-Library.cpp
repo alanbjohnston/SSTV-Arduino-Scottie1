@@ -889,9 +889,18 @@ void jpeg_decode(char* filename, char* fileout){
   outFile.close();
 }
 
-void shot_pic(){
+//void shot_pic(){
+void get_pic() {
+  int32_t start_time = millis();  
   
-  return;
+  
+  time = millis() - start_time;
+  Serial.println("get_pic done!");
+  Serial.print(start_time); 
+  Serial.println(" ms elapsed");
+  
+  return; 
+}
 /*  
   // Try to locate the camera
   if (cam.begin()) {
