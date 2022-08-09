@@ -391,14 +391,14 @@ void scottie1_transmit_file(char* filename){
           Serial.print(buff[2], HEX);
           Serial.println(" ");
 */        }
-#ifdef DEBUG  
+
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
-#endif
+
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
-#ifdef DEBUG  
+
         Serial.println("Start separator pulse");
-#endif        
+        
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
@@ -409,28 +409,23 @@ void scottie1_transmit_file(char* filename){
       }
 
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {} // Separator pulse
-#ifdef DEBUG  
       Serial.println("Start green scan"); 
-#endif
       // Green Scan
       tp = 0; sCol = 0; sEm = 1;
       while((sEm == 1) && !sstv_stop) {};
-#ifdef DEBUG  
+
       Serial.println("Start separator pulse");
-#endif
       // Separator Pulse
  //     DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
-#ifdef DEBUG  
+
       Serial.println("Start blue scan");
-#endif 
       // Blue Scan
       tp = 0; sCol = 1; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {}
-#ifdef DEBUG  
+
       Serial.println("Start evacuate");
-#endif
       //Evacuate
       for(uint16_t i = 0; i < 320; i++){
         buffE[i] = buffR[i];
@@ -458,23 +453,22 @@ void scottie1_transmit_file(char* filename){
 #endif
         }
       }
-#ifdef DEBUG  
+
       Serial.println("--");
       Serial.println(micros() - syncTime); //Cheak reading time
-#endif
+
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
-#ifdef DEBUG        
+      
       Serial.println("Starting sync porch");  
-#endif        
+        
  // Sync porch
 //      DDS.setfreq(1500, phase);
       dds_setfreq(1500);
       syncTime = micros();
       while ((micros() - syncTime < 1500 - 10) && !sstv_stop) {}
-#ifdef DEBUG  
-      Serial.println("Start red scan");  
-#endif
+
+//      Serial.println("Start red scan");  
       // Red Scan
       tp = 0; sCol = 2; sEm = 1;
       while ((sEm == 1) && !sstv_stop) {};
@@ -494,9 +488,7 @@ void scottie1_transmit_file(char* filename){
         sEm = 0;
       }
       else {
-#ifdef DEBUG  
-        Serial.println("Start separator pulse");
-#endif
+//        Serial.println("Start separator pulse");
         // Separator pulse
  //       DDS.setfreq(1500, phase);
         dds_setfreq(1500);
@@ -525,13 +517,14 @@ char img_block[320][8][3];   // 320 pixels per row, 8 rows, 3 values (RGB) per.
   
 bool get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-#ifdef DEBUG  
+/**/  
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-#endif
+//  Serial.println(counter);
+/**/
   
 //  return 1;
 
@@ -660,13 +653,14 @@ int JpegDec_comps = 3;
   
 bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap)
 {
-#ifdef DEBUG
+/**/  
   Serial.println("\nBlock callback");
   Serial.println(x);
   Serial.println(y);
   Serial.println(w);
   Serial.println(h);
-#endif
+//  Serial.println(counter);
+/**/
   int JpegDec_MCUx = x;
   int JpegDec_MCUy = y;
   int JpegDec_MCUHeight = h;
@@ -700,16 +694,16 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 2] = blue; // JpegDec_pImg[2];
-#ifdef DEBUG          
+#ifdef DEBUG            
             Serial.print("sortBuf index = ");
             Serial.println((3 * JpegDec_pxSkip));
 #endif
             JpegDec_i++;
             if(JpegDec_i == 5120){ //320(px)x16(lines)
-#ifdef DEBUG
+#ifdef DEBUG  
               Serial.println("Writing lines!");
 #endif
-              //              for(k = 0; k < 15360; k++){
+//              for(k = 0; k < 15360; k++){
 //                imgFile.write(sortBuf[k]);
 //              }
               outFile.write(JpegDec_sortBuf, sizeof(JpegDec_sortBuf));
