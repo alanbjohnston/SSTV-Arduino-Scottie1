@@ -64,7 +64,7 @@ File outFile;
 byte blue_led_counter = 0;
 
 char input_buffer[320 * 256 * 3];
-char output_buffer[320 * 256 * 3];
+//char output_buffer[320 * 256 * 3];
 
 // #define AUDIO_OUT_PIN 26
 
@@ -1193,7 +1193,7 @@ void rotate_image(char *file_input, char *file_output) {
   File output_file = LittleFS.open(file_output, "w+");      
   
   input_file.readBytes(input_buffer, sizeof(input_buffer));
-  output_file.write(output_buffer, sizeof(output_buffer));
+  output_file.write(input_buffer, sizeof(input_buffer));
   
   input_file.close();
   output_file.close();
