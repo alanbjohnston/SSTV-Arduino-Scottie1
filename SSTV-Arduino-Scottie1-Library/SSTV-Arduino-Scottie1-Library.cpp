@@ -1203,7 +1203,7 @@ void rotate_image(char *file_input, char *file_output) {
       }
     }
   }
-  intput_file.close();
+  input_file.close();
   
   File output_file = LittleFS.open(file_output, "w+"); 
   
