@@ -1186,4 +1186,16 @@ void writeFooter(File* dst){
     dst->write(sortBuf[k]);
   }
 }  
-    
+   
+void rotate_image(char *file_input, char *file_output) {
+  
+  File input_file = LittleFS.open(file_input, "r");      
+  File output_file = LittleFS.open(file_output, "w+");      
+  
+  input_file.readBytes(input_buffer, sizeof(input_buffer));
+  output_file.write(output_buffer, sizeof(output_buffer));
+  
+  input_file.close();
+  output_file.close();
+  
+}
