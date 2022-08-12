@@ -1196,10 +1196,10 @@ void rotate_image(char *file_input, char *file_output) {
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
       input_file.readBytes(pixel, sizeof(pixel));
-      if ( x > side) && (x < (320 - side)) {
-        input_buffer[y][x][0] = pixel[0];
-        input_buffer[y][x][1] = pixel[1];        
-        input_buffer[y][x][2] = pixel[2];      
+      if (( x > side) && (x < (320 - side)) {
+        input_buffer[y][x - side][0] = pixel[0];
+        input_buffer[y][x - side][1] = pixel[1];        
+        input_buffer[y][x - side][2] = pixel[2];      
       }
     }
   }
@@ -1210,7 +1210,7 @@ void rotate_image(char *file_input, char *file_output) {
   char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
-      if ( x > side) && (x < (320 - side)) {
+      if (( x > side) && (x < (320 - side)) {
         pixel[0] = input_buffer[x - side][y][0];
         pixel[1] = input_buffer[x - side][y][1];
         pixel[2] = input_buffer[x - side][y][2];       
