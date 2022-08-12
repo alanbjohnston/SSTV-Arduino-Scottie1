@@ -1215,7 +1215,9 @@ void rotate_image(char *file_input, char *file_output) {
     Serial.println(" ");
     for (int y = 0; y < 240; y++) {
       if (( x > side) && (x < (320 - side))) {
-        Serial.print("+");
+        Serial.print("+ ");
+        Serial.print(x - side);
+        Serial.print(" ");
         pixel[0] = input_buffer[x - side][y][0];
         pixel[1] = input_buffer[x - side][y][1];
         pixel[2] = input_buffer[x - side][y][2];       
