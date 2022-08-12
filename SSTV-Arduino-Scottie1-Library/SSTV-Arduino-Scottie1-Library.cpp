@@ -63,7 +63,7 @@ File outFile;
 
 byte blue_led_counter = 0;
 
-char input_buffer[240 * 240 * 3];
+char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
 
 // #define AUDIO_OUT_PIN 26
@@ -1189,33 +1189,39 @@ void writeFooter(File* dst){
    
 void rotate_image(char *file_input, char *file_output) {
   
-  jpeg_decode(file_input, file_output);
-  
   File input_file = LittleFS.open(file_input, "r");           
   
-  input_file.readBytes(input_buffer, sizeof(input_buffer));
-//  output_file.write(input_buffer, sizeof(input_buffer));
-  
-  input_file.close();
-  
-  File output_file = LittleFS.open(file_output, "w+"); 
-/*
-    byte red = (pixel_value & 0b1111100000000000) >> 8;
-    byte green = (pixel_value & 0b0000011111100000) >> 3;
-    byte blue = (pixel_value & 0b0000000000011111) << 3;
-*/
-  
+  byte pixel[3];
+  int side = (320 - 240)/2;
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
-   
-      byte red = 0;
-      
+      input_file.readBytes(pixel, sizeof(pixel));
+      if ( x > side) && (x < (320 - side)) {
+        input_buffer[y][x][0] = pixel[0];
+        input_buffer[y][x][1] = pixel[1];        
+        input_buffer[y][x][2] = pixel[2];      
+      }
     }
-    
+  }
+  intput_file.close();
+  
+  File output_file = LittleFS.open(file_output, "w+"); 
+  
+  byte side_pixel[] = { 0xff, 0xff, 0xff };
+  for (int x = 0; x < 320; x++) {
+    for (int y = 0; y < 240; y++) {
+      if ( x > side) && (x < (320 - side)) {
+        pixel[0] = input_buffer[x - side][y][0];
+        pixel[1] = input_buffer[x - side][y][1];
+        pixel[2] = input_buffer[x - side][y][2];       
+        output_file.write(pixel, sizeof(pixel));  
+      } else {
+        output_file.write(side_pixel, sizeof(side_pixel));          
+      } 
+    }
   }
   
   output_file.close();
-  
 }
 
  
