@@ -1213,11 +1213,13 @@ void rotate_image(char *file_input, char *file_output) {
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
       if (( x > side) && (x < (320 - side))) {
+        Serial.print("+");
         pixel[0] = input_buffer[x - side][y][0];
         pixel[1] = input_buffer[x - side][y][1];
         pixel[2] = input_buffer[x - side][y][2];       
         output_file.write(pixel, sizeof(pixel));  
       } else {
+        Serial.print("-");
         output_file.write(side_pixel, sizeof(side_pixel));          
       } 
     }
