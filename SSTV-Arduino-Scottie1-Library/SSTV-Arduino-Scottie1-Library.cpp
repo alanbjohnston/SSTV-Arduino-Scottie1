@@ -63,6 +63,9 @@ File outFile;
 
 byte blue_led_counter = 0;
 
+char input_buffer[320 * 256 * 3];
+char output_buffer[320 * 256 * 3];
+
 // #define AUDIO_OUT_PIN 26
 
 void set_sstv_pin(byte pin) {
