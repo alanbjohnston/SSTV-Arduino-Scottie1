@@ -1191,7 +1191,7 @@ void rotate_image(char *file_input, char *file_output) {
   
   File input_file = LittleFS.open(file_input, "r");           
   
-  byte pixel[3];
+  char pixel[3];
   int side = (320 - 240)/2;
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
@@ -1207,7 +1207,7 @@ void rotate_image(char *file_input, char *file_output) {
   
   File output_file = LittleFS.open(file_output, "w+"); 
   
-  byte side_pixel[] = { 0xff, 0xff, 0xff };
+  char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int x = 0; x < 320; x++) {
     for (int y = 0; y < 240; y++) {
       if ( x > side) && (x < (320 - side)) {
