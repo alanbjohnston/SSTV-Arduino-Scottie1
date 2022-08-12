@@ -1205,6 +1205,8 @@ void rotate_image(char *file_input, char *file_output) {
   }
   input_file.close();
   
+  Serial.println("Input file read");
+  
   File output_file = LittleFS.open(file_output, "w+"); 
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
