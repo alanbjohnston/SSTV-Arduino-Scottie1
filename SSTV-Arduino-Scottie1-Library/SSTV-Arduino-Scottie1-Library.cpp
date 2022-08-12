@@ -32,7 +32,7 @@ bool sstv_timer_started = false;
 char pic_filename[] = "/cam.jpg";
 char pic_decoded_filename[] = "/cam.bin";
 
-uint8_t frameBuf[81920]; //320*256
+//uint8_t frameBuf[81920]; //320*256
 
 volatile byte buffE[320]; // Buffer conintating Red values after torch
 volatile byte buffR[320]; // Buffer conintating Red values of the line
