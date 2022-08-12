@@ -969,7 +969,7 @@ void get_pic() {
   Serial.print(time); Serial.println(" ms elapsed");
   
 */  
-}
+//}
 
 /**     Write on a file with 11 lines the values of the GPS
  * @param dst Given an opened File stream then write data to dst.
