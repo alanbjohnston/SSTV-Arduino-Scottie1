@@ -65,6 +65,7 @@ void set_sstv_pin(byte pin);
 void sstv_end();
 void raw_decode(char* filename, char* fileout);
 void setup_sstv();
+void rotate_image(char *file_input, char *file_output);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
