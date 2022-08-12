@@ -738,7 +738,12 @@ void jpeg_decode(char* filename, char* fileout){
   byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
   int i,j,k;
   int pxSkip;
-
+  
+  int l = strlen(fileout);
+  if ((fileout[l - 4] == '.') && (fileout[l - 3] == 'r')  && (fileout[l - 2] == 'g') && (fileout[l - 1] == 'b')) {
+    Serial.println("RGB file format");
+    return;
+  }
   // Open the file for writing
 //  File imgFile = SD.open(fileout, FILE_WRITE);
   outFile = LittleFS.open(fileout, "w+");
@@ -1188,6 +1193,8 @@ void writeFooter(File* dst){
 }  
    
 void rotate_image(char *file_input, char *file_output) {
+  
+  jpeg_decode(file_input, file_output);
   
   File input_file = LittleFS.open(file_input, "r");      
   File output_file = LittleFS.open(file_output, "w+");      
