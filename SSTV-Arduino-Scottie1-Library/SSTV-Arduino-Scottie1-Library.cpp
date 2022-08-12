@@ -63,7 +63,7 @@ File outFile;
 
 byte blue_led_counter = 0;
 
-char input_buffer[320 * 256 * 2];
+char input_buffer[320 * 256 * 3];
 //char output_buffer[320 * 256 * 3];
 
 // #define AUDIO_OUT_PIN 26
@@ -739,11 +739,6 @@ void jpeg_decode(char* filename, char* fileout){
   int i,j,k;
   int pxSkip;
   
-  int l = strlen(fileout);
-  if ((fileout[l - 4] == '.') && (fileout[l - 3] == 'r')  && (fileout[l - 2] == 'g') && (fileout[l - 1] == 'b')) {
-    Serial.println("RGB file format");
-    return;
-  }
   // Open the file for writing
 //  File imgFile = SD.open(fileout, FILE_WRITE);
   outFile = LittleFS.open(fileout, "w+");
@@ -1196,13 +1191,31 @@ void rotate_image(char *file_input, char *file_output) {
   
   jpeg_decode(file_input, file_output);
   
-  File input_file = LittleFS.open(file_input, "r");      
-  File output_file = LittleFS.open(file_output, "w+");      
+  File input_file = LittleFS.open(file_input, "r");           
   
   input_file.readBytes(input_buffer, sizeof(input_buffer));
-  output_file.write(input_buffer, sizeof(input_buffer));
+//  output_file.write(input_buffer, sizeof(input_buffer));
   
   input_file.close();
+  
+  File output_file = LittleFS.open(file_output, "w+"); 
+/*
+    byte red = (pixel_value & 0b1111100000000000) >> 8;
+    byte green = (pixel_value & 0b0000011111100000) >> 3;
+    byte blue = (pixel_value & 0b0000000000011111) << 3;
+*/
+  
+  for (int x = 0; x < 320; x++) {
+    for (int y = 0; y < 240; y++) {
+   
+      byte red = 0;
+      
+    }
+    
+  }
+  
   output_file.close();
   
 }
+
+ 
