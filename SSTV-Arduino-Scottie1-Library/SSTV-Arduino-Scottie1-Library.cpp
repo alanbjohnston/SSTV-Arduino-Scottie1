@@ -275,13 +275,14 @@ void send_sstv(char* filename) {
 //  pic_decoded_filename[10] = 'N';
 
   
-  l = strlen(pic_filename);
+  int l = strlen(pic_filename);
   if ((pic_filename[len-4]=='.') && (pic_filename[len-3]=='j') && (pic_filename[len-2]=='p') && (pic_filename[len-1]=='g')) {
     Serial.println("Decoding jpg");
     jpeg_decode(pic_filename, pic_decoded_filename);  
     Serial.print("Writing to: ");
     Serial.println(pic_decoded_filename);
     scottie1_transmit_file(pic_decoded_filename);
+  }
   else   
 //  raw_decode(pic_filename, pic_decoded_filename);
     scottie1_transmit_file(pic_filename);
