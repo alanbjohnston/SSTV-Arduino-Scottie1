@@ -276,7 +276,7 @@ void send_sstv(char* filename) {
 
   
   int l = strlen(pic_filename);
-  if ((pic_filename[len-4]=='.') && (pic_filename[len-3]=='j') && (pic_filename[len-2]=='p') && (pic_filename[len-1]=='g')) {
+  if ((pic_filename[l-4]=='.') && (pic_filename[l-3]=='j') && (pic_filename[l-2]=='p') && (pic_filename[l-1]=='g')) {
     Serial.println("Decoding jpg");
     jpeg_decode(pic_filename, pic_decoded_filename);  
     Serial.print("Writing to: ");
