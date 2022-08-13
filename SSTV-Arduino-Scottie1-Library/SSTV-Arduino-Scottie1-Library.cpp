@@ -1224,9 +1224,9 @@ void rotate_image(char *file_input, char *file_output) {
         Serial.print("+");
 //        Serial.print(x - side);
 //        Serial.print(" ");
-        pixel[0] = input_buffer[y][x - side][0];
-        pixel[1] = input_buffer[y][x - side][1];
-        pixel[2] = input_buffer[y][x - side][2];       
+        pixel[0] = input_buffer[x - side][y][0];
+        pixel[1] = input_buffer[x - side][y][1];
+        pixel[2] = input_buffer[x - side][y][2];       
         if (input_file.write(pixel, sizeof(pixel)) < 3)
           Serial.println("Error writing to file");
       } else {
