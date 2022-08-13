@@ -1193,8 +1193,8 @@ void rotate_image(char *file_input, char *file_output) {
   
   char pixel[3];
   int side = (320 - 240)/2;
-  for (int x = 0; x < 320; x++) {
-    for (int y = 0; y < 240; y++) {
+  for (int y = 0; y < 240; y++) {
+    for (int x = 0; x < 320; x++) {
       input_file.readBytes(pixel, sizeof(pixel));
       if (( x > side) && (x < (320 - side))) {
         input_buffer[y][x - side][0] = pixel[0];
@@ -1205,15 +1205,19 @@ void rotate_image(char *file_input, char *file_output) {
   }
   input_file.close();
   
+  LittleFS.remove(file_input);
+  
   Serial.println("Input file read");
   Serial.println(side);
   
-  File output_file = LittleFS.open(file_output, "w+"); 
+  list_dir();
+  
+  input_file = LittleFS.open(file_input, "w+"); 
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
-  for (int x = 0; x < 320; x++) {
+  for (int y = 0; y < 240; y++) {
     Serial.println(" ");
-    for (int y = 0; y < 240; y++) {
+    for (int x = 0; x < 320; x++) {
       if (( x > side) && (x < (320 - side))) {
         Serial.print("+ ");
         Serial.print(x - side);
@@ -1221,15 +1225,15 @@ void rotate_image(char *file_input, char *file_output) {
         pixel[0] = input_buffer[x - side][y][0];
         pixel[1] = input_buffer[x - side][y][1];
         pixel[2] = input_buffer[x - side][y][2];       
-        output_file.write(pixel, sizeof(pixel));  
+        input_file.write(pixel, sizeof(pixel));  
       } else {
         Serial.print("-");
-        output_file.write(side_pixel, sizeof(side_pixel));          
+        input_file.write(side_pixel, sizeof(side_pixel));          
       } 
     }
   }
   
-  output_file.close();
+  input_file.close();
 }
 
  
