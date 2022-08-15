@@ -8,11 +8,11 @@
 **/
 
 #include <Arduino.h>
-#include "RPi_Pico_TimerInterrupt.h"
+#include <LittleFS.h>
 //#include <SPI.h>
 //#include <SD.h>
 //#include <AD9850.h>
-//#include <JPEGDecoder.h>
+#include <JPEGDecoder.h>
 //#include <Adafruit_VC0706.h>
 //#include <DueTimer.h>
 //#include <Adafruit_GPS.h>
@@ -54,17 +54,18 @@ void transmit_micro(int freq, float duration);
 void transmit_mili(int freq, float duration);
 void scottie1_transmit_file(char* filename);
 void shot_pic();
-//void jpeg_decode(char* filename, char* fileout);
+void jpeg_decode(char* filename, char* fileout);
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude);    //Write 16 lines with values
-//void writeFooter(File* dst);
+void writeFooter(File* dst);
 void dds_begin();
 void dds_down();
 void dds_setfreq(int freq);
-void send_sstv();
+void send_sstv(char* filename);
 void set_sstv_pin(byte pin);
 void sstv_end();
-bool sstv_TimerHandler1();
-bool TimerHandler0(struct repeating_timer *t);
+void raw_decode(char* filename, char* fileout);
+void setup_sstv();
+void rotate_image(char *file_input, char *file_output);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
