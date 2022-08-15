@@ -355,6 +355,9 @@ void scottie1_transmit_file(char* filename){
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
 
+  sstv_stop = false;
+  dds_enable = true;
+  
   char buff[3];
   bool head;
   Serial.println("Transmitting picture");
