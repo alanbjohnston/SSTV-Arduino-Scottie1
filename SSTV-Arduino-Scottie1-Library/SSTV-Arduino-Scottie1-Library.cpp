@@ -217,7 +217,7 @@ void setup_sstv() {
 //  sstv_stop = false;
   
   Serial.begin(9600);
-  Serial.println("Starting");
+//  Serial.println("Starting");
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
@@ -278,14 +278,14 @@ void send_sstv(char* filename) {
   int l = strlen(pic_filename);
   if ((pic_filename[l-4]=='.') && (pic_filename[l-3]=='j') && (pic_filename[l-2]=='p') && (pic_filename[l-1]=='g')) {
     Serial.println("Decoding jpg");
-    jpeg_decode(pic_filename, pic_decoded_filename);  
+    jpeg_decode(pic_filename, pic_decoded_filename, true);  
     Serial.print("Writing to: ");
     Serial.println(pic_decoded_filename);
-    scottie1_transmit_file(pic_decoded_filename);
+    scottie1_transmit_file(pic_decoded_filename, true);
   }
   else   
 //  raw_decode(pic_filename, pic_decoded_filename);
-    scottie1_transmit_file(pic_filename);
+    scottie1_transmit_file(pic_filename, true);
 }
 
 
@@ -350,7 +350,7 @@ void transmit_mili(int freq, float duration){
   delay(duration);
 }
 
-void scottie1_transmit_file(char* filename){
+void scottie1_transmit_file(char* filename, bool debug){
   /*
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
@@ -360,16 +360,18 @@ void scottie1_transmit_file(char* filename){
   
   char buff[3];
   bool head;
-  Serial.println("Transmitting picture");
+  if (debug)
+    Serial.println("Transmitting picture");
 
 //  File myFile = SD.open(filename);
   File myFile = LittleFS.open(pic_decoded_filename, "r");  
   
-  Serial.println(myFile);
+//  Serial.println(myFile);
 //  int myFile = true;  
   if (myFile.available()) {
     head = true;
-    Serial.println("Sending header");
+    if (debug)
+      Serial.println("Sending header");
     
     /** TRANSMIT EACH LINE **/
 //    while(myFile.available() || line == 255){
@@ -401,7 +403,7 @@ void scottie1_transmit_file(char* filename){
           Serial.print(buff[2], HEX);
           Serial.println(" ");
 */        }
-#ifdef DEBUG  
+#ifdef DEBUG
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
 #endif
@@ -492,7 +494,8 @@ void scottie1_transmit_file(char* filename){
 //      Serial.println("increment line");
       line++;
       if ((line == 256) || sstv_stop) {
-        Serial.println("SSTV Finished");
+        if (debug)
+          Serial.println("SSTV Finished");
 //        DDS.setfreq(2, phase);
         dds_setfreq(2);
 //        DDS.down();
@@ -521,7 +524,8 @@ void scottie1_transmit_file(char* filename){
     // if the file didn't open, print an error:
     Serial.println("error opening cam.bin");          
   }
-  Serial.println("Ending SSTV");
+  if (debug)
+    Serial.println("Ending SSTV");
   sstv_end();
 }
 
@@ -738,7 +742,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
   return 1;
 }
 
-void jpeg_decode(char* filename, char* fileout){
+void jpeg_decode(char* filename, char* fileout, bool debug){
   uint8_t *pImg;
 //  uint16_t *pImg;
   int x,y, bx,by;
