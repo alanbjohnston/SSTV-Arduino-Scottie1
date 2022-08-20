@@ -142,7 +142,7 @@ void dds_begin() {
 void dds_down() {
 //  dds_ITimer2.stopTimer();
   dds_enable = false;
-  Serial.println("Stopping DDS");
+//  Serial.println("Stopping DDS");
 }
 
 void dds_setfreq(int freq) {
