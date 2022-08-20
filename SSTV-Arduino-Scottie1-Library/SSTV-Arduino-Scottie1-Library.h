@@ -52,9 +52,9 @@ void vox_tone();
 void scottie1_calibrationHeader();
 void transmit_micro(int freq, float duration);
 void transmit_mili(int freq, float duration);
-void scottie1_transmit_file(char* filename);
+void scottie1_transmit_file(char* filename, , bool debug);
 void shot_pic();
-void jpeg_decode(char* filename, char* fileout);
+void jpeg_decode(char* filename, char* fileout, bool debug);
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude);    //Write 16 lines with values
 void writeFooter(File* dst);
 void dds_begin();
