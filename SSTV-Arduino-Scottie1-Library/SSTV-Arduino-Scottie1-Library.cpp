@@ -754,8 +754,10 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
 //  File imgFile = SD.open(fileout, FILE_WRITE);
   outFile = LittleFS.open(fileout, "w+");
   
-  if (outFile)
-    Serial.println("Output opened");
+  if (outFile) {
+    if (debug)
+      Serial.println("Output opened");
+  }
   else
     Serial.println("Failed to open output");
   
@@ -807,7 +809,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   
   // Decoding start
   
-  Serial.println("Starting jpeg decode");
+  if (debug)
+    Serial.println("Starting jpeg decode");
   
   JpegDec_i = 0;
   JpegDec_j = 0;
@@ -815,10 +818,13 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   uint16_t w = 0, h = 0;
   // TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   TJpgDec.getFsJpgSize(&w, &h, filename, LittleFS); // Note name preceded with "/"
-  Serial.print("Width = "); 
-  Serial.print(w); 
-  Serial.print(", height = "); 
-  Serial.println(h);
+  
+  if (debug) {
+    Serial.print("Width = "); 
+    Serial.print(w); 
+    Serial.print(", height = "); 
+    Serial.println(h);
+  }
   
   if ((w == 0) && (h == 0)) {
     Serial.println("Failed to open jpeg input");
@@ -834,7 +840,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   //TJpgDec.drawFsJpg(0, 0, "/cam.jpg", LittleFS);
   TJpgDec.drawFsJpg(0, 0, filename, LittleFS);
   
-  Serial.println("Draw complete");
+  if (debug)
+    Serial.println("Draw complete");
   
 //  while (!write_complete) { Serial.println("Waiting..."); delay(500);}
 
@@ -859,7 +866,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   Serial.println(JpegDec.MCUHeight);
   Serial.println("");
 */
-  Serial.println("Writing bin to FS");
+  if (debug)
+    Serial.println("Writing bin to FS");
 
 //  imgFile.write(JpegDec.pImage, sizeof(JpegDec.pImage));
   
@@ -899,7 +907,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
     }
   }
 */
-  Serial.println("Bin has been written to FS");
+  if (debug)
+    Serial.println("Bin has been written to FS");
   outFile.close();
 }
 
