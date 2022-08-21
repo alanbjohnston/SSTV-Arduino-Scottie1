@@ -51,7 +51,7 @@ volatile byte sCol = 0;   // Transmitting color Green
 volatile int tp = 0;     // Index of pixel while transmitting with timer
 volatile int line;
 
-char charId[13] = "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
+char charId[13] = "CubeSatSim"; // "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS *****
 volatile long syncTime;
 
 short sstv_output_pin;
