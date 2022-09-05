@@ -56,7 +56,7 @@ void scottie1_transmit_file(char* filename, bool debug);
 void shot_pic();
 void jpeg_decode(char* filename, char* fileout, bool debug);
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude);    //Write 16 lines with values
-void writeFooter(File* dst);
+void writeFooter(File* dst, char *telemetry);
 void dds_begin();
 void dds_down();
 void dds_setfreq(int freq);
@@ -65,7 +65,7 @@ void set_sstv_pin(byte pin);
 void sstv_end();
 void raw_decode(char* filename, char* fileout);
 void setup_sstv();
-void rotate_image(char *file_input, char *file_output);
+void rotate_image(char *file_input, char *file_output, char *telemetry);
 
 //FONTS
 const uint8_t b_fonts[43][11] = {
