@@ -63,7 +63,7 @@ File outFile;
 
 byte blue_led_counter = 0;
 
-const char input_buffer[240][240][3];
+//const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
 
 // #define AUDIO_OUT_PIN 26
@@ -1213,8 +1213,8 @@ void writeFooter(File* dst, char *telemetry){
    
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
-  File input_file = LittleFS.open(file_input, "r");           
-  
+ File input_file;      
+/*  
   char pixel[3];
   int side = (320 - 240)/2;
   for (int y = 0; y < 240; y++) {
@@ -1230,36 +1230,52 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   input_file.close();
   
   LittleFS.remove(file_input);
-  
+
   Serial.println("Input file read and deleted");
   Serial.println(side);
+*/    
+  output_file = LittleFS.open(file_output, "w+"); 
   
-  input_file = LittleFS.open(file_input, "w+"); 
+  writeFooter(&output_file, telemetry); 
   
-  writeFooter(&input_file, telemetry); 
+  char pixel[2];
+  char row[320];
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int y = 0; y < 240; y++) {
     Serial.println(" ");
+    
+    input_file = LittleFS.open(file_input, "r");        
+    for (int yi = 0; yi < y; yi++)
+       input_file.readBytes(pixel_in, sizeof(pixel_in));
+    
     for (int x = 0; x < 320; x++) {
+      
+      input_file.readBytes(row, sizeof(row));  
+      
       if (( x >= side) && (x < (320 - side))) {
         Serial.print("+");
 //        Serial.print(x - side);
 //        Serial.print(" ");
-        pixel[0] = input_buffer[x - side][y][0];
-        pixel[1] = input_buffer[x - side][y][1];
-        pixel[2] = input_buffer[x - side][y][2];       
-        if (input_file.write(pixel, sizeof(pixel)) < 3)
+        
+        input_file.readBytes(pixel, sizeof(pixel));
+        
+//        pixel[0] = input_buffer[x - side][y][0];
+//        pixel[1] = input_buffer[x - side][y][1];
+//        pixel[2] = input_buffer[x - side][y][2];       
+        if (output_file.write(pixel, sizeof(pixel)) < 3)
           Serial.println("Error writing to file");
       } else {
         Serial.print("-");
-        if (input_file.write(side_pixel, sizeof(side_pixel)) < 3)
+        if (output_file.write(side_pixel, sizeof(side_pixel)) < 3)
           Serial.println("Error writing to file");         
       } 
     }
+    input_file.close();
   }
   
-  input_file.close();
+  output_file.close();  
+
 }
 
  
