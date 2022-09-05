@@ -1214,9 +1214,11 @@ void writeFooter(File* dst, char *telemetry){
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
  File input_file;      
+ File output_file; 
+ int side = (320 - 240)/2;
 /*  
   char pixel[3];
-  int side = (320 - 240)/2;
+
   for (int y = 0; y < 240; y++) {
     for (int x = 0; x < 320; x++) {
       input_file.readBytes(pixel, sizeof(pixel));
@@ -1247,7 +1249,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     
     input_file = LittleFS.open(file_input, "r");        
     for (int yi = 0; yi < y; yi++)
-       input_file.readBytes(pixel_in, sizeof(pixel_in));
+       input_file.readBytes(pixel, sizeof(pixel));
     
     for (int x = 0; x < 320; x++) {
       
