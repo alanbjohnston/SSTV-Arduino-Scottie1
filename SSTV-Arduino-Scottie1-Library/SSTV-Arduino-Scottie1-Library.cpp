@@ -216,8 +216,8 @@ void setup_sstv() {
   
 //  sstv_stop = false;
   
-  Serial.begin(9600);
-//  Serial.println("Starting");
+  Serial.begin(115200);
+  Serial.println("Starting SSTV-Arduino-Scottie1-Library v0.1");
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
@@ -805,7 +805,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
 //  }
   outFile.write(sortBuf, sizeof(sortBuf));
 
-  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)
+//  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)  // write footer after rotate
   
   // Decoding start
   
@@ -1160,13 +1160,17 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 
   
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
-void writeFooter(File* dst){
+void writeFooter(File* dst, char *telemetry){
   int x,y;
   byte sortBuf[10560]; //320(px)*11(lines)*3(bytes) // Header buffer
   int i,j,k;
   int pxSkip;
 
-  char res[51] = "LAT: 1234.1234N     LONG: 1234.1234W     ALT:10000";
+  char res[51]; //  = "LAT: 1234.1234N     LONG: 1234.1234W     ALT:10000";
+  
+  if (strlen(telemetry) > 50)
+    telemetry[50] = '\0';
+  strcpy(res, telemetry);
 
   for(i = 0; i < 10560; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
@@ -1207,7 +1211,7 @@ void writeFooter(File* dst){
   }
 }  
    
-void rotate_image(char *file_input, char *file_output) {
+void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
   File input_file = LittleFS.open(file_input, "r");           
   
@@ -1231,6 +1235,8 @@ void rotate_image(char *file_input, char *file_output) {
   Serial.println(side);
   
   input_file = LittleFS.open(file_input, "w+"); 
+  
+  writeFooter(&input_file, telemetry); 
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int y = 0; y < 240; y++) {
