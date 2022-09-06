@@ -1300,6 +1300,34 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     
     input_file = LittleFS.open(file_input, "r"); 
     
+    Serial.println("Seek tests start");
+    
+    if (input_file.seek(3, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+     if (input_file.seek(320 * 8, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+    if (input_file.seek(3, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+    Serial.println("Seek tests complete");
+    
 //    position = 0;
     Serial.printf("\ny: %d  pos: ", y);
     for (int yi = 0; yi < y; yi++) {
