@@ -1315,8 +1315,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
         position += sizeof(pixel);
 
 //      if (x != 319)
-        input_file.readBytes(&row[0][0], 320 * 3); // sizeof(row));  
-        position += 320 * 3; // sizeof(row);
+        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
+        position += 319 * 3; // sizeof(row);
         
 //        Serial.print("+");
 //        Serial.print(x - side);
