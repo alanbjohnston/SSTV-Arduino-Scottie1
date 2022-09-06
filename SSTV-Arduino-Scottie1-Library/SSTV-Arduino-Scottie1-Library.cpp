@@ -755,8 +755,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   outFile = LittleFS.open(fileout, "w+");
   
   if (outFile) {
-    if (debug)
-      Serial.println("Output opened");
+//    if (debug)
+      Serial.printf("Output opened %s", fileout);
   }
   else
     Serial.println("Failed to open output");
