@@ -1354,7 +1354,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
      if (input_file.seek(319 * 3 * (x - 1) + y * 3 , SeekSet))
 ;//      Serial.println("Seek worked!");
     else
-      Serial.println("Seek failed!!");         
+      Serial.printf("Seek failed!! %d %d", x, y);         
         
 //        position += 319 * 3; // sizeof(row);
         
