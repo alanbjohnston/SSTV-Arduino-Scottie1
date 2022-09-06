@@ -1245,7 +1245,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   writeFooter(&output_file, telemetry); 
   
   char pixel[3];
-  char row[320];
+  char row[320 * 3];
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int y = 0; y < 240; y++) {
@@ -1259,12 +1259,12 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
       
       input_file.readBytes(row, sizeof(row));  
       
+      input_file.readBytes(pixel, sizeof(pixel));
+      
       if (( x >= side) && (x < (320 - side))) {
 //        Serial.print("+");
 //        Serial.print(x - side);
 //        Serial.print(" ");
-        
-        input_file.readBytes(pixel, sizeof(pixel));
         
 //        pixel[0] = input_buffer[x - side][y][0];
 //        pixel[1] = input_buffer[x - side][y][1];
