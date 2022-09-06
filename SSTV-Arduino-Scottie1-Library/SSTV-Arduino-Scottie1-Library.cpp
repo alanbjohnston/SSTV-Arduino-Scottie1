@@ -1339,7 +1339,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
       Serial.println("Seek failed!");  
       
 //       position += sizeof(pixel);
-    }
+ //   }
     for (int x = 0; x < 320; x++) {
       
       if (( x >= side) && (x < (320 - side))) {
