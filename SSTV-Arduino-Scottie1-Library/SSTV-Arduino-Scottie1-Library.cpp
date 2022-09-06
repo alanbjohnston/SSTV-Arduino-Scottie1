@@ -1244,7 +1244,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
   writeFooter(&output_file, telemetry); 
   
-  char pixel[2];
+  char pixel[3];
   char row[320];
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
