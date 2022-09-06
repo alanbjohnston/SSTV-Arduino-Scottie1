@@ -1349,14 +1349,14 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        position += sizeof(pixel);
 
 //      if (x != 319)
-///        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
-        
+        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
+/*        
 //     if (input_file.seek(319 * 3 * (x - 1) + y * 3 , SeekSet))
      if (input_file.seek(319 * 3, SeekCur))
 ;//      Serial.println("Seek worked!");
     else
       Serial.printf("Seek failed!! %d %d", x, y);         
-        
+ */       
 //        position += 319 * 3; // sizeof(row);
         
 //        Serial.print("+");
