@@ -1213,6 +1213,10 @@ void writeFooter(File* dst, char *telemetry){
    
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
+Serial.printf("Input: %s Output: %s\n", file_input, file_output);
+  
+void rotate_image(char *file_input, char *file_output, char *telemetry) {
+  
  File input_file;      
  File output_file; 
  int side = (320 - 240)/2;
