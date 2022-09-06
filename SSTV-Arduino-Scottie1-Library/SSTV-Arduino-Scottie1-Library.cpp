@@ -1300,23 +1300,23 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     
     input_file = LittleFS.open(file_input, "r"); 
     
-    position = 0;
+//    position = 0;
     Serial.printf("\ny: %d  pos: ", y);
     for (int yi = 0; yi < y; yi++) {
        input_file.readBytes(pixel, sizeof(pixel));
-       position += sizeof(pixel);
+//       position += sizeof(pixel);
     }
     for (int x = 0; x < 320; x++) {
       
       if (( x >= side) && (x < (320 - side))) {
         
-        Serial.printf(" %d ", position);       
+//        Serial.printf(" %d ", position);       
         input_file.readBytes(pixel, sizeof(pixel));
-        position += sizeof(pixel);
+//        position += sizeof(pixel);
 
 //      if (x != 319)
         input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
-        position += 319 * 3; // sizeof(row);
+//        position += 319 * 3; // sizeof(row);
         
 //        Serial.print("+");
 //        Serial.print(x - side);
