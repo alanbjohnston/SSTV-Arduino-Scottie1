@@ -1291,7 +1291,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   output_file.write(sortBuf, sizeof(sortBuf));  
   
   char pixel[3];
-  char row[320][[3];
+  char row[320][3];
   int position;
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
