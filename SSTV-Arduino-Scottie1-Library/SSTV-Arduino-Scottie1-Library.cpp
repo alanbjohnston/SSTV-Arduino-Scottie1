@@ -1329,7 +1329,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     Serial.println("Seek tests complete");
     
 //    position = 0;
-    Serial.printf("\ny: %d  pos: ", y);
+//    Serial.printf("\ny: %d  pos: ", y);
     for (int yi = 0; yi < y; yi++) {
        input_file.readBytes(pixel, sizeof(pixel));
 //       position += sizeof(pixel);
