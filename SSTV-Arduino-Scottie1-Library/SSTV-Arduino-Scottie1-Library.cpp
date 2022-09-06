@@ -1291,21 +1291,22 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   output_file.write(sortBuf, sizeof(sortBuf));  
   
   char pixel[3];
-  char row[240 * 3];
+  char row[320 * 3];
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
   for (int y = 0; y < 240; y++) {
 //    Serial.println(" ");
     
-    input_file = LittleFS.open(file_input, "r");        
+    input_file = LittleFS.open(file_input, "r"); 
+
     for (int yi = 0; yi < y; yi++)
        input_file.readBytes(pixel, sizeof(pixel));
     
     for (int x = 0; x < 320; x++) {
       
-      input_file.readBytes(row, sizeof(row));  
-      
       input_file.readBytes(pixel, sizeof(pixel));
+      
+      input_file.readBytes(row, sizeof(row));  
       
       if (( x >= side) && (x < (320 - side))) {
 //        Serial.print("+");
