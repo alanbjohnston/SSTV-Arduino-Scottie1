@@ -1212,6 +1212,10 @@ void writeFooter(File* dst, char *telemetry){
 }  
    
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
+  int x,y, bx,by;
+  byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
+  int i,j,k;
+  int pxSkip;
   
   Serial.printf("Input: %s Output: %s Telemetry: %s\n", file_input, file_output, telemetry);
   
