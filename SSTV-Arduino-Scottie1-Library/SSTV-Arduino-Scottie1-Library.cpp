@@ -764,7 +764,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
   }
-
+/*
   for(i = 0; i < 12; i++){
     byte fontNumber;
     char ch;
@@ -805,8 +805,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
 //  }
   outFile.write(sortBuf, sizeof(sortBuf));
 
-//  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)  // write footer after rotate
-  
+  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)  // write footer after rotate
+*/  
   // Decoding start
   
   if (debug)
@@ -1213,7 +1213,7 @@ void writeFooter(File* dst, char *telemetry){
    
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
-  Serial.printf("Input: %s Output: %s\n", file_input, file_output);
+  Serial.printf("Input: %s Output: %s Telemetry: %s\n", file_input, file_output, telemetry);
   
 //void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
@@ -1241,8 +1241,50 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   Serial.println(side);
 */    
   output_file = LittleFS.open(file_output, "w+"); 
-  
-  writeFooter(&output_file, telemetry); 
+
+  for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
+    sortBuf[i] = 0xFF;
+  }
+
+  for(i = 0; i < 12; i++){
+    byte fontNumber;
+    char ch;
+    ch = charId[i];
+    for(y = 0; y < 11; y++){
+      for(x = 0; x < 8; x++){
+        pxSkip = 16 + (320 * (y + 3)) + (3 * 8 * i) + (3 * x); //Width: x3
+
+        uint8_t mask;
+        mask = pow(2, 7 - x);
+
+        if(ch >= 65 && ch <= 90){ // A to Z
+                fontNumber = ch - 65;
+        }
+        else if(ch >= 48 && ch <= 57){ //0 to 9
+                fontNumber = ch - 22;
+        }
+        else if(ch == '/'){fontNumber = 36;}
+        else if(ch == '-'){fontNumber = 37;}
+        else if(ch == '.'){fontNumber = 38;}
+        else if(ch == '?'){fontNumber = 39;}
+        else if(ch == '!'){fontNumber = 40;}
+        else if(ch == ':'){fontNumber = 41;}
+        else if(ch == ' '){fontNumber = 42;}
+        else              {fontNumber = 42;}
+
+        if((b_fonts[fontNumber][y] & mask) != 0){
+          for(j = 0; j < 9; j++){
+                  sortBuf[(3 * pxSkip) + j] = 0x00;
+          }
+        }
+      }
+    }
+  }
+
+//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
+//    imgFile.write(sortBuf[k]);
+//  }
+  outFile.write(sortBuf, sizeof(sortBuf));  
   
   char pixel[3];
   char row[320 * 3];
@@ -1279,6 +1321,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     }
     input_file.close();
   }
+  
+   writeFooter(&output_file, telemetry); 
   
   output_file.close();  
 
