@@ -1330,8 +1330,14 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 */    
 //    position = 0;
 //    Serial.printf("\ny: %d  pos: ", y);
-    for (int yi = 0; yi < y; yi++) {
-       input_file.readBytes(pixel, sizeof(pixel));
+///    for (int yi = 0; yi < y; yi++) {
+///       input_file.readBytes(pixel, sizeof(pixel));
+      
+    if (input_file.seek(yi * 3, SeekSet))
+;//      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+      
 //       position += sizeof(pixel);
     }
     for (int x = 0; x < 320; x++) {
@@ -1343,7 +1349,13 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        position += sizeof(pixel);
 
 //      if (x != 319)
-        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
+///        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
+        
+     if (input_file.seek(319 * 3, SeekCur))
+;//      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");         
+        
 //        position += 319 * 3; // sizeof(row);
         
 //        Serial.print("+");
