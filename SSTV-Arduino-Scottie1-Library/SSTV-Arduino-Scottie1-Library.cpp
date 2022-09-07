@@ -1293,6 +1293,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //  }
   output_file.write(sortBuf, sizeof(sortBuf));  
   
+  writeFooter(&output_file, telemetry); 
+  
   char pixel[3];
   char row[320][3];
   int position;
@@ -1383,8 +1385,6 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     }
 //    input_file.close();
   }
-  
-  writeFooter(&output_file, telemetry); 
   
   input_file.close();
   output_file.close();  
