@@ -18,7 +18,7 @@
 //#include <Adafruit_GPS.h>
 
 // Scottie 1 properties
-#define COLORCORRECTION 3.1372549
+#define COLORCORRECTION 3.15  //3.1372549
 
 // Scottie 1 mode
 #define COLORSCANTIMEPERLINE 138.240        //ms
