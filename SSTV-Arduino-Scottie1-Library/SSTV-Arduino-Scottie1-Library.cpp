@@ -1205,10 +1205,13 @@ void writeFooter(File* dst, char *telemetry){
       }
     }
   }
-
+  
+/*
   for(k = 0; k < 10560; k++){  // Adding header to the binary file
     dst->write(sortBuf[k]);
   }
+*/  
+   dst->write(sortBuf, sizeof(sortBuf));
 }  
    
 void rotate_image(char *file_input, char *file_output, char *telemetry) {
