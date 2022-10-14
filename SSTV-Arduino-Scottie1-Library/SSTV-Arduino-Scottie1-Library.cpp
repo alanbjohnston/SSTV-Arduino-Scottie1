@@ -63,7 +63,7 @@ File outFile;
 
 byte blue_led_counter = 0;
 
-char input_buffer[240][240][3];
+//const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
 
 // #define AUDIO_OUT_PIN 26
@@ -216,8 +216,8 @@ void setup_sstv() {
   
 //  sstv_stop = false;
   
-  Serial.begin(9600);
-//  Serial.println("Starting");
+  Serial.begin(115200);
+  Serial.println("Starting SSTV-Arduino-Scottie1-Library v0.2");
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
@@ -755,8 +755,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   outFile = LittleFS.open(fileout, "w+");
   
   if (outFile) {
-    if (debug)
-      Serial.println("Output opened");
+//    if (debug)
+      Serial.printf("Output opened %s", fileout);
   }
   else
     Serial.println("Failed to open output");
@@ -764,7 +764,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
   }
-
+/*
   for(i = 0; i < 12; i++){
     byte fontNumber;
     char ch;
@@ -805,8 +805,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
 //  }
   outFile.write(sortBuf, sizeof(sortBuf));
 
-  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)
-  
+  writeFooter(&outFile);  //Writing first 10560 bytes (11*320*3)  // write footer after rotate
+*/  
   // Decoding start
   
   if (debug)
@@ -1160,13 +1160,17 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 
   
 //void writeFooter(File* dst, nmea_float_t latitude, char lat, nmea_float_t longitude, char lon, nmea_float_t altitude){    //Write 16 lines with values
-void writeFooter(File* dst){
+void writeFooter(File* dst, char *telemetry){
   int x,y;
   byte sortBuf[10560]; //320(px)*11(lines)*3(bytes) // Header buffer
   int i,j,k;
   int pxSkip;
 
-  char res[51] = "LAT: 1234.1234N     LONG: 1234.1234W     ALT:10000";
+  char res[51]; //  = "LAT: 1234.1234N     LONG: 1234.1234W     ALT:10000";
+  
+  if (strlen(telemetry) > 50)
+    telemetry[50] = '\0';
+  strcpy(res, telemetry);
 
   for(i = 0; i < 10560; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
@@ -1201,18 +1205,31 @@ void writeFooter(File* dst){
       }
     }
   }
-
+  
+/*
   for(k = 0; k < 10560; k++){  // Adding header to the binary file
     dst->write(sortBuf[k]);
   }
+*/  
+   dst->write(sortBuf, sizeof(sortBuf));
 }  
    
-void rotate_image(char *file_input, char *file_output) {
+void rotate_image(char *file_input, char *file_output, char *telemetry) {
+  int x,y, bx,by;
+  byte sortBuf[15360]; //320(px)*16(lines)*3(bytes) // Header buffer
+  int i,j,k;
+  int pxSkip;
   
-  File input_file = LittleFS.open(file_input, "r");           
+  Serial.printf("Input: %s Output: %s Telemetry: %s\n", file_input, file_output, telemetry);
   
-  char pixel[3];
+//void rotate_image(char *file_input, char *file_output, char *telemetry) {
+  
+  File input_file;      
+  File output_file; 
   int side = (320 - 240)/2;
+/*  
+  char pixel[3];
+
   for (int y = 0; y < 240; y++) {
     for (int x = 0; x < 320; x++) {
       input_file.readBytes(pixel, sizeof(pixel));
@@ -1226,34 +1243,152 @@ void rotate_image(char *file_input, char *file_output) {
   input_file.close();
   
   LittleFS.remove(file_input);
-  
+
   Serial.println("Input file read and deleted");
   Serial.println(side);
+*/    
+  output_file = LittleFS.open(file_output, "w+"); 
+
+  for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
+    sortBuf[i] = 0xFF;
+  }
+
+  for(i = 0; i < 12; i++){
+    byte fontNumber;
+    char ch;
+    ch = charId[i];
+    for(y = 0; y < 11; y++){
+      for(x = 0; x < 8; x++){
+        pxSkip = 16 + (320 * (y + 3)) + (3 * 8 * i) + (3 * x); //Width: x3
+
+        uint8_t mask;
+        mask = pow(2, 7 - x);
+
+        if(ch >= 65 && ch <= 90){ // A to Z
+                fontNumber = ch - 65;
+        }
+        else if(ch >= 48 && ch <= 57){ //0 to 9
+                fontNumber = ch - 22;
+        }
+        else if(ch == '/'){fontNumber = 36;}
+        else if(ch == '-'){fontNumber = 37;}
+        else if(ch == '.'){fontNumber = 38;}
+        else if(ch == '?'){fontNumber = 39;}
+        else if(ch == '!'){fontNumber = 40;}
+        else if(ch == ':'){fontNumber = 41;}
+        else if(ch == ' '){fontNumber = 42;}
+        else              {fontNumber = 42;}
+
+        if((b_fonts[fontNumber][y] & mask) != 0){
+          for(j = 0; j < 9; j++){
+                  sortBuf[(3 * pxSkip) + j] = 0x00;
+          }
+        }
+      }
+    }
+  }
+
+//  for(k = 0; k < 15360; k++){  // Adding header to the binary file
+//    imgFile.write(sortBuf[k]);
+//  }
+  output_file.write(sortBuf, sizeof(sortBuf));  
   
-  input_file = LittleFS.open(file_input, "w+"); 
+  writeFooter(&output_file, telemetry); 
+  
+  char pixel[3];
+  char row[320][3];
+  int position;
   
   char side_pixel[] = { 0xff, 0xff, 0xff };
+  
+  input_file = LittleFS.open(file_input, "r"); 
+
+  
   for (int y = 0; y < 240; y++) {
-    Serial.println(" ");
+//    Serial.println(" ");
+    
+//    input_file = LittleFS.open(file_input, "r"); 
+/*    
+    Serial.println("Seek tests start");
+    
+    if (input_file.seek(3, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+     if (input_file.seek(320 * 8, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+    if (input_file.seek(3, SeekSet))
+      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+    
+    input_file.readBytes(pixel, sizeof(pixel));
+    Serial.println(pixel[0]);
+    
+    Serial.println("Seek tests complete");
+*/    
+//    position = 0;
+//    Serial.printf("\ny: %d  pos: ", y);
+///    for (int yi = 0; yi < y; yi++) {
+///       input_file.readBytes(pixel, sizeof(pixel));
+      
+    if (input_file.seek(y * 3, SeekSet))
+;//      Serial.println("Seek worked!");
+    else
+      Serial.println("Seek failed!");  
+      
+//       position += sizeof(pixel);
+ //   }
     for (int x = 0; x < 320; x++) {
+      
       if (( x >= side) && (x < (320 - side))) {
-        Serial.print("+");
+        
+//        Serial.printf(" %d ", position);       
+        input_file.readBytes(pixel, sizeof(pixel));
+//        position += sizeof(pixel);
+
+//      if (x != 319)
+        input_file.readBytes(&row[0][0], 319 * 3); // sizeof(row));  
+/*        
+//     if (input_file.seek(319 * 3 * (x - 1) + y * 3 , SeekSet))
+     if (input_file.seek(319 * 3, SeekCur))
+;//      Serial.println("Seek worked!");
+    else
+      Serial.printf("Seek failed!! %d %d", x, y);         
+ */       
+//        position += 319 * 3; // sizeof(row);
+        
+//        Serial.print("+");
 //        Serial.print(x - side);
 //        Serial.print(" ");
-        pixel[0] = input_buffer[x - side][y][0];
-        pixel[1] = input_buffer[x - side][y][1];
-        pixel[2] = input_buffer[x - side][y][2];       
-        if (input_file.write(pixel, sizeof(pixel)) < 3)
-          Serial.println("Error writing to file");
+        
+//        pixel[0] = input_buffer[x - side][y][0];
+//        pixel[1] = input_buffer[x - side][y][1];
+//        pixel[2] = input_buffer[x - side][y][2];       
+        if (output_file.write(pixel, sizeof(pixel)) < 3)
+          Serial.printf("Error writing to file %d\n", sizeof(pixel));
       } else {
-        Serial.print("-");
-        if (input_file.write(side_pixel, sizeof(side_pixel)) < 3)
+//        Serial.print("-");
+        if (output_file.write(side_pixel, sizeof(side_pixel)) < 3)
           Serial.println("Error writing to file");         
       } 
     }
+//    input_file.close();
   }
   
   input_file.close();
+  output_file.close();  
+
 }
 
  
