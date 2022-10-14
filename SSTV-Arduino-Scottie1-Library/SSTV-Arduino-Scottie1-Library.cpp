@@ -10,7 +10,7 @@
 #include <LittleFS.h>
 #include <TJpg_Decoder.h>
 
-//#define DEBUG
+#define DEBUG
 #define DDS_ALT
 #define TEST_PATTERN
 
