@@ -460,14 +460,14 @@ void scottie1_transmit_file(char* filename, bool debug){
           buffR[i] =  buff[0];
           buffG[i] =  buff[1];
           buffB[i] =  buff[2];
-//#ifdef DEBUG   
+#ifdef DEBUG   
           Serial.print(buff[0], HEX);
           Serial.print(" ");
           Serial.print(buff[1], HEX);
           Serial.print(" ");
           Serial.print(buff[2], HEX);
           Serial.println(" ");
-//#endif
+#endif
         }
       }
 #ifdef DEBUG  
