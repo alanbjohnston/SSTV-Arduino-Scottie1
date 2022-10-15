@@ -823,6 +823,8 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   // TJpgDec.getFsJpgSize(&w, &h, "/cam.jpg", LittleFS); // Note name preceded with "/"
   TJpgDec.getFsJpgSize(&w, &h, filename, LittleFS); // Note name preceded with "/"
   
+  Serial.println("Finished getFsJpgSize");
+  
   if (debug) {
     Serial.print("Width = "); 
     Serial.print(w); 
