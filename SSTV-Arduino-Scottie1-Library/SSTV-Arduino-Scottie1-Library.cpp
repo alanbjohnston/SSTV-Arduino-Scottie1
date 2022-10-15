@@ -72,7 +72,7 @@ void show_dir3() {
   LittleFS.begin();
   Dir dir = LittleFS.openDir("/");
 // or Dir dir = LittleFS.openDir("/data");
-  Serial.println("FS directory:");
+//  Serial.println("FS directory:");
   while (dir.next()) {
     Serial.print(dir.fileName());
     if(dir.fileSize()) {
