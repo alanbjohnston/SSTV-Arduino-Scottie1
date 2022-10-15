@@ -1297,9 +1297,9 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
 //    imgFile.write(sortBuf[k]);
 //  }
-  output_file.write(sortBuf, sizeof(sortBuf));  
+//  output_file.write(sortBuf, sizeof(sortBuf));  
   
-  writeFooter(&output_file, telemetry); 
+//  writeFooter(&output_file, telemetry); 
   
   char pixel[3];
   char row[320][3];
