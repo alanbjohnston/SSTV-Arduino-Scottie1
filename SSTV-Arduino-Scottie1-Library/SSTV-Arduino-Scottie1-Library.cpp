@@ -1143,9 +1143,10 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
     
     int bytes = outFile.write(buffer, 3);
 //    Serial.println(bytes);
-    if (bytes < 3) 
+    if (bytes < 3) {
       Serial.println("Error writing output file");
-    
+      show_dir();
+    }
   #ifdef DEBUG    
     print_hex(red);
     print_hex(green);
@@ -1375,12 +1376,19 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        pixel[0] = input_buffer[x - side][y][0];
 //        pixel[1] = input_buffer[x - side][y][1];
 //        pixel[2] = input_buffer[x - side][y][2];       
-        if (output_file.write(pixel, sizeof(pixel)) < 3)
+        if (output_file.write(pixel, sizeof(pixel)) < 3) {
           Serial.printf("Error writing to file %d\n", sizeof(pixel));
+          show_dir();
+          Serial.println(x);
+          Serial.println(y);
+        }
       } else {
 //        Serial.print("-");
         if (output_file.write(side_pixel, sizeof(side_pixel)) < 3)
           Serial.println("Error writing to file");         
+          show_dir();
+          Serial.println(x);
+          Serial.println(y);
       } 
     }
 //    input_file.close();
