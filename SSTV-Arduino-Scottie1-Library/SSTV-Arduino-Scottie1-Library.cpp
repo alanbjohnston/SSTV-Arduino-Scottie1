@@ -814,7 +814,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   // Decoding start
   
   if (debug)
-    Serial.println("Starting jpeg decode");
+    Serial.println("Starting jpeg decode!");
   
   JpegDec_i = 0;
   JpegDec_j = 0;
