@@ -68,7 +68,7 @@ byte blue_led_counter = 0;
 
 // #define AUDIO_OUT_PIN 26
 
-void show_dir2() {
+void show_dir3() {
   LittleFS.begin();
   Dir dir = LittleFS.openDir("/");
 // or Dir dir = LittleFS.openDir("/data");
@@ -1162,7 +1162,7 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 //    Serial.println(bytes);
     if (bytes < 3) {
       Serial.println("Error writing output file");
-      show_dir2();
+      show_dir3();
     }
   #ifdef DEBUG    
     print_hex(red);
@@ -1395,7 +1395,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        pixel[2] = input_buffer[x - side][y][2];       
         if (output_file.write(pixel, sizeof(pixel)) < 3) {
           Serial.printf("Error writing to file %d\n", sizeof(pixel));
-          show_dir2();
+          show_dir3();
           Serial.println(x);
           Serial.println(y);
         }
@@ -1403,7 +1403,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        Serial.print("-");
         if (output_file.write(side_pixel, sizeof(side_pixel)) < 3)
           Serial.println("Error writing to file");         
-          show_dir2();
+          show_dir3();
           Serial.println(x);
           Serial.println(y);
       } 
