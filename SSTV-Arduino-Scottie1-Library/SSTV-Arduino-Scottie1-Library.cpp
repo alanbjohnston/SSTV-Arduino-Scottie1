@@ -1266,6 +1266,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   Serial.println(side);
 */    
   output_file = LittleFS.open(file_output, "w+"); 
+  Serial.println(output_file);
 
   for(i = 0; i < 15360; i++){ // Cleaning Header Buffer array
     sortBuf[i] = 0xFF;
@@ -1309,7 +1310,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //  for(k = 0; k < 15360; k++){  // Adding header to the binary file
 //    imgFile.write(sortBuf[k]);
 //  }
-  output_file.write(sortBuf, sizeof(sortBuf));  
+  Serial.println("output_file.write");
+  Serial.println(output_file.write(sortBuf, sizeof(sortBuf)) );  
   
   writeFooter(&output_file, telemetry); 
   
