@@ -760,7 +760,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   
   if (outFile) {
 //    if (debug)
-      Serial.printf("Output opened %s", fileout);
+      Serial.printf("Output opened %s\n", fileout);
   }
   else
     Serial.println("Failed to open output");
