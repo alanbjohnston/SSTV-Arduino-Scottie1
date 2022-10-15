@@ -1315,6 +1315,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
   writeFooter(&output_file, telemetry); 
   
+  output_file.close();    // added
+  
   char pixel[3];
   char row[320][3];
   int position;
@@ -1325,6 +1327,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 
   
   for (int y = 0; y < 240; y++) {
+    
+    output_file = LittleFS.open(file_output, "a");     
 //    Serial.println(" ");
     
 //    input_file = LittleFS.open(file_input, "r"); 
@@ -1411,10 +1415,11 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
       } 
     }
 //    input_file.close();
+  output_file.close();      
   }
   
   input_file.close();
-  output_file.close();  
+//  output_file.close();  
 
 }
 
