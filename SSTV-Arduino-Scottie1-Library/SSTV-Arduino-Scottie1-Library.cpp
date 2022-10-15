@@ -68,6 +68,23 @@ byte blue_led_counter = 0;
 
 // #define AUDIO_OUT_PIN 26
 
+void show_dir() {
+  LittleFS.begin();
+  Dir dir = LittleFS.openDir("/");
+// or Dir dir = LittleFS.openDir("/data");
+  Serial.println("FS directory:");
+  while (dir.next()) {
+    Serial.print(dir.fileName());
+    if(dir.fileSize()) {
+        File f = dir.openFile("r");
+        Serial.print(" ");
+        Serial.println(f.size());
+    }
+  }
+  Serial.println(">");
+}
+
+
 void set_sstv_pin(byte pin) {
   sstv_output_pin = pin;
   pinMode(sstv_output_pin, OUTPUT);
