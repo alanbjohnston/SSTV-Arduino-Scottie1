@@ -1335,7 +1335,7 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 
   
   for (int y = 0; y < 240; y++) {
-    
+    Serial.printf("sstv file error: %d \n", sstv_file_error);
     if (!sstv_file_error) {
       
     output_file = LittleFS.open(file_output, "a");     
