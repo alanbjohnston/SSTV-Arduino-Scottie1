@@ -384,7 +384,8 @@ void scottie1_transmit_file(char* filename, bool debug){
     Serial.println("Transmitting picture");
 
 //  File myFile = SD.open(filename);
-  File myFile = LittleFS.open(pic_decoded_filename, "r");  
+//  File myFile = LittleFS.open(pic_decoded_filename, "r");  
+  File myFile = LittleFS.open(filename, "r");  
   
 //  Serial.println(myFile);
 //  int myFile = true;  
@@ -542,7 +543,8 @@ void scottie1_transmit_file(char* filename, bool debug){
 //  }
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening cam.bin");          
+    Serial.println("error opening");     
+    Serial.println(filename);
   }
   if (debug)
     Serial.println("Ending SSTV");
