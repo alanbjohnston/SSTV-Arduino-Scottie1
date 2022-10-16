@@ -377,6 +377,7 @@ void scottie1_transmit_file(char* filename, bool debug){
 
   sstv_stop = false;
   dds_enable = true;
+  sstv_file_error = false;
   
   char buff[3];
   bool head;
@@ -1432,10 +1433,12 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
     }
 //    input_file.close();
   output_file.close();      
-  }
+  } else
+      Serial.println("SSTV file error");
   }
   input_file.close();
 //  output_file.close();  
+  Serial.println("Finished");
 
 }
 
