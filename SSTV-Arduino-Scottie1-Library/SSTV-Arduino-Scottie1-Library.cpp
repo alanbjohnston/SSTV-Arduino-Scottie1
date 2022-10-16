@@ -543,7 +543,7 @@ void scottie1_transmit_file(char* filename, bool debug){
 //  }
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening");     
+    Serial.print("error opening ");     
     Serial.println(filename);
   }
   if (debug)
@@ -778,7 +778,7 @@ void jpeg_decode(char* filename, char* fileout, bool debug){
   
   if (outFile) {
 //    if (debug)
-      Serial.printf("Output opened %s", fileout);
+      Serial.printf("Output opened %s\n", fileout);
   }
   else
     Serial.println("Failed to open output");
