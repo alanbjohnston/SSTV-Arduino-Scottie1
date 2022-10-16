@@ -11,6 +11,7 @@
 #include <TJpg_Decoder.h>
 
 //#define DEBUG
+//#define FILE_DEBUG
 #define DDS_ALT
 #define TEST_PATTERN
 
@@ -26,6 +27,7 @@ volatile long dds_counter = 0;
 bool sstv_stop;
 bool dds_timer_started = false;
 bool sstv_timer_started = false;
+bool sstv_file_error = false;
 
 //volatile uint8_t phase = 0;
 
@@ -278,6 +280,7 @@ void setup_sstv() {
 void send_sstv(char* filename) {
   sstv_stop = false;
   dds_enable = true;
+  sstv_file_error = false;
 /*  
   shot_pic();
 */
@@ -1162,7 +1165,10 @@ void raw_decode(char* filename, char* fileout){  // used to decode .raw files in
 //    Serial.println(bytes);
     if (bytes < 3) {
       Serial.println("Error writing output file");
+      sstv_file_error = true;
+  #ifdef FILE_DEBUG    
       show_dir3();
+  #endif    
     }
   #ifdef DEBUG    
     print_hex(red);
@@ -1328,6 +1334,8 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
   
   for (int y = 0; y < 240; y++) {
     
+    if (!sstv_file_error) {
+      
     output_file = LittleFS.open(file_output, "a");     
 //    Serial.println(" ");
     
@@ -1401,23 +1409,29 @@ void rotate_image(char *file_input, char *file_output, char *telemetry) {
 //        pixel[2] = input_buffer[x - side][y][2];       
         if (output_file.write(pixel, sizeof(pixel)) < 3) {
           Serial.printf("Error writing to file %d\n", sizeof(pixel));
+          sstv_file_error = true;
+#ifdef FILE_DEBUG    
           show_dir3();
           Serial.println(x);
           Serial.println(y);
+#endif
         }
       } else {
 //        Serial.print("-");
         if (output_file.write(side_pixel, sizeof(side_pixel)) < 3)
           Serial.println("Error writing to file");         
+          sstv_file_error = true;
+#ifdef FILE_DEBUG    
           show_dir3();
           Serial.println(x);
           Serial.println(y);
+#endif
       } 
     }
 //    input_file.close();
   output_file.close();      
   }
-  
+  }
   input_file.close();
 //  output_file.close();  
 
