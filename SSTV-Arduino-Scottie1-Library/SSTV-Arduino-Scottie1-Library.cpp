@@ -716,17 +716,6 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
             byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
             byte blue = ((pixel_value & 0b0000000000011111) * 255 + 15) / 31;            
-     
-            if (y < 60) {
-//            print_hex(red_raw);                  
-            print_hex(red);    
-//            print_hex(green_raw);                  
-            print_hex(green);   
-//            print_hex(blue_raw);                  
-            print_hex(blue);   
-                             
-//            Serial.println(" ");
-            }
           
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
