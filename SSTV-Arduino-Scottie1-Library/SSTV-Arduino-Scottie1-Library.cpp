@@ -711,7 +711,7 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
           
             byte red_raw = (pixel_value & 0b1111100000000000) >> 11;
             byte green_raw = (pixel_value & 0b0000011111100000) >> 5;         
-            byte blue_raw = (pixel_value & 0b0000000000011111;                
+            byte blue_raw = (pixel_value & 0b0000000000011111);                
           
             byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
             byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
