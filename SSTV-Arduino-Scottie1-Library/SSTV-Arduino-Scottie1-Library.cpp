@@ -123,7 +123,7 @@ void dds_begin() {
   if (!dds_timer_started) {  
   #ifdef DDS_ALT
     dds_counter = 0;
-    if (dds_ITimer2.attachInterruptInterval(10, dds_TimerHandler0))	{
+    if (dds_ITimer2.attachInterruptInterval(1, dds_TimerHandler0))	{  // was 10
   #else
     if (dds_ITimer2.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
   #endif
@@ -149,7 +149,7 @@ void dds_setfreq(int freq) {
 #ifdef DDS_ALT  
 //  dds_duration_us = (0.5E5 / (float)freq) * 1.064 - 17.8;  // 10 us with calibration
 //  dds_duration_us = 0.375E5 / (float)freq;  // 10 us calibrated scaled
-  dds_duration_us = 0.37E5 / (float)freq;  // 10 us calibrated scaled
+  dds_duration_us = (0.37E6 / (float)freq) + 0.5;  // was .37E5 now 1us // 10 us calibrated scaled
 //  dds_duration_us = 0.5E5 / (float)freq - 15;  // 10 us calibrated with delta
 #else
   dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
