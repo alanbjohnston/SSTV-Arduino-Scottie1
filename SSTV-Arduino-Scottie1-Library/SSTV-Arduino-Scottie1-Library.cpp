@@ -9,10 +9,13 @@
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
 #include <TJpg_Decoder.h>
+//#include "hardware/irq.h"  // interrupts
+#include "hardware/pwm.h"  // pwm 
 
 //#define DEBUG
-#define DDS_ALT
+//#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
+#define DDS_PWM_PIN 14
 
 RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
@@ -62,6 +65,8 @@ File inFile;
 File outFile;
 
 byte blue_led_counter = 0;
+int dds_pin_slice;
+pwm_config dds_pwm_config;
 
 //const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
@@ -104,17 +109,11 @@ void loop() {
 
 bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
-#ifdef DDS_ALT
     if (dds_counter++ > dds_duration_us) {
       dds_counter = 0;
       dds_phase = !dds_phase;	  
       digitalWrite(sstv_output_pin, dds_phase);    // ToDo: use PWM to approximate sin wave
-    }
-#else    
-    dds_phase = !dds_phase;	  
-//    digitalWrite(AUDIO_OUT_PIN, dds_phase);    
-    digitalWrite(sstv_output_pin, dds_phase);    
-#endif    
+    }  
   }
   return(true);
 }
@@ -124,19 +123,53 @@ void dds_begin() {
   #ifdef DDS_ALT
     dds_counter = 0;
     if (dds_ITimer2.attachInterruptInterval(1, dds_TimerHandler0))	{  // was 10
-  #else
-    if (dds_ITimer2.attachInterruptInterval(dds_duration_us, dds_TimerHandler0))	{
-  #endif
       Serial.print(F("Starting dds_ITimer2 OK, micros() = ")); Serial.println(micros());
       dds_timer_started = true;
     }
     else
       Serial.println(F("Can't set dds_ITimer2. Select another Timer, freq. or timer"));
-  } else  {
-//      dds_ITimer2.restartTimer();
-//      Serial.println("Restaarting dds_ITimer2");
+  }
+  #else
+    Serial.println("Starting pwm f= MHz!");
+    gpio_set_function(DDS_PWM_PIN, GPIO_FUNC_PWM);
+    dds_pin_slice = pwm_gpio_to_slice_num(DDS_PWM_PIN);
+      // Setup PWM interrupt to fire when PWM cycle is complete
+    pwm_clear_irq(dds_pin_slice);
+    pwm_set_irq_enabled(dds_pin_slice, true);
+    // set the handle function above
+    irq_set_exclusive_handler(PWM_IRQ_WRAP, dds_pwm_interrupt_handler); 
+    irq_set_enabled(PWM_IRQ_WRAP, true);	  
+  
+    dds_pwm_config = pwm_get_default_config();
+    pwm_config_set_clkdiv(&dds_pwm_config, 1.0f);  
+    pwm_config_set_wrap(&ddw_pwm_config, 3);  
+    
+  if (debug_mode) {	
+    Serial.print(pwm_gpio_to_slice_num(DDS_PWM_PIN));
+    Serial.print(" ");	
+    Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
+    Serial.print(" ");		
+    Serial.print(pwm_gpio_to_slice_num(DDS_PWM_PIN));
+    Serial.print(" ");	
+    Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
+    Serial.println(" ");	
   } 
+    
+  #endif
+//  } 
 //  dds_enable = true;
+
+}
+
+void dds_pwm_interrupt_handler() {
+  pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+  if (dds_enable) {
+    if (dds_counter++ > dds_duration_us) {
+      dds_counter = 0;
+      dds_phase = !dds_phase;	  
+      digitalWrite(sstv_output_pin, dds_phase);   
+    }  
+  }
 }
 
 void dds_down() {
