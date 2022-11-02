@@ -16,6 +16,7 @@
 //#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
 #define DDS_PWM_PIN 14
+#define DEBUG_PWM
 
 RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
@@ -142,9 +143,9 @@ void dds_begin() {
   
     dds_pwm_config = pwm_get_default_config();
     pwm_config_set_clkdiv(&dds_pwm_config, 1.0f);  
-    pwm_config_set_wrap(&ddw_pwm_config, 3);  
+    pwm_config_set_wrap(&dds_pwm_config, 3);  
     
-  if (debug_mode) {	
+  if (DEBUG_PWM) {	
     Serial.print(pwm_gpio_to_slice_num(DDS_PWM_PIN));
     Serial.print(" ");	
     Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
@@ -154,7 +155,7 @@ void dds_begin() {
     Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
     Serial.println(" ");	
   } 
-    
+}   
   #endif
 //  } 
 //  dds_enable = true;
