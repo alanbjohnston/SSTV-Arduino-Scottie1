@@ -16,7 +16,8 @@
 //#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
 #define DDS_PWM_PIN 14
-#define DEBUG_PWM
+
+bool debug_pwm = false;
 
 RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
@@ -145,7 +146,7 @@ void dds_begin() {
     pwm_config_set_clkdiv(&dds_pwm_config, 1.0f);  
     pwm_config_set_wrap(&dds_pwm_config, 3);  
     
-  if (DEBUG_PWM) {	
+  if (debug_pwm) {	
     Serial.print(pwm_gpio_to_slice_num(DDS_PWM_PIN));
     Serial.print(" ");	
     Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
@@ -394,8 +395,11 @@ void scottie1_transmit_file(char* filename, bool debug){
   
   char buff[3];
   bool head;
-  if (debug)
+  if (debug) {
     Serial.println("Transmitting picture");
+    debug_pwm = true;
+  } else
+    debug_pwm = false;
 
 //  File myFile = SD.open(filename);
   File myFile = LittleFS.open(pic_decoded_filename, "r");  
