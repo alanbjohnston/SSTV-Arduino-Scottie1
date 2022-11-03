@@ -23,7 +23,7 @@ RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
 
 volatile bool dds_phase = HIGH;
-volatile int dds_duration_us = 1000;
+volatile int dds_duration_us = 500;
 volatile int dds_duration = 100;  // 10 us
 int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
@@ -168,7 +168,7 @@ void dds_begin() {
 }
 
 void dds_pwm_interrupt_handler() {
-  pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+
   if (dds_enable) {
     uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((2 * 3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);
 //    Serial.print(i);
@@ -177,6 +177,8 @@ void dds_pwm_interrupt_handler() {
  
   } else
      pwm_set_gpio_level(DDS_PWM_PIN,0);
+  
+    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 }
 
 
@@ -417,9 +419,10 @@ void scottie1_transmit_file(char* filename, bool debug){
   
     
   delay(2000);
-  dds_setfreq(1200);
+  Serial.println("Starting");
+  dds_setfreq(600);
   dds_enable = true;
-  Serial.println("1200");
+  Serial.println("600");
   delay(2000); 
   dds_setfreq(1500);  
   Serial.println("1500");  
