@@ -212,7 +212,7 @@ void dds_setfreq(int freq) {
   dds_duration_us = (0.37E6 / (float)freq) + 0.5;  // was .37E5 now 1us // 10 us calibrated scaled
 //  dds_duration_us = 0.5E5 / (float)freq - 15;  // 10 us calibrated with delta
 #else
-  dds_duration_us = 0.5E6 / (float)freq - 10;  // subtract 3 us of processing delay
+  dds_duration_us = 0.5E6 / (float)freq; // - 10;  // subtract 3 us of processing delay
 #endif
   //  Serial.println(dds_duration_us);
 
