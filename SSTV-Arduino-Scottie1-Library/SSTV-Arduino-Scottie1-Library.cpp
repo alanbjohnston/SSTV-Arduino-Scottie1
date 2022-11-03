@@ -418,18 +418,18 @@ void scottie1_transmit_file(char* filename, bool debug){
   Serial.println("Sending tones!");
   
     
-  delay(2000);
+  delay(4000);
   Serial.println("Starting");
   dds_setfreq(600);
   dds_enable = true;
   Serial.println("600");
-  delay(2000); 
+  delay(8000); 
   dds_setfreq(1500);  
   Serial.println("1500");  
-  delay(2000);
+  delay(8000);
   dds_setfreq(2300);  
   Serial.println("2400");  
-  delay(2000); 
+  delay(8000); 
 
   Serial.println("Stop sending tones");
   
