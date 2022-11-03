@@ -170,6 +170,18 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
   pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
   if (dds_enable) {
+ 
+    pwm_set_gpio_level(DDS_PWM_PIN, (dds_pwm_config.top + 1) * sin((2 * 3.14 * time_us_32())/dds_duration_us));
+ 
+  } else
+     pwm_set_gpio_level(DDS_PWM_PIN,0);
+}
+
+
+
+void dds_pwm_interrupt_handler_square() {
+  pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+  if (dds_enable) {
     if (dds_counter++ > dds_duration_us) {
       dds_counter = 0;
       dds_phase = !dds_phase;	  
