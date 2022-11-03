@@ -396,7 +396,12 @@ void scottie1_transmit_file(char* filename, bool debug){
   /*
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
-
+  
+  transmit_mili(1000, 5000);
+  transmit_mili(2000, 5000);
+    transmit_mili(3000, 5000);
+    transmit_mili(4000, 5000);
+  
   sstv_stop = false;
   dds_enable = true;
   
