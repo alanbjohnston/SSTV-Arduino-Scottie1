@@ -415,10 +415,10 @@ void scottie1_transmit_file(char* filename, bool debug){
   
   Serial.println("Sending tones!");
   
-  dds_enable = true;
     
   delay(2000);
   dds_setfreq(1200);
+  dds_enable = true;
   Serial.println("1200");
   delay(2000); 
   dds_setfreq(1500);  
