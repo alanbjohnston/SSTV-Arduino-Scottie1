@@ -144,8 +144,10 @@ void dds_begin() {
   
     dds_pwm_config = pwm_get_default_config();
     pwm_config_set_clkdiv(&dds_pwm_config, 125.0);  // 1.0f
-//    pwm_config_set_wrap(&dds_pwm_config, 3);  
-    
+    pwm_config_set_wrap(&dds_pwm_config, 3);  
+    pwm_init(dds_pin_slice, &dds_pwm_config, true);
+    pwm_set_gpio_level(DDS_PWM_PIN, 1);
+  
   if (debug_pwm) {	
     Serial.print(pwm_gpio_to_slice_num(DDS_PWM_PIN));
     Serial.print(" ");	
