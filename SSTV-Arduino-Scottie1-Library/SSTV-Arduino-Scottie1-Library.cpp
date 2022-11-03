@@ -170,8 +170,10 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
   pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
   if (dds_enable) {
- 
-    pwm_set_gpio_level(DDS_PWM_PIN, (dds_pwm_config.top + 1) * sin((2 * 3.14 * time_us_32())/dds_duration_us));
+    uint16_t  i = (dds_pwm_config.top + 1) * sin((2 * 3.14 * time_us_32())/dds_duration_us);
+    Serial.print(i);
+    Serial.print(" ");
+    pwm_set_gpio_level(DDS_PWM_PIN, i);
  
   } else
      pwm_set_gpio_level(DDS_PWM_PIN,0);
@@ -414,11 +416,17 @@ void scottie1_transmit_file(char* filename, bool debug){
   Serial.println("Sending tones");
   
   dds_enable = true;
-  
-  transmit_mili(1000, 5000.0);
-  transmit_mili(2000, 5000.0);
-    transmit_mili(3000, 5000.0);
-    transmit_mili(4000, 5000.0);
+    
+  delay(2000);
+  dds_setfreq(1200);
+  Serial.println("1200");
+  delay(2000); 
+  dds_setfreq(1500);  
+  Serial.println("1500");  
+  delay(2000);
+  dds_setfreq(2300);  
+  Serial.println("2400");  
+  delay(2000); 
 
   Serial.println("Stop sending tones");
   
