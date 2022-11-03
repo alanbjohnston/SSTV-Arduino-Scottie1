@@ -172,10 +172,11 @@ void dds_pwm_interrupt_handler() {
       dds_counter = 0;
       dds_phase = !dds_phase;	  
       digitalWrite(sstv_output_pin, dds_phase);
-      if (dds_phase == 0)
+/*      if (dds_phase == 0)
         Serial.print("+");
       else
         Serial.print("-");
+*/      
     }  
   }
 }
