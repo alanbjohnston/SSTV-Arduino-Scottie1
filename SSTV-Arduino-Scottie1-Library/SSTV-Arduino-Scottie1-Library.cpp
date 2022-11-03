@@ -143,7 +143,7 @@ void dds_begin() {
     irq_set_enabled(PWM_IRQ_WRAP, true);	  
   
     dds_pwm_config = pwm_get_default_config();
-    pwm_config_set_clkdiv(&dds_pwm_config, 41.7);  // 1.0f
+    pwm_config_set_clkdiv(&dds_pwm_config, 33.333);  // 1.0f
     pwm_config_set_wrap(&dds_pwm_config, 3);  
     pwm_init(dds_pin_slice, &dds_pwm_config, true);
     pwm_set_gpio_level(DDS_PWM_PIN, (dds_pwm_config.top + 1) * 0.5);
