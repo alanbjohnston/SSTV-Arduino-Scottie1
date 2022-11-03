@@ -413,7 +413,7 @@ void scottie1_transmit_file(char* filename, bool debug){
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
   
-  Serial.println("Sending tones");
+  Serial.println("Sending tones!");
   
   dds_enable = true;
     
