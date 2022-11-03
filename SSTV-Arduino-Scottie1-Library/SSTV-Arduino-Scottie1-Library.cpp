@@ -196,7 +196,7 @@ void dds_setfreq(int freq) {
   dds_duration_us = (0.37E6 / (float)freq) + 0.5;  // was .37E5 now 1us // 10 us calibrated scaled
 //  dds_duration_us = 0.5E5 / (float)freq - 15;  // 10 us calibrated with delta
 #else
-  dds_duration_us = 0.5E6 / (float)freq - 3;  // subtract 3 us of processing delay
+  dds_duration_us = 0.5E6 / (float)freq - 10;  // subtract 3 us of processing delay
 #endif
   //  Serial.println(dds_duration_us);
 
@@ -407,6 +407,8 @@ void scottie1_transmit_file(char* filename, bool debug){
   transmit_mili(2000, 5000.0);
     transmit_mili(3000, 5000.0);
     transmit_mili(4000, 5000.0);
+
+  Serial.println("Stop sending tones");
   
   sstv_stop = false;
   
