@@ -122,9 +122,9 @@ bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
 
 void dds_begin() {
   if (!dds_timer_started) {  
+  dds_counter = 0;  
   #ifdef DDS_ALT
-    dds_counter = 0;
-    if (dds_ITimer2.attachInterruptInterval(1, dds_TimerHandler0))	{  // was 10
+    if (dds_ITimer2.attachInterruptInterval(10, dds_TimerHandler0))	{ 
       Serial.print(F("Starting dds_ITimer2 OK, micros() = ")); Serial.println(micros());
       dds_timer_started = true;
     }
@@ -158,6 +158,7 @@ void dds_begin() {
     Serial.print(pwm_gpio_to_channel(DDS_PWM_PIN));
     Serial.println(" ");	
   } 
+  dds_timer_started = true;
 }   
   #endif
 //  } 
@@ -397,13 +398,16 @@ void scottie1_transmit_file(char* filename, bool debug){
   Be aware that you have to read variables on sync torch due its 9 ms instead 1.5 ms of the sync Pulse
   */
   
-  transmit_mili(1000, 5000);
-  transmit_mili(2000, 5000);
-    transmit_mili(3000, 5000);
-    transmit_mili(4000, 5000);
+  Serial.println("Sending tones");
+  
+  dds_enable = true;
+  
+  transmit_mili(1000, 5000.0);
+  transmit_mili(2000, 5000.0);
+    transmit_mili(3000, 5000.0);
+    transmit_mili(4000, 5000.0);
   
   sstv_stop = false;
-  dds_enable = true;
   
   char buff[3];
   bool head;
