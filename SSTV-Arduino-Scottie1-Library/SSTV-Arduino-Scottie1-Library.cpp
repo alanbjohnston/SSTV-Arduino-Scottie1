@@ -78,7 +78,7 @@ void set_sstv_pin(byte pin) {
 #ifdef DDS_ALT  
   pinMode(sstv_output_pin, OUTPUT);
 #else
-  gpio_set_function(sstv_output_pin), GPIO_FUNC_PWM);
+  gpio_set_function(sstv_output_pin, GPIO_FUNC_PWM);
 #endif
 }
 
