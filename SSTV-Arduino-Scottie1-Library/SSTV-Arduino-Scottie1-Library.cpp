@@ -15,7 +15,7 @@
 //#define DEBUG
 //#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
-#define DDS_PWM_PIN 14
+#define DDS_PWM_PIN 26 // 14
 
 bool debug_pwm = false;
 
