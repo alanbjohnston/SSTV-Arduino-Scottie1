@@ -29,6 +29,7 @@ volatile bool dds_enable = false;
 volatile long dds_counter = 0;
 bool sstv_stop;
 bool dds_timer_started = false;
+bool sstv_timer_started = false;
 
 //volatile uint8_t phase = 0;
 
