@@ -173,7 +173,7 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
 
   if (dds_enable) {
-    if (dds_counter++ > 9) {
+    if (dds_counter++ > 19) {  // was 9
       dds_counter = 0;
 //    Serial.print(time_us_32()); // - time_stamp);
 //    Serial.print("  > ");
