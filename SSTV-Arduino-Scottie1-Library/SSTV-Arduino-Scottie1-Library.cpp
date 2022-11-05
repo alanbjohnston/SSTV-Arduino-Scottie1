@@ -172,15 +172,15 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
 
   if (dds_enable) {
-    Serial.print(time_stamp - time_us_32());
-    Serial.print("  - ");
+    Serial.print(time_us_32()); // - time_stamp);
+    Serial.print("  > ");
     time_stamp = time_us_32();
     uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
 //    Serial.print(i);
 //    Serial.print(" ");
     pwm_set_gpio_level(DDS_PWM_PIN, i);
     
-    Serial.print(time_stamp - time_us_32());
+    Serial.print(time_us_32());
     Serial.print(" ");
     time_stamp = time_us_32();
  
