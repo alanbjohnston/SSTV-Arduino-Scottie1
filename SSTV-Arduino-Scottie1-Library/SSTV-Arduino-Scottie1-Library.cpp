@@ -32,6 +32,7 @@ bool sstv_stop;
 bool dds_timer_started = false;
 bool sstv_timer_started = false;
 long time_stamp = 0;
+int dds_count = 0;
 
 //volatile uint8_t phase = 0;
 
@@ -172,6 +173,8 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
 
   if (dds_enable) {
+    if (dds_counter++ > 9) {
+      dds_counter = 0;
 //    Serial.print(time_us_32()); // - time_stamp);
 //    Serial.print("  > ");
 //    time_stamp = time_us_32();
@@ -186,7 +189,7 @@ void dds_pwm_interrupt_handler() {
  
   } else
      pwm_set_gpio_level(DDS_PWM_PIN,0);
-  
+  } 
 
     pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 }
