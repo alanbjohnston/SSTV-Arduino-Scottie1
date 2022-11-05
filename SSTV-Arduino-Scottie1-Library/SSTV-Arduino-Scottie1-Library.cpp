@@ -31,6 +31,7 @@ volatile long dds_counter = 0;
 bool sstv_stop;
 bool dds_timer_started = false;
 bool sstv_timer_started = false;
+long time_stamp = 0;
 
 //volatile uint8_t phase = 0;
 
@@ -165,11 +166,15 @@ void dds_begin() {
 //  } 
 //  dds_enable = true;
 
+ time_stamp = time_us_32();
 }
 
 void dds_pwm_interrupt_handler() {
 
   if (dds_enable) {
+    Serial.print(time_stamp - time_us_32());
+    Serial.print("  - ");
+    time_stamp = time_us_32();
     uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
 //    Serial.print(i);
 //    Serial.print(" ");
@@ -178,6 +183,9 @@ void dds_pwm_interrupt_handler() {
   } else
      pwm_set_gpio_level(DDS_PWM_PIN,0);
   
+    Serial.print(time_stamp - time_us_32());
+    Serial.print(" ");
+    time_stamp = time_us_32();
     pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 }
 
