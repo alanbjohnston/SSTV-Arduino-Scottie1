@@ -71,6 +71,7 @@ File outFile;
 byte blue_led_counter = 0;
 int dds_pin_slice;
 pwm_config dds_pwm_config;
+byte sin_table[201];
 
 //const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
@@ -135,6 +136,13 @@ void dds_begin() {
   }
   #else
     Serial.println("Starting pwm f= MHz!");
+    for (int i = 0; i < 200; i++)  {
+      sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
+      Serial.print(sin_table[i]);
+      Serial.print(" ");
+    }
+    Serial.println(" ");
+  
     gpio_set_function(DDS_PWM_PIN, GPIO_FUNC_PWM);
     dds_pin_slice = pwm_gpio_to_slice_num(DDS_PWM_PIN);
       // Setup PWM interrupt to fire when PWM cycle is complete
@@ -178,8 +186,9 @@ void dds_pwm_interrupt_handler() {
 //    Serial.print(time_us_32()); // - time_stamp);
 //    Serial.print("  > ");
 //    time_stamp = time_us_32();
-    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
-//    Serial.print(i);
+//    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
+      uint16_t  i = sin_table[((time_us_32() / dds_duration) * 200 ) % 200)];
+      //    Serial.print(i);
 //    Serial.print(" ");
     pwm_set_gpio_level(DDS_PWM_PIN, i);
     
