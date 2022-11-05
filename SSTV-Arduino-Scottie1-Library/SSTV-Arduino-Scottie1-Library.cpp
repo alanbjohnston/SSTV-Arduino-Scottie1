@@ -237,7 +237,7 @@ void dds_setfreq(int freq) {
   dds_duration_us = (0.37E6 / (float)freq) + 0.5;  // was .37E5 now 1us // 10 us calibrated scaled
 //  dds_duration_us = 0.5E5 / (float)freq - 15;  // 10 us calibrated with delta
 #else
-  dds_duration_us = 0.5E6 / (float)freq; // - 10;  // subtract 3 us of processing delay
+  dds_duration_us = 1E6 / (float)freq; // - 10;  // subtract 3 us of processing delay
 #endif
 //    Serial.print("Period: ");
 //    Serial.println(dds_duration_us);
@@ -455,7 +455,7 @@ void scottie1_transmit_file(char* filename, bool debug){
   dds_setfreq(1500);  
   Serial.println("1500");  
   delay(8000);
-  dds_setfreq(2300);  
+  dds_setfreq(2400);  
   Serial.println("2400");  
   delay(8000); 
 
