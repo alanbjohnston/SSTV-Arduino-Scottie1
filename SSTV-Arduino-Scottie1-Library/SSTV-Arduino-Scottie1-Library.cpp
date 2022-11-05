@@ -183,16 +183,16 @@ void dds_pwm_interrupt_handler() {
   if (dds_enable) {
     if (dds_counter++ > 9) {  
       dds_counter = 0;
-    Serial.print(time_us_32() - time_stamp);
-    Serial.print("  > ");
+//    Serial.print(time_us_32() - time_stamp);
+//    Serial.print("  > ");
 //    time_stamp = time_us_32();
 //    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
       int index = ((int)(((float)(time_us_32() - time_stamp) / (float) dds_duration_us) * 200.0 )) % 200;
-      Serial.print(index);
-      Serial.print(" + ");
+//      Serial.print(index);
+//      Serial.print(" + ");
       uint16_t  i = sin_table[index];
-      Serial.print(i);
-      Serial.print(" ");
+//      Serial.print(i);
+//      Serial.print(" ");
       pwm_set_gpio_level(DDS_PWM_PIN, i);
     
 //    Serial.print(time_us_32());
@@ -239,8 +239,8 @@ void dds_setfreq(int freq) {
 #else
   dds_duration_us = 0.5E6 / (float)freq; // - 10;  // subtract 3 us of processing delay
 #endif
-    Serial.print("Period: ");
-    Serial.println(dds_duration_us);
+//    Serial.print("Period: ");
+//    Serial.println(dds_duration_us);
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
