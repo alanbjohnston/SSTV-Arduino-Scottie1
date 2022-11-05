@@ -183,7 +183,7 @@ void dds_pwm_interrupt_handler() {
   if (dds_enable) {
     if (dds_counter++ > 9) {  
       dds_counter = 0;
-    Serial.print(time_us_32()); // - time_stamp);
+    Serial.print(time_us_32() - time_stamp);
     Serial.print("  > ");
 //    time_stamp = time_us_32();
 //    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
@@ -251,6 +251,7 @@ void dds_setfreq(int freq) {
     dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0);
 #endif
     dds_duration_previous_us = dds_duration_us;
+    time_stamp = time_us_32();
   }   
 }
 
