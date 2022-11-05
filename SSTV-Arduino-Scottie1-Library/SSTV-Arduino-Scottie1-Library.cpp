@@ -187,7 +187,7 @@ void dds_pwm_interrupt_handler() {
 //    Serial.print("  > ");
 //    time_stamp = time_us_32();
 //    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
-      uint16_t  i = sin_table[((time_us_32() / dds_duration) * 200 ) % 200)];
+      uint16_t  i = sin_table[((time_us_32() / dds_duration) * 200 ) % 200];
       //    Serial.print(i);
 //    Serial.print(" ");
     pwm_set_gpio_level(DDS_PWM_PIN, i);
