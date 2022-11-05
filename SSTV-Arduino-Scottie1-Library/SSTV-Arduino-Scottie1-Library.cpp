@@ -181,16 +181,16 @@ void dds_begin() {
 void dds_pwm_interrupt_handler() {
 
   if (dds_enable) {
-    if (dds_counter++ > 19) {  // was 9
+    if (dds_counter++ > 9) {  
       dds_counter = 0;
-//    Serial.print(time_us_32()); // - time_stamp);
-//    Serial.print("  > ");
+    Serial.print(time_us_32()); // - time_stamp);
+    Serial.print("  > ");
 //    time_stamp = time_us_32();
 //    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
       uint16_t  i = sin_table[(((int)((float)time_us_32() / (float) dds_duration_us) * 200 )) % 200];
-      //    Serial.print(i);
-//    Serial.print(" ");
-    pwm_set_gpio_level(DDS_PWM_PIN, i);
+      Serial.print(i);
+      Serial.print(" ");
+      pwm_set_gpio_level(DDS_PWM_PIN, i);
     
 //    Serial.print(time_us_32());
 //    Serial.print(" ");
