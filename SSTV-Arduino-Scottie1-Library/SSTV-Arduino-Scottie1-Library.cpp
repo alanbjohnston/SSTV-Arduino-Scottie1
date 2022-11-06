@@ -136,19 +136,6 @@ void dds_begin() {
   }
   #else
     Serial.println("Starting pwm f= MHz!");
-    for (int i = 0; i < 200; i++)  {
-      sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
-      Serial.print(sin_table[i]);
-      Serial.print(" ");
-      pwm_set_gpio_level(DDS_PWM_PIN, i);
-      delay(1000);
-    }
-    for (int j = 0; j < 10; j++) {
-    for (int i = 0; i < 200; i++)  {
-      pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
-      delay(100);
-    }
-    }
   
     Serial.println(" ");
   
@@ -183,6 +170,20 @@ void dds_begin() {
   #endif
 //  } 
 //  dds_enable = true;
+
+    for (int i = 0; i < 200; i++)  {
+      sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
+      Serial.print(sin_table[i]);
+      Serial.print(" ");
+      pwm_set_gpio_level(DDS_PWM_PIN, i);
+      delay(1000);
+    }
+    for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < 200; i++)  {
+      pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
+      delay(100);
+    }
+    }
 
  time_stamp = time_us_32();
 }
