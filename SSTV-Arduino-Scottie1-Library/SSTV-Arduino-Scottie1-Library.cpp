@@ -85,7 +85,7 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
-  dds_enable = false;
+  dds_enable= false;
 //  delay(100);
 //  sstv_ITimer3.stopTimer();
 //  delay(100);
@@ -176,12 +176,12 @@ void dds_begin() {
       Serial.print(sin_table[i]);
       Serial.print(" ");
       pwm_set_gpio_level(DDS_PWM_PIN, i);
-      delay(1000);
+      delay(1);
     }
     for (int j = 0; j < 10; j++) {
     for (int i = 0; i < 200; i++)  {
       pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
-      delay(100);
+      delay(10);
     }
     }
 
