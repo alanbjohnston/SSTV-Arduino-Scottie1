@@ -189,7 +189,8 @@ void dds_begin() {
   Serial.println("Sweep");
   for (int k = 100; k < 1500; k+=100) {
     dds_setfreq(k);
-    delay(100);
+    delay(1000);
+    Serial.println(k);
   }
   Serial.println("End");
 
