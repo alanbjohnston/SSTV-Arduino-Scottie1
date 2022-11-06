@@ -140,7 +140,16 @@ void dds_begin() {
       sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
       Serial.print(sin_table[i]);
       Serial.print(" ");
+      pwm_set_gpio_level(DDS_PWM_PIN, i);
+      delay(1000);
     }
+    for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < 200; i++)  {
+      pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
+      delay(100);
+    }
+    }
+  
     Serial.println(" ");
   
     gpio_set_function(DDS_PWM_PIN, GPIO_FUNC_PWM);
@@ -183,16 +192,16 @@ void dds_pwm_interrupt_handler() {
   if (dds_enable) {
     if (dds_counter++ > 9) {  
       dds_counter = 0;
-    Serial.print(time_us_32() - time_stamp);
-    Serial.print("  > ");
+//    Serial.print(time_us_32() - time_stamp);
+//    Serial.print("  > ");
 //    time_stamp = time_us_32();
 //    uint16_t  i = 0.5 * (dds_pwm_config.top) * sin((3.14 * time_us_32())/dds_duration_us) + 0.5 * (dds_pwm_config.top + 1);  // was 2 *
       int index = ((int)(((float)(time_us_32() - time_stamp) / (float) dds_duration_us) * 200.0 )) % 200;
 //      Serial.print(index);
 //      Serial.print(" + ");
       uint16_t  i = sin_table[index];
-      Serial.print(i);
-      Serial.print(" ");
+//      Serial.print(i);
+//      Serial.print(" ");
       pwm_set_gpio_level(DDS_PWM_PIN, i);
     
 //    Serial.print(time_us_32());
