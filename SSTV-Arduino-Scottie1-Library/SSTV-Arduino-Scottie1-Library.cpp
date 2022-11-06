@@ -169,23 +169,28 @@ void dds_begin() {
 }   
   #endif
 //  } 
-//  dds_enable = true;
+  dds_enable = true;
+ time_stamp = time_us_32();
 
     for (int i = 0; i < 200; i++)  {
       sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
       Serial.print(sin_table[i]);
       Serial.print(" ");
       pwm_set_gpio_level(DDS_PWM_PIN, i);
-      delay(1);
+//      delay(1);
     }
     for (int j = 0; j < 10; j++) {
     for (int i = 0; i < 200; i++)  {
       pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
-      delay(10);
+      delay(1);
     }
     }
+  for (int k = 100; k < 1500; k+=100) {
+    dds_setfreq(1200);
+    delay(500);
+  }
 
- time_stamp = time_us_32();
+
 }
 
 void dds_pwm_interrupt_handler() {
@@ -267,7 +272,7 @@ void dds_setfreq(int freq) {
 #endif
     dds_duration_previous_us = dds_duration_us;
     
-    time_stamp = time_us_32();
+//    time_stamp = time_us_32();
   }   
 }
 
