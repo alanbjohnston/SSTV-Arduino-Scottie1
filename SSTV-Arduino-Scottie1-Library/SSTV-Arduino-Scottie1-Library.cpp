@@ -179,17 +179,19 @@ void dds_begin() {
       pwm_set_gpio_level(DDS_PWM_PIN, i);
 //      delay(1);
     }
+   Serial.println("10x");
     for (int j = 0; j < 10; j++) {
     for (int i = 0; i < 200; i++)  {
       pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
       delay(1);
     }
     }
+  Serial.println("Sweep");
   for (int k = 100; k < 1500; k+=100) {
-    dds_setfreq(1200);
-    delay(500);
+    dds_setfreq(k);
+    delay(100);
   }
-
+  Serial.println("End");
 
 }
 
