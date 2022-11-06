@@ -189,6 +189,7 @@ void dds_begin() {
 }
 
 void dds_pwm_interrupt_handler() {
+    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 
   if (dds_enable) {
     if (dds_counter++ > 9) {  
@@ -213,7 +214,7 @@ void dds_pwm_interrupt_handler() {
      pwm_set_gpio_level(DDS_PWM_PIN,0);
   } 
 
-    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+//    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 }
 
 
