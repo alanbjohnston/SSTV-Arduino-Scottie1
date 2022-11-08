@@ -176,9 +176,10 @@ void dds_begin() {
       sin_table[i] = 0.5 * (9) * sin((2 * 3.14 * i)/200.0) + 0.5 * (9 + 1) + 0.5; 
       Serial.print(sin_table[i]);
       Serial.print(" ");
-      pwm_set_gpio_level(DDS_PWM_PIN, i);
+//      pwm_set_gpio_level(DDS_PWM_PIN, i);
 //      delay(1);
     }
+/*
    Serial.println("10x");
     for (int j = 0; j < 10; j++) {
     for (int i = 0; i < 200; i++)  {
@@ -186,6 +187,7 @@ void dds_begin() {
       delay(1);
     }
     }
+*/
   Serial.println("Sweep");
   for (int k = 100; k < 1500; k+=100) {
     dds_setfreq(k);
