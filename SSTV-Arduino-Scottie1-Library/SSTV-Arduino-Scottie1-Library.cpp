@@ -90,7 +90,8 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
-  dds_enable= false;
+//  dds_enable= false;
+  dds_setfreq(0);
 //  delay(100);
 //  sstv_ITimer3.stopTimer();
 //  delay(100);
@@ -370,7 +371,8 @@ void setup_sstv() {
 }
 void send_sstv(char* filename) {
   sstv_stop = false;
-  dds_enable = true;
+//  dds_enable = true;
+  dds_setfreq(0);
 /*  
   shot_pic();
 */
@@ -471,7 +473,7 @@ void scottie1_transmit_file(char* filename, bool debug){
   delay(4000);
   Serial.println("Starting");
   dds_setfreq(500);
-  dds_enable = true;
+//  dds_enable = true;
   Serial.println("600");
   delay(1000); 
   dds_setfreq(1500);  
