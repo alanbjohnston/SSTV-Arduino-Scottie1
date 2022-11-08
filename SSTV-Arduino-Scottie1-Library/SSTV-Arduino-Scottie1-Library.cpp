@@ -469,16 +469,16 @@ void scottie1_transmit_file(char* filename, bool debug){
     
   delay(4000);
   Serial.println("Starting");
-  dds_setfreq(600);
+  dds_setfreq(500);
   dds_enable = true;
   Serial.println("600");
-  delay(8000); 
+  delay(1000); 
   dds_setfreq(1500);  
   Serial.println("1500");  
-  delay(8000);
+  delay(1000);
   dds_setfreq(2400);  
   Serial.println("2400");  
-  delay(8000); 
+  delay(1000); 
 
   Serial.println("Stop sending tones");
   
