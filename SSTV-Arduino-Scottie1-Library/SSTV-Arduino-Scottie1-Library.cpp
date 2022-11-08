@@ -5,6 +5,7 @@
 **/
 
 #include "SSTV-Arduino-Scottie1-Library.h"
+#include <pico_dds.h>
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
@@ -15,24 +16,31 @@
 //#define DEBUG
 //#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
-#define DDS_PWM_PIN 26 // 14
+//#define DDS_PWM_PIN 26 // 14
 
 bool debug_pwm = false;
 
-RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
 
+/*
+RPI_PICO_Timer dds_ITimer2(2);
 volatile bool dds_phase = HIGH;
 volatile int dds_duration_us = 500;
 volatile int dds_duration = 100;  // 10 us
 int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
 volatile long dds_counter = 0;
-bool sstv_stop;
 bool dds_timer_started = false;
-bool sstv_timer_started = false;
-long time_stamp = 0;
 int dds_count = 0;
+long time_stamp = 0;
+int dds_pin_slice;
+pwm_config dds_pwm_config;
+byte sin_table[201];
+*/
+bool sstv_stop;
+bool sstv_timer_started = false;
+
+
 
 //volatile uint8_t phase = 0;
 
@@ -69,9 +77,6 @@ File inFile;
 File outFile;
 
 byte blue_led_counter = 0;
-int dds_pin_slice;
-pwm_config dds_pwm_config;
-byte sin_table[201];
 
 //const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
@@ -111,6 +116,8 @@ void loop() {
   
 }
 */
+
+/*
 
 bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
@@ -179,15 +186,7 @@ void dds_begin() {
 //      pwm_set_gpio_level(DDS_PWM_PIN, i);
 //      delay(1);
     }
-/*
-   Serial.println("10x");
-    for (int j = 0; j < 10; j++) {
-    for (int i = 0; i < 200; i++)  {
-      pwm_set_gpio_level(DDS_PWM_PIN, sin_table[i]);
-      delay(1);
-    }
-    }
-*/
+
   Serial.println("Sweep");
   for (int k = 100; k < 1500; k+=100) {
     dds_setfreq(k);
@@ -236,11 +235,11 @@ void dds_pwm_interrupt_handler_square() {
       dds_counter = 0;
       dds_phase = !dds_phase;	  
       digitalWrite(sstv_output_pin, dds_phase);
-/*      if (dds_phase == 0)
-        Serial.print("+");
-      else
-        Serial.print("-");
-*/      
+///      if (dds_phase == 0)
+//        Serial.print("+");
+//      else
+//        Serial.print("-");
+//      
     }  
   }
 }
@@ -265,13 +264,13 @@ void dds_setfreq(int freq) {
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
-/*    
-    if (dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0)) {
-      Serial.println(dds_duration_us);
-    }
-    else
-      Serial.println(F("Can't set dds interval"));
-*/   
+///    
+//    if (dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0)) {
+//      Serial.println(dds_duration_us);
+//    }
+//    else
+//      Serial.println(F("Can't set dds interval"));
+///   
 #ifndef DDS_ALT
     dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0);
 #endif
@@ -280,6 +279,8 @@ void dds_setfreq(int freq) {
     time_stamp = time_us_32();
   }   
 }
+
+*/
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
 //void timer1_interrupt(){
