@@ -21,6 +21,8 @@
 bool debug_pwm = false;
 
 RPI_PICO_Timer sstv_ITimer3(3);
+long sstv_time_stamp;
+int sstv_count = 0;
 
 /*
 RPI_PICO_Timer dds_ITimer2(2);
@@ -288,6 +290,11 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
+  if (sstv_count++ > 100) {
+    Serial.printf("t: %d ", (time_us_32() - sstv_time_stamp)/100);
+    sstv_time_stamp = time_us_32();
+    sstv_count = 0;
+  }
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
@@ -332,7 +339,7 @@ void setup_sstv() {
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
-
+  sstv_time_stamp = time_us_32();
   dds_begin();
 /*  
   delay(2000);
