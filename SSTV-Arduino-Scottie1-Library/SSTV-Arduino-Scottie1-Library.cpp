@@ -847,17 +847,11 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             JpegDec_pxSkip = ((JpegDec_y - (16 * JpegDec_j)) * 320) + JpegDec_x;
           
             int pixel_value = *bitmap;
-            
-          // based on discussion on https://stackoverflow.com/questions/2442576/how-does-one-convert-16-bit-rgb565-to-24-bit-rgb888
-          
+                      
             byte red_raw = (pixel_value & 0b1111100000000000) >> 11;
             byte green_raw = (pixel_value & 0b0000011111100000) >> 5;         
             byte blue_raw = (pixel_value & 0b0000000000011111);                
 
-//            byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
-//            byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
-//            byte blue = ((pixel_value & 0b0000000000011111) * 255 + 15) / 31;            
-          
             byte red = (float)((pixel_value & 0b1111100000000000) >> 11) * 255.0/31.0;
             byte green = (float)((pixel_value & 0b0000011111100000) >> 5) * 255.0/63.0;
             byte blue = (float)(pixel_value & 0b0000000000011111) * 255.0/31.0;            
