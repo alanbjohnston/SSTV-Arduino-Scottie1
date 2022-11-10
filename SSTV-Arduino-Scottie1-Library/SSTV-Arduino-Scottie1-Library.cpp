@@ -853,10 +853,14 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             byte red_raw = (pixel_value & 0b1111100000000000) >> 11;
             byte green_raw = (pixel_value & 0b0000011111100000) >> 5;         
             byte blue_raw = (pixel_value & 0b0000000000011111);                
+
+//            byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
+//            byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
+//            byte blue = ((pixel_value & 0b0000000000011111) * 255 + 15) / 31;            
           
-            byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
-            byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
-            byte blue = ((pixel_value & 0b0000000000011111) * 255 + 15) / 31;            
+            byte red = (((float)(pixel_value & 0b1111100000000000) >> 11) * 255f/31f);
+            byte green = (((float)(pixel_value & 0b0000011111100000) >> 5) * 255f/63f;
+            byte blue = ((float)(pixel_value & 0b0000000000011111) * 255f/31f;            
           
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
