@@ -292,19 +292,19 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
-  Serial.printf(" s: %d ", time_us_32() - sstv_micro_timer);
-  while ((time_us_32() - sstv_micro_timer) < sstv_delay_time)	{ } 
+  Serial.printf(" s: %d ", micros() - sstv_micro_timer);
+  while ((micros() - sstv_micro_timer) < sstv_delay_time)	{ } 
 //    if (mode == BPSK)	  
 //      busy_wait_at_least_cycles(51);	// 300 ns  
 //  if ((micros() - micro_timer2) > 834)	  
 //    Serial.println(micros() - micro_timer2);	  
-  sstv_micro_timer = time_us_32();	  	
+  sstv_micro_timer = micros();	  	
 
   //if (sstv_count++ > 100) {
-    int j = (time_us_32() - sstv_time_stamp)/100.00;
+    int j = (micros() - sstv_time_stamp)/100.00;
     if (j > 4) 
       Serial.printf("t: %d ", j);
-    sstv_time_stamp = time_us_32();
+    sstv_time_stamp = micros();
     sstv_count = 0;
 //  }
   if (sEm == 1){
@@ -351,7 +351,7 @@ void setup_sstv() {
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
-  sstv_time_stamp = time_us_32();
+  sstv_time_stamp = micros(); // time_us_32();
   dds_begin();
 /*  
   delay(2000);
