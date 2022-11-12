@@ -67,6 +67,8 @@ volatile byte sCol = 0;   // Transmitting color Green
 
 volatile int tp = 0;     // Index of pixel while transmitting with timer
 volatile int line;
+volatile long sstv_micro_timer;
+volatile long sstv_delay_time = 421;
 
 char charId[13] = "CUBESATSIM"; // "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS ALL CAPS ONLY *****
 volatile long syncTime;
@@ -290,6 +292,14 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
+  
+  while ((micros() - sstv_micro_timer) < sstv_delay_time)	{ } 
+//    if (mode == BPSK)	  
+//      busy_wait_at_least_cycles(51);	// 300 ns  
+//  if ((micros() - micro_timer2) > 834)	  
+//    Serial.println(micros() - micro_timer2);	  
+  sstv_micro_timer = micros();	  	
+
   if (sstv_count++ > 100) {
     int j = (time_us_32() - sstv_time_stamp)/100.00;
     if (j > 450) 
@@ -370,7 +380,7 @@ void setup_sstv() {
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer3.attachInterruptInterval(430, sstv_TimerHandler1)) {	
   if (!sstv_timer_started) {
-    if (sstv_ITimer3.attachInterruptInterval(421, sstv_TimerHandler1)) {	
+    if (sstv_ITimer3.attachInterruptInterval(400, sstv_TimerHandler1)) {	  // was 421, now less due to timer
       sstv_timer_started = true;
     }
     else
