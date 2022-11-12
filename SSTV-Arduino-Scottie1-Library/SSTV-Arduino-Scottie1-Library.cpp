@@ -302,7 +302,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 
   if (sstv_count++ > 100) {
     int j = (time_us_32() - sstv_time_stamp)/100.00;
-    if (j > 450) 
+    if (j > 4) 
       Serial.printf("t: %d ", j);
     sstv_time_stamp = time_us_32();
     sstv_count = 0;
