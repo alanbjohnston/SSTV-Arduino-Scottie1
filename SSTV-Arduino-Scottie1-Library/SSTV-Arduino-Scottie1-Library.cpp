@@ -292,13 +292,13 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
-  
-  while ((micros() - sstv_micro_timer) < sstv_delay_time)	{ } 
+  Serial.printf(" s: %d ", time_us_32() - sstv_micro_timer);
+  while ((time_us_32() - sstv_micro_timer) < sstv_delay_time)	{ } 
 //    if (mode == BPSK)	  
 //      busy_wait_at_least_cycles(51);	// 300 ns  
 //  if ((micros() - micro_timer2) > 834)	  
 //    Serial.println(micros() - micro_timer2);	  
-  sstv_micro_timer = micros();	  	
+  sstv_micro_timer = time_us_32();	  	
 
   if (sstv_count++ > 100) {
     int j = (time_us_32() - sstv_time_stamp)/100.00;
