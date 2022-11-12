@@ -14,7 +14,6 @@
 #include "hardware/pwm.h"  // pwm 
 
 //#define DEBUG
-//#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
 //#define DDS_PWM_PIN 26 // 14
 
@@ -301,10 +300,11 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
   sstv_micro_timer = micros();	  	
 
   if (sstv_count++ > 100) {
-     Serial.printf(" s: %d ", initial_time);
-    int j = (micros() - sstv_time_stamp)/100.00;
-    if (j > (sstv_delay_time + 15)) 
+     int j = (micros() - sstv_time_stamp)/100.00;
+    if (j > (sstv_delay_time + 15)) {
+      Serial.printf(" s: %d ", initial_time);
       Serial.printf("t: %d ", j);
+    }
     sstv_time_stamp = micros();
     sstv_count = 0;
   }
