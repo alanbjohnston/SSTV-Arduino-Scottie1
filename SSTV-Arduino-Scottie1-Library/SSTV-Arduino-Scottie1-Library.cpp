@@ -68,7 +68,7 @@ volatile byte sCol = 0;   // Transmitting color Green
 volatile int tp = 0;     // Index of pixel while transmitting with timer
 volatile int line;
 volatile long sstv_micro_timer;
-volatile long sstv_delay_time = 421;
+volatile long sstv_delay_time = 430;
 
 char charId[13] = "CUBESATSIM"; // "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS ALL CAPS ONLY *****
 volatile long syncTime;
