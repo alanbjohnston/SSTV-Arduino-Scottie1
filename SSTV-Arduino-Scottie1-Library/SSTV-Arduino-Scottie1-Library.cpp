@@ -303,11 +303,12 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
   if (sstv_count++ > 100) {
      Serial.printf(" s: %d ", initial_time);
     int j = (micros() - sstv_time_stamp)/100.00;
-    if (j > 4) 
+    if (j > (sstv_delay_time + 5)) 
       Serial.printf("t: %d ", j);
     sstv_time_stamp = micros();
     sstv_count = 0;
   }
+  
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
