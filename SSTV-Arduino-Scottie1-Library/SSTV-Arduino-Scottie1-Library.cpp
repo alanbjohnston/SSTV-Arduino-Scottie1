@@ -38,7 +38,7 @@ int dds_pin_slice;
 pwm_config dds_pwm_config;
 byte sin_table[201];
 */
-bool sstv_stop;
+volatile bool sstv_stop = true;
 bool sstv_timer_started = false;
 
 
@@ -299,6 +299,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
+ if (!sstv_stop) {
   long initial_time =  micros() - sstv_micro_timer;
   while ((micros() - sstv_micro_timer) < sstv_delay_time)	{ } 
 //    if (mode == BPSK)	  
@@ -345,6 +346,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
     }
     tp++;
   }
+ }
  return(true);	
 }
 
