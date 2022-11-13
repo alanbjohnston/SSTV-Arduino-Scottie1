@@ -207,8 +207,8 @@ void dds_begin() {
     Serial.println(k);
   }
   Serial.println("End");
-*/
 }
+*/
 
 void dds_pwm_interrupt_handler() {
 //    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
