@@ -206,7 +206,7 @@ void dds_begin() {
     Serial.println(k);
   }
   Serial.println("End");
-*/
+
 }
 
 void dds_pwm_interrupt_handler() {
