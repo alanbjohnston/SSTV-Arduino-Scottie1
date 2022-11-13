@@ -363,7 +363,7 @@ void setup_sstv() {
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
   sstv_time_stamp = micros(); // time_us_32();
-  dds_begin();
+  dds_begin(26);
 /*  
   delay(2000);
   dds_setfreq(1200);
