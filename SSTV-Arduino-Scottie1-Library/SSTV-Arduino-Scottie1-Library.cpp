@@ -5,6 +5,7 @@
 **/
 
 #include "SSTV-Arduino-Scottie1-Library.h"
+#include <pico_dds.h>
 //#include <Arduino.h>
 #include "RPi_Pico_TimerInterrupt.h"
 #include <LittleFS.h>
@@ -13,26 +14,34 @@
 #include "hardware/pwm.h"  // pwm 
 
 //#define DEBUG
-//#define DDS_ALT   // Comment out to use PWM interrupt
 #define TEST_PATTERN
-#define DDS_PWM_PIN 26 // 14
+//#define DDS_PWM_PIN 26 // 14
 
 bool debug_pwm = false;
 
-RPI_PICO_Timer dds_ITimer2(2);
 RPI_PICO_Timer sstv_ITimer3(3);
+long sstv_time_stamp;
+int sstv_count = 0;
 
+/*
+RPI_PICO_Timer dds_ITimer2(2);
 volatile bool dds_phase = HIGH;
 volatile int dds_duration_us = 500;
 volatile int dds_duration = 100;  // 10 us
 int dds_duration_previous_us = 1000;
 volatile bool dds_enable = false;
 volatile long dds_counter = 0;
-bool sstv_stop;
 bool dds_timer_started = false;
-bool sstv_timer_started = false;
-long time_stamp = 0;
 int dds_count = 0;
+long time_stamp = 0;
+int dds_pin_slice;
+pwm_config dds_pwm_config;
+byte sin_table[201];
+*/
+bool sstv_stop;
+bool sstv_timer_started = false;
+
+
 
 //volatile uint8_t phase = 0;
 
@@ -57,6 +66,8 @@ volatile byte sCol = 0;   // Transmitting color Green
 
 volatile int tp = 0;     // Index of pixel while transmitting with timer
 volatile int line;
+volatile long sstv_micro_timer;
+volatile long sstv_delay_time = 430;
 
 char charId[13] = "CUBESATSIM"; // "EA4RCT-SSTV-"; // ***** INFORMATION HEADER: MAX 12 CAHARCTERS ALL CAPS ONLY *****
 volatile long syncTime;
@@ -69,9 +80,6 @@ File inFile;
 File outFile;
 
 byte blue_led_counter = 0;
-int dds_pin_slice;
-pwm_config dds_pwm_config;
-byte sin_table[201];
 
 //const char input_buffer[240][240][3];
 //char output_buffer[320 * 256 * 3];
@@ -85,7 +93,8 @@ void set_sstv_pin(byte pin) {
 
 void sstv_end() {
   sstv_stop = true;
-  dds_enable= false;
+//  dds_enable= false;
+  dds_setfreq(0);
 //  delay(100);
 //  sstv_ITimer3.stopTimer();
 //  delay(100);
@@ -111,6 +120,8 @@ void loop() {
   
 }
 */
+
+/*
 
 bool dds_TimerHandler0(struct repeating_timer *t) {  // DDS timer for waveform
   if (dds_enable) {
@@ -149,7 +160,7 @@ void dds_begin() {
     irq_set_enabled(PWM_IRQ_WRAP, true);	  
   
     dds_pwm_config = pwm_get_default_config();
-    pwm_config_set_clkdiv(&dds_pwm_config, 25.0); // was 50 75 25.0); // 33.333);  // 1.0f
+    pwm_config_set_clkdiv(&dds_pwm_config, 100.0); // was 75 25 50 75 25.0); // 33.333);  // 1.0f
     pwm_config_set_wrap(&dds_pwm_config, 10); // 3 
     pwm_init(dds_pin_slice, &dds_pwm_config, true);
     pwm_set_gpio_level(DDS_PWM_PIN, (dds_pwm_config.top + 1) * 0.5);
@@ -187,6 +198,7 @@ void dds_begin() {
       delay(1);
     }
     }
+    
   Serial.println("Sweep");
   for (int k = 100; k < 1500; k+=100) {
     dds_setfreq(k);
@@ -198,7 +210,7 @@ void dds_begin() {
 }
 
 void dds_pwm_interrupt_handler() {
-    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+//    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 
   if (dds_enable) {
     if (dds_counter++ > 9) {  
@@ -218,12 +230,12 @@ void dds_pwm_interrupt_handler() {
 //    Serial.print(time_us_32());
 //    Serial.print(" ");
 //    time_stamp = time_us_32();
+  } 
  
   } else
      pwm_set_gpio_level(DDS_PWM_PIN,0);
-  } 
 
-//    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
+    pwm_clear_irq(pwm_gpio_to_slice_num(DDS_PWM_PIN)); 
 }
 
 
@@ -235,11 +247,11 @@ void dds_pwm_interrupt_handler_square() {
       dds_counter = 0;
       dds_phase = !dds_phase;	  
       digitalWrite(sstv_output_pin, dds_phase);
-/*      if (dds_phase == 0)
-        Serial.print("+");
-      else
-        Serial.print("-");
-*/      
+///      if (dds_phase == 0)
+//        Serial.print("+");
+//      else
+//        Serial.print("-");
+//      
     }  
   }
 }
@@ -264,27 +276,47 @@ void dds_setfreq(int freq) {
 
   if (dds_duration_us != dds_duration_previous_us) {   // only change if frequency is different
     
-/*    
-    if (dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0)) {
-      Serial.println(dds_duration_us);
-    }
-    else
-      Serial.println(F("Can't set dds interval"));
-*/   
+///    
+//    if (dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0)) {
+//      Serial.println(dds_duration_us);
+//    }
+//    else
+//      Serial.println(F("Can't set dds interval"));
+///   
 #ifndef DDS_ALT
     dds_ITimer2.setInterval(dds_duration_us, dds_TimerHandler0);
 #endif
     dds_duration_previous_us = dds_duration_us;
     
-//    time_stamp = time_us_32();
+    time_stamp = time_us_32();
   }   
 }
+
+*/
 
 bool sstv_TimerHandler1(struct repeating_timer *t) {
 //void timer1_interrupt(){
 //     digitalWrite(19, !blue_led_counter++);
 //  Serial.println("sstv_TimerHandler1");
 //   Serial.println("~");
+  long initial_time =  micros() - sstv_micro_timer;
+  while ((micros() - sstv_micro_timer) < sstv_delay_time)	{ } 
+//    if (mode == BPSK)	  
+//      busy_wait_at_least_cycles(51);	// 300 ns  
+//  if ((micros() - micro_timer2) > 834)	  
+//    Serial.println(micros() - micro_timer2);	  
+  sstv_micro_timer = micros();	  	
+
+  if (sstv_count++ > 100) {
+     int j = (micros() - sstv_time_stamp)/100.00;
+    if (j > (sstv_delay_time + 15)) {
+      Serial.printf(" s: %d ", initial_time);
+      Serial.printf("t: %d ", j);
+    }
+    sstv_time_stamp = micros();
+    sstv_count = 0;
+  }
+  
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
@@ -329,7 +361,7 @@ void setup_sstv() {
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
-
+  sstv_time_stamp = micros(); // time_us_32();
   dds_begin();
 /*  
   delay(2000);
@@ -358,7 +390,7 @@ void setup_sstv() {
   // Timer1.attachInterrupt(timer1_interrupt).start(430); // ***** 354(uS/px) +/- SLANT ADJUST *****
 //  if (sstv_ITimer3.attachInterruptInterval(430, sstv_TimerHandler1)) {	
   if (!sstv_timer_started) {
-    if (sstv_ITimer3.attachInterruptInterval(421, sstv_TimerHandler1)) {	
+    if (sstv_ITimer3.attachInterruptInterval(400, sstv_TimerHandler1)) {	  // was 421, now less due to timer
       sstv_timer_started = true;
     }
     else
@@ -368,7 +400,8 @@ void setup_sstv() {
 }
 void send_sstv(char* filename) {
   sstv_stop = false;
-  dds_enable = true;
+//  dds_enable = true;
+  dds_setfreq(0);
 /*  
   shot_pic();
 */
@@ -468,16 +501,16 @@ void scottie1_transmit_file(char* filename, bool debug){
     
   delay(4000);
   Serial.println("Starting");
-  dds_setfreq(600);
-  dds_enable = true;
+  dds_setfreq(500);
+//  dds_enable = true;
   Serial.println("600");
-  delay(8000); 
+  delay(1000); 
   dds_setfreq(1500);  
   Serial.println("1500");  
-  delay(8000);
+  delay(1000);
   dds_setfreq(2400);  
   Serial.println("2400");  
-  delay(8000); 
+  delay(1000); 
 
   Serial.println("Stop sending tones");
   
@@ -834,16 +867,14 @@ bool merged_get_block(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bi
             JpegDec_pxSkip = ((JpegDec_y - (16 * JpegDec_j)) * 320) + JpegDec_x;
           
             int pixel_value = *bitmap;
-            
-          // based on discussion on https://stackoverflow.com/questions/2442576/how-does-one-convert-16-bit-rgb565-to-24-bit-rgb888
-          
+                      
             byte red_raw = (pixel_value & 0b1111100000000000) >> 11;
             byte green_raw = (pixel_value & 0b0000011111100000) >> 5;         
             byte blue_raw = (pixel_value & 0b0000000000011111);                
-          
-            byte red = (((pixel_value & 0b1111100000000000) >> 11) * 255 + 15) / 31;
-            byte green = (((pixel_value & 0b0000011111100000) >> 5) * 255 + 31) / 63;
-            byte blue = ((pixel_value & 0b0000000000011111) * 255 + 15) / 31;            
+
+            byte red = (float)((pixel_value & 0b1111100000000000) >> 11) * 255.0/31.0;
+            byte green = (float)((pixel_value & 0b0000011111100000) >> 5) * 255.0/63.0;
+            byte blue = (float)(pixel_value & 0b0000000000011111) * 255.0/31.0;            
           
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 0] = red;  // JpegDec_pImg[0];
             JpegDec_sortBuf[(3 * JpegDec_pxSkip) + 1] = green; // JpegDec_pImg[1];
