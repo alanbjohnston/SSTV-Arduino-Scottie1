@@ -359,7 +359,7 @@ void setup_sstv() {
 //  sstv_stop = false;
   
   Serial.begin(115200);
-  Serial.println("Starting SSTV-Arduino-Scottie1-Library v0.25");
+  Serial.println("Starting SSTV-Arduino-Scottie1-Library v0.30");
 
   // AD9850 initilize
   //DDS.begin(AD9850_CLK_PIN, AD9850_FQ_UPDATE_PIN, AD9850_DATA_PIN, AD9850_RST_PIN);
