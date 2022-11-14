@@ -560,7 +560,7 @@ void scottie1_transmit_file(char* filename, bool debug){
           buffB[i] =  buff[2];
           
           if ((buff[0]!=0xff) || (buff[1]!=0xff) || (buff[2]!=0xff))
-            Serial.println("Non white at %d, %d \n", line, i);
+            Serial.printf("Non white pixel at %d, %d \n", line, i);
 /*          
           Serial.print(buff[0], HEX);
           Serial.print(" ");
