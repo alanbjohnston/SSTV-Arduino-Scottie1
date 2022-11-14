@@ -559,7 +559,7 @@ void scottie1_transmit_file(char* filename, bool debug){
           buffG[i] =  buff[1];
           buffB[i] =  buff[2];
           
-          if ((buff[0]!=0xff) || (buff[1]!=0xff) || (buff[2]!=0xff))
+           if (((buff[0]!=0xff) || (buff[1]!=0xff) || (buff[2]!=0xff)) &&  ((buff[0]!=0) || (buff[1]!=0) || (buff[2]!=0)))
             Serial.printf("1Non white pixel at %d, %d R: %d G: %d B: %d\n", line, i, buff[0], buff[1],buff[2]);
 /*          
           Serial.print(buff[0], HEX);
@@ -627,8 +627,8 @@ void scottie1_transmit_file(char* filename, bool debug){
           buffG[i] =  buff[1];
           buffB[i] =  buff[2];
           
-         if ((buff[0]!=0xff) || (buff[1]!=0xff) || (buff[2]!=0xff))
-            Serial.printf("2Non white pixel at %d, %d R: %d G: %d B: %d\n", line, i, buff[0], buff[1],buff[2]);
+          if (((buff[0]!=0xff) || (buff[1]!=0xff) || (buff[2]!=0xff)) &&  ((buff[0]!=0) || (buff[1]!=0) || (buff[2]!=0)))
+             Serial.printf("2Non white pixel at %d, %d R: %d G: %d B: %d\n", line, i, buff[0], buff[1],buff[2]);
 #ifdef DEBUG   
           Serial.print(buff[0], HEX);
           Serial.print(" ");
