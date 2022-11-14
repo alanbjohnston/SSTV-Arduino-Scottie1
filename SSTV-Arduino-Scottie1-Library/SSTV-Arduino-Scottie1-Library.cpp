@@ -78,6 +78,7 @@ int blocks = 0;
 bool write_complete = false;
 File inFile;
 File outFile;
+void print_hex(byte octet);
 
 byte blue_led_counter = 0;
 
