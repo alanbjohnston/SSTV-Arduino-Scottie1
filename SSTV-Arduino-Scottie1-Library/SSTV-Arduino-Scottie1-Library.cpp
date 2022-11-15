@@ -307,7 +307,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
 //  if ((micros() - micro_timer2) > 834)	  
 //    Serial.println(micros() - micro_timer2);	  
   sstv_micro_timer = micros();	  	
-
+/*
   if (sstv_count++ > 100) {
      int j = (micros() - sstv_time_stamp)/100.00;
     if (j > (sstv_delay_time + 15)) {
@@ -317,7 +317,7 @@ bool sstv_TimerHandler1(struct repeating_timer *t) {
     sstv_time_stamp = micros();
     sstv_count = 0;
   }
-  
+ */ 
   if (sEm == 1){
     if(tp < 320){  // Transmitting pixels
       if(sCol == 0){  // Transmitting color Green
@@ -566,10 +566,10 @@ void scottie1_transmit_file(char* filename, bool debug){
           Serial.print(buff[2], HEX);
           Serial.println(" ");
 */        }
-#ifdef DEBUG
+//#ifdef DEBUG
         Serial.println("++");
         Serial.println(micros() - syncTime); //Cheak reading time
-#endif
+//#endif
         while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
 #ifdef DEBUG  
         Serial.println("Start separator pulse");
@@ -633,10 +633,10 @@ void scottie1_transmit_file(char* filename, bool debug){
 #endif
         }
       }
-#ifdef DEBUG  
+//#ifdef DEBUG  
       Serial.println("--");
       Serial.println(micros() - syncTime); //Cheak reading time
-#endif
+//#endif
       //Sync pulse
       while ((micros() - syncTime < 9000 - 10) && !sstv_stop) {}
 #ifdef DEBUG        
